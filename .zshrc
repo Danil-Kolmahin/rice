@@ -8,4 +8,4 @@ precmd() {
   export PROMPT_TIME=$(date +'%H:%M:%S.%3N')
 }
 
-PROMPT='%F{%(?.green.red)}%? %F{yellow}${PROMPT_TIME} %F{magenta}%n%F{brightwhite}@%F{white}%m %F{cyan}%~ %f'
+PROMPT="%F{%(?.green.red)}%? %F{yellow}${PROMPT_TIME} %F{magenta}%n%F{brightwhite}@%F{white}%m %F{cyan}%~ %f"
