@@ -32,16 +32,8 @@ cyan    = "0x00ffff"
 white   = "0xffffff"
 
 [font]
-size = 11
+size = 14
 
 [font.normal]
 family = "IBM Plex Mono"
 style = "Regular"
-
-[font.bold]
-family = "IBM Plex Mono"
-style = "Bold"
-
-[font.italic]
-family = "IBM Plex Mono"
-style = "Italic"
