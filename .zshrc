@@ -12,5 +12,5 @@ precmd() {
 
 PROMPT='%F{%(?.green.red)}%? %F{yellow}${PROMPT_TIME} %F{magenta}%n%F{brightwhite}@%F{white}%m %F{cyan}%~ %f'
 
-bindkey '^[[1;5C' forward-word
-bindkey '^[[1;5D' backward-word
+# bindkey '^[[1;5C' forward-word # TODO: fix and test on real host
+# bindkey '^[[1;5D' backward-word # TODO: fix and test on real host
