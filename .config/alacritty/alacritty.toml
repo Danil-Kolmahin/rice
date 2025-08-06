@@ -37,3 +37,7 @@ size = 14
 [font.normal]
 family = "IBM Plex Mono"
 style = "Regular"
+
+[bell]
+command = "ffplay -nodisp -autoexit -loglevel quiet ~/.local/share/sounds/bell.wav" # TODO test
+
