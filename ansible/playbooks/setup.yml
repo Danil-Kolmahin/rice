@@ -5,19 +5,19 @@
       ansible.builtin.lineinfile:
         path: /etc/sudoers
         regexp: '^# %wheel ALL=\(ALL:ALL\) ALL'
-        line: '%wheel ALL=(ALL:ALL) ALL'
+        line: "%wheel ALL=(ALL:ALL) ALL"
         state: present
-        validate: 'visudo -cf %s'
+        validate: "visudo -cf %s"
       become: true
 
-    - name: Enable sudo for wheel group without password
-      ansible.builtin.lineinfile:
-        path: /etc/sudoers
-        regexp: '^# %wheel ALL=\(ALL:ALL\) NOPASSWD: ALL'
-        line: '%wheel ALL=(ALL:ALL) NOPASSWD: ALL'
-        state: present
-        validate: 'visudo -cf %s'
-      become: true
+    # - name: Enable sudo for wheel group without password
+    #   ansible.builtin.lineinfile:
+    #     path: /etc/sudoers
+    #     regexp: '^# %wheel ALL=\(ALL:ALL\) NOPASSWD: ALL'
+    #     line: "%wheel ALL=(ALL:ALL) NOPASSWD: ALL"
+    #     state: present
+    #     validate: "visudo -cf %s"
+    #   become: true
 
     - name: Set hostname
       ansible.builtin.hostname:
@@ -29,9 +29,28 @@
     - name: Install packages
       ansible.builtin.pacman:
         name:
-          - git
+          # - uv # should be beforehand
+          # - git # should be beforehand
           - zsh
           - alacritty
-          # - sway
+          - sway
+          - qutebrowser
+          - qt6-base # for qutebrowser TODO: check if actually needed
+          - qt6-webengine # for qutebrowser TODO: check if actually needed
+          - qt6-wayland # for qutebrowser TODO: check if actually needed
+          - mesa # for qutebrowser TODO: check if actually needed
+          - xcb-util-cursor # for qutebrowser TODO: check if actually needed
+          - flatpak
+          - ffmpeg # for video/audio processing
+          - pipewire # for audio handling
+          - wireplumber # pipewire helper
+          - pipewire-pulse # pipewire helper - pulseaudio replacement
+          - man-db # main man repo
+          - man-pages # provides both the Linux and the POSIX.1 man pages
+          - openssh # ssh/scp/sftp
+          - curl
+          # - pass # password manager TODO: configure and test
+          # - mc/vifm # possible file manager
+          # - upower/powertop/auto-cpufreq/tlp # possible eco power/resource management
         state: present
       become: true
