@@ -24,8 +24,8 @@
 
     - name: Copy .zshrc
       ansible.builtin.copy:
-        src: .zshrc
-        dest: ~/.zshrc
+        src: ".zshrc"
+        dest: "/home/{{ username }}/.zshrc"
         owner: "{{ username }}"
         group: "{{ username }}"
         mode: "0644"
