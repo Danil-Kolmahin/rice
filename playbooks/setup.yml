@@ -14,6 +14,7 @@
       ansible.builtin.user:
         name: root
         password: "!"
+      become: true
 
     - name: Set hostname
       ansible.builtin.hostname:
