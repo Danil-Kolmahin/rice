@@ -19,8 +19,11 @@
       ansible.builtin.hostname:
         name: ecm
 
-    # Copy .zshrc from Projects/rice
-    # Set default shell to zsh
+    - name: Copy .zshrc
+      ansible.builtin.copy:
+        src: .zshrc
+        dest: ~/.zshrc
+        mode: "0644"
 
     - name: Install packages
       ansible.builtin.pacman:
