@@ -76,4 +76,4 @@
         name: user.email
         value: "{{ git_user_email }}"
         scope: local
-        repo: ./
+        repo: ./ # TODO: ~/projects/rice - make sure run from repo root
