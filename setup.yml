@@ -30,6 +30,15 @@
         group: "{{ username }}"
         mode: "0644"
 
+    - name: Copy .local
+      ansible.builtin.copy:
+        src: ".local"
+        dest: "/home/{{ username }}/.local-test"
+        owner: "{{ username }}"
+        group: "{{ username }}"
+        directory_mode: "0755"
+        mode: "0644"
+
     - name: Install packages
       ansible.builtin.pacman:
         name:
