@@ -33,7 +33,7 @@
     - name: Copy .local
       ansible.builtin.copy:
         src: ".local"
-        dest: "/home/{{ username }}/.local-test"
+        dest: "/home/{{ username }}/"
         owner: "{{ username }}"
         group: "{{ username }}"
         directory_mode: "0755"
