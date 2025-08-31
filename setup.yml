@@ -39,6 +39,15 @@
         directory_mode: "0755"
         mode: "0644"
 
+    - name: Copy .config
+      ansible.builtin.copy:
+        src: ".config"
+        dest: "/home/{{ username }}/"
+        owner: "{{ username }}"
+        group: "{{ username }}"
+        directory_mode: "0755"
+        mode: "0644"
+
     - name: Install packages
       ansible.builtin.pacman:
         name:
