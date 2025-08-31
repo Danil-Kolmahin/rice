@@ -59,6 +59,12 @@
         state: present
       become: true
 
+    - name: Set default shell to zsh
+      ansible.builtin.user:
+        name: "{{ username }}"
+        shell: /usr/bin/zsh
+      become: true
+
     - name: Configure git username
       community.general.git_config:
         name: user.name
