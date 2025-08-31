@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-uv run ansible-playbook ansible/playbooks/setup.yml
+uv run ansible-playbook playbooks/setup.yml
