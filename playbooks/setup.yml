@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: localhost
   tasks:
     - name: Enable sudo for wheel group (password required)
       ansible.builtin.lineinfile:
