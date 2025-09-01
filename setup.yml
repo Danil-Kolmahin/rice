@@ -16,8 +16,6 @@
         password: "!"
       become: true
 
-    # disable sudo su
-
     - name: Set hostname
       ansible.builtin.hostname:
         name: "{{ hostname }}"
@@ -71,11 +69,31 @@
           - man-pages # provides both the Linux and the POSIX.1 man pages
           - openssh # ssh/scp/sftp
           - curl
+          - nvm
+          - docker
+          - docker-compose
+          - lazydocker
           # - pass # password manager TODO: configure and test
           # - mc/vifm # possible file manager
           # - upower/powertop/auto-cpufreq/tlp # possible eco power/resource management
         state: present
       become: true
+
+    - name: Enable and start docker.service
+      ansible.builtin.systemd:
+        name: docker.service
+        enabled: yes
+        state: started
+      # become: true # ???
+
+    - name: Ensure user is in docker group
+      ansible.builtin.user:
+        name: "{{ username }}"
+        groups: docker
+        append: yes
+      # become: true # ???
+
+    # relogin???
 
     - name: Set default shell to zsh
       ansible.builtin.user:
@@ -95,3 +113,7 @@
         value: "{{ git_user_email }}"
         scope: local
         repo: ./ # TODO: ~/projects/rice - make sure run from repo root
+
+
+    # flatpak install flathub me.iepure.devtoolbox
+    # flatpak install flathub io.github.ungoogled_software.ungoogled_chromium
