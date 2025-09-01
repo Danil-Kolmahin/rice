@@ -69,7 +69,7 @@
           - man-pages # provides both the Linux and the POSIX.1 man pages
           - openssh # ssh/scp/sftp
           - curl
-          - nvm
+          - nvm # TODO: needs to be added to .zshrc
           - docker
           - docker-compose
           - lazydocker
@@ -84,16 +84,14 @@
         name: docker.service
         enabled: yes
         state: started
-      # become: true # ???
 
     - name: Ensure user is in docker group
       ansible.builtin.user:
         name: "{{ username }}"
         groups: docker
         append: yes
-      # become: true # ???
 
-    # relogin???
+    # re login !!!
 
     - name: Set default shell to zsh
       ansible.builtin.user:
@@ -107,13 +105,15 @@
         value: "{{ git_user_name }}"
         scope: global
 
-    - name: Configure git email
-      community.general.git_config:
-        name: user.email
-        value: "{{ git_user_email }}"
-        scope: local
-        repo: ./ # TODO: ~/projects/rice - make sure run from repo root
+    # - name: Configure git email # TODO: refactor to apply for all ~/projects and ~/jobs
+    #   community.general.git_config:
+    #     name: user.email
+    #     value: "{{ git_user_email }}"
+    #     scope: local
+    #     repo: ./ # TODO: ~/projects/rice - make sure run from repo root
 
-
-    # flatpak install flathub me.iepure.devtoolbox
-    # flatpak install flathub io.github.ungoogled_software.ungoogled_chromium
+    - name: Install flatpak packages
+      community.general.flatpak:
+        name:
+          - io.github.ungoogled_software.ungoogled_chromium
+          - me.iepure.devtoolbox
