@@ -74,6 +74,14 @@
           - docker
           - docker-compose
           - lazydocker
+          - htop
+          - tree
+          - jq
+          - yq
+          # - plantuml # TODO: test
+          # - unipicker/rofimoji # emoji
+          # - dust/gdu/ncdu # disk usage display
+          # - neofetch/fastfetch # system info
           # - pass # password manager TODO: configure and test
           # - mc/vifm # possible file manager
           # - upower/powertop/auto-cpufreq/tlp # possible eco power/resource management
