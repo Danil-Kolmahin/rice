@@ -61,6 +61,7 @@
           - mesa # for qutebrowser TODO: check if actually needed
           - xcb-util-cursor # for qutebrowser TODO: check if actually needed
           - flatpak
+          - base-devel # for yay tool build
           - ffmpeg # for video/audio processing
           - pipewire # for audio handling
           - wireplumber # pipewire helper
@@ -142,11 +143,19 @@
         validate: "visudo -cf %s"
       become: yes
 
+    - name: Install yay from AUR
+      kewlfft.aur.aur:
+        name: yay
+        use: makepkg
+        state: present
+      become_user: aur_builder
+      become: yes
+
     - name: Install AUR packages
       kewlfft.aur.aur:
         name:
           - argos-translate
         use: yay
         state: present
+      become_user: aur_builder
       become: yes
-      # become_user: aur_builder
