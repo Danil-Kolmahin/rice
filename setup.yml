@@ -105,15 +105,48 @@
         value: "{{ git_user_name }}"
         scope: global
 
-    # - name: Configure git email # TODO: refactor to apply for all ~/projects and ~/jobs
-    #   community.general.git_config:
-    #     name: user.email
-    #     value: "{{ git_user_email }}"
-    #     scope: local
-    #     repo: ./ # TODO: ~/projects/rice - make sure run from repo root
+    - name: Configure git email # TODO: refactor to apply for all ~/projects and ~/jobs
+      community.general.git_config:
+        name: user.email
+        value: "{{ git_user_email }}"
+        scope: local
+        repo: "/home/{{ username }}/projects/rice"
 
     - name: Install flatpak packages
       community.general.flatpak:
         name:
           - io.github.ungoogled_software.ungoogled_chromium
           - me.iepure.devtoolbox
+
+    # - name: Install translate-shell script
+    #   ansible.builtin.get_url:
+    #     url: https://git.io/trans
+    #     dest: "/home/{{ username }}/.local/bin/trans"
+    #     mode: "0755"
+    #     owner: "{{ username }}"
+    #     group: "{{ username }}"
+
+    - name: Create the `aur_builder` user
+      ansible.builtin.user:
+        name: aur_builder
+        create_home: yes
+        group: wheel
+      become: yes
+
+    - name: Allow the `aur_builder` user to run `sudo pacman` without a password
+      ansible.builtin.lineinfile:
+        path: /etc/sudoers.d/11-install-aur_builder
+        line: "aur_builder ALL=(ALL) NOPASSWD: /usr/bin/pacman"
+        create: yes
+        mode: 0644
+        validate: "visudo -cf %s"
+      become: yes
+
+    - name: Install AUR packages
+      kewlfft.aur.aur:
+        name:
+          - argos-translate
+        use: yay
+        state: present
+      become: yes
+      # become_user: aur_builder
