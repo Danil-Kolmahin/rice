@@ -168,7 +168,6 @@
       vars:
         aur_packages:
           - neofetch
-          - programmer-calculator
       ansible.builtin.shell: |
         sudo -u aur_builder yay -S --noconfirm --needed {{ aur_packages | join(' ') }}
       args:
