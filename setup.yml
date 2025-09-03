@@ -68,6 +68,7 @@
           - pipewire-pulse # pipewire helper - pulseaudio replacement
           - man-db # main man repo
           - man-pages # provides both the Linux and the POSIX.1 man pages
+          - tldr # upgraded man
           - openssh # ssh/scp/sftp
           - curl
           - nvm # TODO: needs to be added to .zshrc
@@ -78,9 +79,10 @@
           - tree
           - jq
           - yq
+          - k9s
           # - plantuml # TODO: test
           # - unipicker/rofimoji # emoji
-          # - dust/gdu/ncdu # disk usage display
+          # - gdu # disk usage display
           # - neofetch/fastfetch # system info
           # - pass # password manager TODO: configure and test
           # - mc/vifm # possible file manager
@@ -151,19 +153,24 @@
         validate: "visudo -cf %s"
       become: yes
 
-    - name: Install yay from AUR
-      kewlfft.aur.aur:
-        name: yay
-        use: makepkg
-        state: present
-      become_user: aur_builder
-      become: yes
+    - name: Install yay from AUR manually
+      ansible.builtin.shell: |
+        sudo -u aur_builder bash -c '
+        git clone https://aur.archlinux.org/yay.git /home/aur_builder/yay || echo "already cloned"
+        cd /home/aur_builder/yay
+        makepkg -si --noconfirm
+        '
+      args:
+        executable: /bin/bash
+        creates: /usr/bin/yay
 
-    - name: Install AUR packages
-      kewlfft.aur.aur:
-        name:
-          - argos-translate
-        use: yay
-        state: present
-      become_user: aur_builder
-      become: yes
+    - name: Install AUR packages manually
+      vars:
+        aur_packages:
+          - neofetch
+          - programmer-calculator
+      ansible.builtin.shell: |
+        sudo -u aur_builder yay -S --noconfirm --needed {{ aur_packages | join(' ') }}
+      args:
+        executable: /bin/bash
+        creates: "{{ aur_packages | map('regex_replace', '^(.*)$', '/usr/bin/\\1') | join(' ') }}"

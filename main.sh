@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-sudo uv run ansible-playbook setup.yml
+uv run ansible-playbook setup.yml --ask-become-pass
