@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# TODO: rewrite all
+
+usage() {
+  echo "Usage: $0 [-d directory] [-i pattern]... [-o output_file]"
+  echo
+  echo "  -d directory       Target directory (default: current dir)"
+  echo "  -i pattern         Ignore pattern (can be used multiple times)"
+  echo "  -o output_file     Output filename (default: <directory-name>.txt)"
+  exit 1
+}
+
+dir="."
+output_file=""
+ignore_patterns=()
+
+while getopts ":d:i:o:h" opt; do
+  case $opt in
+    d) dir="$OPTARG" ;;
+    i) ignore_patterns+=("$OPTARG") ;;
+    o) output_file="$OPTARG" ;;
+    h) usage ;;
+    *) usage ;;
+  esac
+done
+
+dir="$(realpath "$dir")"
+
+# default output file
+if [[ -z "$output_file" ]]; then
+  base="$(basename "$dir")"
+  output_file="${base}.txt"
+fi
+
+: > "$output_file" # cleanup old file
+
+# build find command
+find_cmd=(find "$dir" -type f)
+
+for pat in "${ignore_patterns[@]}"; do
+  find_cmd+=(-not -name "$pat")
+done
+
+# dump
+while IFS= read -r file; do
+  {
+    echo "===== $file ====="
+    cat "$file"
+    echo
+  } >> "$output_file"
+done < <("${find_cmd[@]}")
+
+echo "Dumped contents of '$dir' into: $output_file"

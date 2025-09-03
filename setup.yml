@@ -35,7 +35,7 @@
         owner: "{{ username }}"
         group: "{{ username }}"
         directory_mode: "0755"
-        mode: "0644"
+        mode: "0755"
 
     - name: Copy .config
       ansible.builtin.copy:
@@ -63,6 +63,7 @@
           - flatpak
           - base-devel # for yay tool build
           - ffmpeg # for video/audio processing
+          - vlc # media player
           - pipewire # for audio handling
           - wireplumber # pipewire helper
           - pipewire-pulse # pipewire helper - pulseaudio replacement
@@ -102,7 +103,7 @@
         groups: docker
         append: yes
 
-    # re login !!!
+    # relogin !!!
 
     - name: Set default shell to zsh
       ansible.builtin.user:
@@ -128,14 +129,6 @@
         name:
           - io.github.ungoogled_software.ungoogled_chromium
           - me.iepure.devtoolbox
-
-    # - name: Install translate-shell script
-    #   ansible.builtin.get_url:
-    #     url: https://git.io/trans
-    #     dest: "/home/{{ username }}/.local/bin/trans"
-    #     mode: "0755"
-    #     owner: "{{ username }}"
-    #     group: "{{ username }}"
 
     - name: Create the `aur_builder` user
       ansible.builtin.user:

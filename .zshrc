@@ -14,3 +14,5 @@ PROMPT='%F{%(?.green.red)}%? %F{yellow}${PROMPT_TIME} %F{magenta}%n%F{brightwhit
 
 # bindkey '^[[1;5C' forward-word # TODO: fix and test on real host
 # bindkey '^[[1;5D' backward-word # TODO: fix and test on real host
+
+export PATH="$HOME/.local/bin:$PATH"
