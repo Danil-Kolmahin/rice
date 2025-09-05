@@ -18,6 +18,8 @@ set $term alacritty
 # Your preferred application launcher
 set $menu wmenu-run
 
+set $browser qutebrowser
+
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
@@ -73,6 +75,8 @@ output * resolution 1920x1080
 
     # Start your launcher
     bindsym $mod+d exec $menu
+
+    bindsym $mod+q exec $browser
 
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.

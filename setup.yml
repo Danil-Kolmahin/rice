@@ -53,7 +53,7 @@
           # - git # should be beforehand
           - zsh
           - alacritty
-          - sway
+          - sway # TODO: need to make shure default IBM Plex is used during installation
           - swaybg # screensaver for sway
           - qutebrowser
           - qt6-base # for qutebrowser TODO: check if actually needed
@@ -156,9 +156,24 @@
     - name: Install AUR packages manually
       vars:
         aur_packages:
-          - neofetch
+          - chromium-widevine # for qutebrowser, allows sreaming (DRM content)
       ansible.builtin.shell: |
         sudo -u aur_builder yay -S --noconfirm --needed {{ aur_packages | join(' ') }}
       args:
         executable: /bin/bash
         creates: "{{ aur_packages | map('regex_replace', '^(.*)$', '/usr/bin/\\1') | join(' ') }}"
+
+    - name: Check if qutebrowser is already the default browser
+      ansible.builtin.shell: xdg-mime query default x-scheme-handler/http
+      register: current_default_browser
+      changed_when: false
+
+    - name: Set qutebrowser as default web browser
+      ansible.builtin.shell: xdg-settings set default-web-browser org.qutebrowser.qutebrowser.desktop
+      when: "'org.qutebrowser.qutebrowser.desktop' not in current_default_browser.stdout"
+      changed_when: true
+
+    - name: Set qutebrowser as default for http and https
+      ansible.builtin.shell: xdg-mime default org.qutebrowser.qutebrowser.desktop x-scheme-handler/http x-scheme-handler/https
+      when: "'org.qutebrowser.qutebrowser.desktop' not in current_default_browser.stdout"
+      changed_when: true
