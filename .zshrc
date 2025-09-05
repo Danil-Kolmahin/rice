@@ -10,9 +10,7 @@ precmd() {
   export PROMPT_TIME=$(date +'%H:%M:%S.%3N')
 }
 
-PROMPT='%F{%(?.green.red)}%? %F{yellow}${PROMPT_TIME} %F{magenta}%n%F{brightwhite}@%F{white}%m %F{cyan}%~ %f'
-
-# bindkey '^[[1;5C' forward-word # TODO: fix and test on real host
-# bindkey '^[[1;5D' backward-word # TODO: fix and test on real host
+PROMPT='%F{%(?.green.red)}%? %F{yellow}${PROMPT_TIME} %F{magenta}%n%F{brightwhite}@%F{white}%m %F{cyan}%~ %f
+>'
 
 export PATH="$HOME/.local/bin:$PATH"

@@ -82,6 +82,7 @@
           - jq
           - yq
           - k9s
+          - neovim
           # - plantuml # TODO: test
           # - unipicker/rofimoji # emoji
           # - gdu # disk usage display
@@ -123,6 +124,7 @@
         name:
           - io.github.ungoogled_software.ungoogled_chromium
           - me.iepure.devtoolbox
+          - com.belmoussaoui.Obfuscate
 
     - name: Create the `aur_builder` user
       ansible.builtin.user:
