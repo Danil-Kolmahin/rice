@@ -53,8 +53,9 @@
           # - git # should be beforehand
           - zsh
           - alacritty
-          - sway # TODO: need to make sure default IBM Plex is used during installation
+          - sway
           - swaybg # screensaver for sway
+          - ttf-ibm-plex # font, TODO: consider other options - ttf-jetbrains-mono, iosevka-nerd-font
           - qutebrowser
           - qt6-base # for qutebrowser TODO: check if actually needed
           - qt6-webengine # for qutebrowser TODO: check if actually needed
