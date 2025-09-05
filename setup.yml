@@ -53,7 +53,7 @@
           # - git # should be beforehand
           - zsh
           - alacritty
-          - sway # TODO: need to make shure default IBM Plex is used during installation
+          - sway # TODO: need to make sure default IBM Plex is used during installation
           - swaybg # screensaver for sway
           - qutebrowser
           - qt6-base # for qutebrowser TODO: check if actually needed
@@ -156,7 +156,7 @@
     - name: Install AUR packages manually
       vars:
         aur_packages:
-          - chromium-widevine # for qutebrowser, allows sreaming (DRM content)
+          - chromium-widevine # for qutebrowser, allows streaming (DRM content)
       ansible.builtin.shell: |
         sudo -u aur_builder yay -S --noconfirm --needed {{ aur_packages | join(' ') }}
       args:
