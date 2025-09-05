@@ -245,4 +245,4 @@ client.urgent            #ff0000 #ff0000 #000000 #ffffff #ffffff
 default_border pixel 0
 default_floating_border pixel 0
 
-font pango:IBM Plex Mono
+# font pango:IBM Plex Mono 13 # TODO: $FONT_SIZE
