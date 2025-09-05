@@ -1,5 +1,5 @@
 #!/bin/sh
-# used for qutebrowser, coppied from: https://github.com/qutebrowser/qutebrowser/blob/main/scripts/open_url_in_instance.sh
+# used for qutebrowser, copied from: https://github.com/qutebrowser/qutebrowser/blob/main/scripts/open_url_in_instance.sh
 # initial idea: Florian Bruhin (The-Compiler)
 # author: Thore Bödecker (foxxx0)
 
