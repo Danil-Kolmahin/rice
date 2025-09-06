@@ -1,55 +1,5 @@
-ignore-empty-password
-show-failed-attempts
 daemonize
 
-# no-unlock-indicator
-
-show-keyboard-layout
+no-unlock-indicator
 
 color=000000
-
-bs-hl-color=000000
-caps-lock-bs-hl-color=000000
-caps-lock-key-hl-color=000000
-
-font="IBM Plex Mono"
-font-size=24 # TODO: calculate
-
-# indicator-idle-visible
-indicator-radius=100
-# indicator-thickness=0
-# indicator-x-position=960
-# indicator-y-position=540
-
-inside-color=000000
-inside-clear-color=000000
-inside-caps-lock-color=000000
-inside-ver-color=000000
-inside-wrong-color=000000
-
-key-hl-color=000000
-
-layout-bg-color=000000
-layout-border-color=000000
-layout-text-color=000000
-line-color=000000
-line-clear-color=000000
-line-caps-lock-color=000000
-line-ver-color=000000
-line-wrong-color=000000
-# line-uses-inside
-# line-uses-ring
-
-ring-color=000000
-ring-clear-color=000000
-ring-caps-lock-color=000000
-ring-ver-color=000000
-ring-wrong-color=000000
-
-separator-color=000000
-
-text-color=ffffff
-text-clear-color=00ffff
-text-caps-lock-color=ff00ff
-text-ver-color=ffff00
-text-wrong-color=ff0000
