@@ -163,7 +163,8 @@
         sudo -u aur_builder yay -S --noconfirm --needed {{ aur_packages | join(' ') }}
       args:
         executable: /bin/bash
-        creates: "{{ aur_packages | map('regex_replace', '^(.*)$', '/usr/bin/\\1') | join(' ') }}" # changed_when ???
+      register: aur_install_result
+      changed_when: "'Downloading' in aur_install_result.stdout"
 
     - name: Check if qutebrowser is already the default browser
       ansible.builtin.shell: xdg-mime query default x-scheme-handler/http
