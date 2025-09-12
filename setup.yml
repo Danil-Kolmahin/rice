@@ -26,6 +26,7 @@
         dest: "/home/{{ username }}/"
         owner: "{{ username }}"
         group: "{{ username }}"
+        directory_mode: "755"
         mode: "0644"
       with_items:
         - .zshrc
@@ -39,6 +40,7 @@
         path: "/home/{{ username }}/.local/bin"
         state: directory
         recurse: yes
+        directory_mode: "755"
         mode: "0755"
 
     - name: Install packages
