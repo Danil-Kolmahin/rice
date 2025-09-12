@@ -34,12 +34,18 @@
         - .zprofile
         - .local
         - .config
+      register: copy_dotfiles
 
     - name: Ensure permissions on binaries
       ansible.builtin.file:
         path: "/home/{{ username }}/.local/bin"
         recurse: yes
         mode: "0755"
+      when: >
+        copy_dotfiles.results
+        | selectattr('item', 'equalto', '.local')
+        | map(attribute='changed')
+        | first
 
     - name: Install packages
       ansible.builtin.pacman:
