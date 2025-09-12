@@ -20,47 +20,26 @@
       ansible.builtin.hostname:
         name: "{{ hostname }}"
 
-    - name: Copy .zshrc
+    - name: Copy dotfiles
       ansible.builtin.copy:
-        src: ".zshrc"
-        dest: "/home/{{ username }}/.zshrc"
-        owner: "{{ username }}"
-        group: "{{ username }}"
-        mode: "0644"
-
-    - name: Copy .zprofile
-      ansible.builtin.copy:
-        src: ".zprofile"
-        dest: "/home/{{ username }}/.zprofile"
-        owner: "{{ username }}"
-        group: "{{ username }}"
-        mode: "0644"
-
-    - name: Copy .zshenv
-      ansible.builtin.copy:
-        src: ".zshenv"
-        dest: "/home/{{ username }}/.zshenv"
-        owner: "{{ username }}"
-        group: "{{ username }}"
-        mode: "0644"
-
-    - name: Copy .local
-      ansible.builtin.copy:
-        src: ".local"
+        src: "{{ item }}"
         dest: "/home/{{ username }}/"
         owner: "{{ username }}"
         group: "{{ username }}"
-        directory_mode: "0755"
+        mode: "0644"
+      with_items:
+        - .zshrc
+        - .zshenv
+        - .zprofile
+        - .local
+        - .config
+
+    - name: Ensure permissions on binaries
+      ansible.builtin.file:
+        path: "/home/{{ username }}/.local/bin"
+        state: directory
+        recurse: yes
         mode: "0755"
-
-    - name: Copy .config
-      ansible.builtin.copy:
-        src: ".config"
-        dest: "/home/{{ username }}/"
-        owner: "{{ username }}"
-        group: "{{ username }}"
-        directory_mode: "0755"
-        mode: "0644"
 
     - name: Install packages
       ansible.builtin.pacman:
