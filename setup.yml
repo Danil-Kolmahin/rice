@@ -28,6 +28,22 @@
         group: "{{ username }}"
         mode: "0644"
 
+    - name: Copy .zprofile
+      ansible.builtin.copy:
+        src: ".zprofile"
+        dest: "/home/{{ username }}/.zprofile"
+        owner: "{{ username }}"
+        group: "{{ username }}"
+        mode: "0644"
+
+    - name: Copy .zshenv
+      ansible.builtin.copy:
+        src: ".zshenv"
+        dest: "/home/{{ username }}/.zshenv"
+        owner: "{{ username }}"
+        group: "{{ username }}"
+        mode: "0644"
+
     - name: Copy .local
       ansible.builtin.copy:
         src: ".local"
@@ -55,6 +71,7 @@
           - alacritty
           - sway
           - swaybg # screensaver for sway
+          - mako # notifycations
           - swaylock # lock screen for sway
           - ttf-ibm-plex # font, TODO: consider other options - ttf-jetbrains-mono, iosevka-nerd-font
           - qutebrowser
@@ -85,6 +102,7 @@
           - yq
           - k9s
           - neovim
+          - pastel # color palets
           # - plantuml # TODO: test
           # - unipicker/rofimoji # emoji
           # - gdu # disk usage display
@@ -180,3 +198,7 @@
       ansible.builtin.shell: xdg-mime default org.qutebrowser.qutebrowser.desktop x-scheme-handler/http x-scheme-handler/https
       when: "'org.qutebrowser.qutebrowser.desktop' not in current_default_browser.stdout"
       changed_when: true
+
+    # maybe needed
+    # exec systemctl --user set-environment "WAYLAND_DISPLAY=${WAYLAND_DISPLAY}" "XDG_CURRENT_DESKTOP=${XDG_CURRENT_DESKTOP:-sway:wlroots}"
+    # more here: https://github.com/swaywm/sway/wiki/XDG-Desktop-Portal-configuration

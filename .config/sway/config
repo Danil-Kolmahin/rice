@@ -221,31 +221,11 @@ bindsym $mod+r mode "resize"
 #
 # Read `man 5 sway-bar` for more information about this section.
 bar {
-    id sway-status-bar-0
-
     position top
 
     # When the status_command prints a new line to stdout, swaybar updates.
     # The default just shows the current date and time.
     status_command while date +'%Y-%m-%d %X'; do sleep 1; done
-
-    colors {
-        statusline #ffffff
-        background #323232
-        inactive_workspace #32323200 #32323200 #5c5c5c
-    }
-}
-
-bar {
-    id sway-status-bar-1
-
-    position top
-
-    # strip_workspace_name yes
-    # strip_workspace_numbers yes
-    workspace_buttons no
-
-    status_command while echo "???"; do sleep 1; done
 
     colors {
         statusline #ffffff
