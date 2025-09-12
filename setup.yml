@@ -184,7 +184,7 @@
       when: "'org.qutebrowser.qutebrowser.desktop' not in current_default_browser.stdout"
       changed_when: true
 
-    # maybe needed
+    # maybe needed (as well for different file explorer in app windows, etc, look https://github.com/emersion/xdg-desktop-portal-wlr)
     # exec systemctl --user set-environment "WAYLAND_DISPLAY=${WAYLAND_DISPLAY}" "XDG_CURRENT_DESKTOP=${XDG_CURRENT_DESKTOP:-sway:wlroots}"
     # more here: https://github.com/swaywm/sway/wiki/XDG-Desktop-Portal-configuration
     - name: Check if WAYLAND_DISPLAY is in systemd user env
