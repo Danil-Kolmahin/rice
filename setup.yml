@@ -38,9 +38,7 @@
     - name: Ensure permissions on binaries
       ansible.builtin.file:
         path: "/home/{{ username }}/.local/bin"
-        state: directory
         recurse: yes
-        directory_mode: "755"
         mode: "0755"
 
     - name: Install packages
