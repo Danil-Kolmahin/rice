@@ -202,3 +202,14 @@
     # maybe needed
     # exec systemctl --user set-environment "WAYLAND_DISPLAY=${WAYLAND_DISPLAY}" "XDG_CURRENT_DESKTOP=${XDG_CURRENT_DESKTOP:-sway:wlroots}"
     # more here: https://github.com/swaywm/sway/wiki/XDG-Desktop-Portal-configuration
+    - name: Check if WAYLAND_DISPLAY is in systemd user env
+      ansible.builtin.command: systemctl --user show-environment
+      register: systemctl_user_env
+      changed_when: false
+
+    - name: Export Wayland vars if missing
+      ansible.builtin.command: >
+        systemctl --user set-environment
+        WAYLAND_DISPLAY={{ lookup('env', 'WAYLAND_DISPLAY') }}
+        XDG_CURRENT_DESKTOP={{ lookup('env', 'XDG_CURRENT_DESKTOP') | default('sway:wlroots') }}
+      when: "'WAYLAND_DISPLAY' not in systemctl_user_env.stdout"
