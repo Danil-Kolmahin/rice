@@ -1,0 +1,28 @@
+max-history=999
+sort=-time
+
+font=IBM Plex Mono 13
+background-color=#000000
+text-color=#ffffff
+# TODO: calculate
+width=300
+# TODO: calculate
+height=100
+outer-margin=0
+margin=10
+padding=5
+border-size=1
+border-color=#ffffff
+border-radius= 0
+
+ignore-timeout=1
+
+max-visible=5
+
+[urgency=low]
+text-color=#a0a0a0
+border-color=#a0a0a0
+
+[urgency=high]
+text-color=#ff0000
+border-color=#ff0000
