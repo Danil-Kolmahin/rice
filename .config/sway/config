@@ -230,7 +230,7 @@ client.focused_tab_title #ffffff #000000 #ffffff
 client.unfocused         #ffffff #000000 #ffffff #ffffff #ffffff
 client.urgent            #ff0000 #ff0000 #000000 #ffffff #ffffff
 
-default_border pixel 0
-default_floating_border pixel 0
+default_border normal 1
+default_floating_border normal 1
 
 # font pango:IBM Plex Mono 13 # TODO: $FONT_SIZE
