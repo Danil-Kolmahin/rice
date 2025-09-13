@@ -242,7 +242,7 @@ bar {
         separator #ffffff
         focused_workspace #000000 #ffffff #000000
         inactive_workspace #000000 #000000 #ffffff
-        urgent_workspace #000000 #ffff00 #000000
+        urgent_workspace #000000 #ff0000 #000000
         binding_mode #000000 #ff00ff #000000
     }
 }
