@@ -32,20 +32,29 @@
         - .zshrc
         - .zshenv
         - .zprofile
-        - .local
         - .config
       register: copy_dotfiles
 
-    - name: Ensure permissions on binaries
-      ansible.builtin.file:
-        path: "/home/{{ username }}/.local/bin"
-        recurse: yes
+    - name: Copy .local except bin
+      ansible.builtin.copy:
+        src: "{{ item }}"
+        dest: "/home/{{ username }}/.local/{{ item | basename }}"
+        owner: "{{ username }}"
+        group: "{{ username }}"
+        directory_mode: "755"
+        mode: "0644"
+      with_fileglob:
+        - ".local/*"
+      when: "'bin/' not in item"
+
+    - name: Copy .local/bin with exec permissions
+      ansible.builtin.copy:
+        src: ".local/bin"
+        dest: "/home/{{ username }}/.local/bin"
+        owner: "{{ username }}"
+        group: "{{ username }}"
+        directory_mode: "755"
         mode: "0755"
-      when: >
-        copy_dotfiles.results
-        | selectattr('item', 'equalto', '.local')
-        | map(attribute='changed')
-        | first
 
     - name: Install packages
       ansible.builtin.pacman:
