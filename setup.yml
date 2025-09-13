@@ -55,10 +55,9 @@
           - zsh
           - alacritty
           - sway
-          - swaybg # screensaver for sway
           - mako # notifycations
           - swaylock # lock screen for sway
-          - waybar # wayland status bar
+          - wmenu # app launcher
           - ttf-ibm-plex # font, TODO: consider other options - ttf-jetbrains-mono, iosevka-nerd-font
           - qutebrowser
           - qt6-base # for qutebrowser TODO: check if actually needed

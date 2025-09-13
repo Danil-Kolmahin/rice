@@ -16,14 +16,18 @@ set $right l
 # Your preferred terminal emulator
 set $term alacritty
 # Your preferred application launcher
-set $menu wmenu-run
+set $menu wmenu-run \
+         -N 000000 -n ffffff \
+         -M 000000 -m ffffff \
+         -S ffffff -s 000000 \
+         -f "IBM Plex Mono 13" # TODO: $FONT
 
 set $browser qutebrowser
 
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-output * bg #009226 solid_color
+# output * bg #009226 solid_color
 #
 # Example configuration:
 #
@@ -218,8 +222,29 @@ bindsym $mod+r mode "resize"
 
 #
 # Status Bar:
+#
+# Read `man 5 sway-bar` for more information about this section.
 bar {
-    swaybar_command waybar
+    position top
+
+    # When the status_command prints a new line to stdout, swaybar updates.
+    # The default just shows the current date and time.
+    status_command status-bar
+
+    separator_symbol " "
+
+    status_edge_padding 0
+    status_padding 0
+
+    colors {
+        background #000000
+        statusline #ffffff
+        separator #ffffff
+        focused_workspace #000000 #ffffff #000000
+        inactive_workspace #000000 #000000 #ffffff
+        urgent_workspace #000000 #ffff00 #000000
+        binding_mode #000000 #ff00ff #000000
+    }
 }
 
 include /etc/sway/config.d/*
@@ -233,4 +258,5 @@ client.urgent            #ff0000 #ff0000 #000000 #ffffff #ffffff
 default_border normal 1
 default_floating_border normal 1
 
-# font pango:IBM Plex Mono 13 # TODO: $FONT_SIZE
+# TODO: $FONT
+font pango:IBM Plex Mono 13

@@ -2,6 +2,10 @@
 history = 100000
 multiplier = 1
 
+[font] # TODO: $FONT
+normal = { family = "IBM Plex Mono" }
+size = 13
+
 [colors.primary]
 background = "0x000000"
 foreground = "0xffffff"
