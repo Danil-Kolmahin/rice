@@ -242,7 +242,7 @@ bar {
         separator #ffffff
         focused_workspace #000000 #ffffff #000000
         inactive_workspace #000000 #000000 #ffffff
-        urgent_workspace #000000 #ff0000 #000000
+        urgent_workspace #000000 #000000 #ff0000
         binding_mode #000000 #ff00ff #000000
     }
 }
@@ -253,7 +253,7 @@ client.focused           #ffffff #ffffff #000000 #ffffff #ffffff
 client.focused_inactive  #ffffff #000000 #ffffff #ffffff #ffffff
 client.focused_tab_title #ffffff #000000 #ffffff
 client.unfocused         #ffffff #000000 #ffffff #ffffff #ffffff
-client.urgent            #ff0000 #ff0000 #000000 #ffffff #ffffff
+client.urgent            #ff0000 #000000 #ff0000 #ff0000 #ff0000
 
 default_border normal 1
 default_floating_border normal 1
