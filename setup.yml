@@ -58,6 +58,7 @@
           - swaybg # screensaver for sway
           - mako # notifycations
           - swaylock # lock screen for sway
+          - waybar # wayland status bar
           - ttf-ibm-plex # font, TODO: consider other options - ttf-jetbrains-mono, iosevka-nerd-font
           - qutebrowser
           - qt6-base # for qutebrowser TODO: check if actually needed
@@ -184,7 +185,7 @@
       when: "'org.qutebrowser.qutebrowser.desktop' not in current_default_browser.stdout"
       changed_when: true
 
-    # maybe needed (as well for different file explorer in app windows, etc, look https://github.com/emersion/xdg-desktop-portal-wlr)
+    # maybe needed
     # exec systemctl --user set-environment "WAYLAND_DISPLAY=${WAYLAND_DISPLAY}" "XDG_CURRENT_DESKTOP=${XDG_CURRENT_DESKTOP:-sway:wlroots}"
     # more here: https://github.com/swaywm/sway/wiki/XDG-Desktop-Portal-configuration
     - name: Check if WAYLAND_DISPLAY is in systemd user env
