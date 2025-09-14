@@ -1,10 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# TODO: rewrite all
-
-echo '{"version":1}'
-echo '['
+# TODO: rewrite
 
 disk-status() {
     df -h / | awk 'NR == 2 {print $(NF-1)}'
@@ -14,6 +11,8 @@ datetime-status() {
     date +'%Y-%m-%d %X'
 }
 
+echo '{"version":1}'
+echo '['
 while true; do
     STATUS=""
 
