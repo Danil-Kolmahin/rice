@@ -22,7 +22,7 @@ volume-status() {
 }
 
 mic-status() {
-    # TODO: fix fn+F9
+    # TODO: fix fn+F9 (probably emulation thing)
     mute=$(pactl get-source-mute @DEFAULT_SOURCE@ | awk '{print $2}')
     if [ "$mute" = "yes" ]; then echo "MUTE"; fi
 }

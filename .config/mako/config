@@ -22,10 +22,12 @@ ignore-timeout=1
 
 max-visible=5
 
+# TODO: use universal ${grey} (or ${bright-white}) color 
 [urgency=low]
 text-color=#a0a0a0
 border-color=#a0a0a0
 
+# TODO: use universal ${red} color 
 [urgency=high]
 text-color=#ff0000
 border-color=#ff0000

@@ -20,7 +20,7 @@ set $menu wmenu-run \
          -N 000000 -n ffffff \
          -M 000000 -m ffffff \
          -S ffffff -s 000000 \
-         -f "IBM Plex Mono 13" # TODO: $FONT
+         -f "IBM Plex Mono 14.5" # TODO: $FONT (here is is 1.5pt bigger!!!)
 
 set $browser qutebrowser
 
