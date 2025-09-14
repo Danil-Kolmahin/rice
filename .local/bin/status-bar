@@ -11,6 +11,22 @@ disk-status() {
     df -h / | awk 'NR == 2 {print $(NF-1)}'
 }
 
+volume-status() {
+    volume=$(pactl get-sink-volume @DEFAULT_SINK@ | awk '{print $5}')
+    mute=$(pactl get-sink-mute @DEFAULT_SINK@ | awk '{print $2}')
+    if [ "$mute" = "yes" ]; then
+        echo "MUTE"
+    else
+        echo "$volume"
+    fi
+}
+
+mic-status() {
+    # TODO: fix fn+F9
+    mute=$(pactl get-source-mute @DEFAULT_SOURCE@ | awk '{print $2}')
+    if [ "$mute" = "yes" ]; then echo "MUTE"; fi
+}
+
 datetime-status() {
     date +'%Y-%m-%d %X'
 }
@@ -30,7 +46,8 @@ while true; do
     STATUS+="{\"full_text\":\"RBT!\"},"
     STATUS+="{\"full_text\":\"PWR:80%(7:40h)\"},"
     STATUS+="{\"full_text\":\"BRT:40%\"},"
-    STATUS+="{\"full_text\":\"VOL:25%\"},"
+    STATUS+="{\"full_text\":\"VOL:$(volume-status)\"},"
+    # STATUS+="{\"full_text\":\"MIC:$(mic-status)\"},"
     STATUS+="{\"full_text\":\"en\"},"
     STATUS+="{\"full_text\":\"$(datetime-status)\"}"
 
