@@ -50,7 +50,7 @@
     - name: Copy .local/bin with exec permissions
       ansible.builtin.copy:
         src: ".local/bin"
-        dest: "/home/{{ username }}/.local/bin"
+        dest: "/home/{{ username }}/.local"
         owner: "{{ username }}"
         group: "{{ username }}"
         directory_mode: "755"
