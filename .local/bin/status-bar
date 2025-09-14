@@ -3,6 +3,10 @@ set -euo pipefail
 
 # TODO: rewrite
 
+load-status() {
+    uptime | awk '{print $(NF-2)}'
+}
+
 disk-status() {
     df -h / | awk 'NR == 2 {print $(NF-1)}'
 }
@@ -19,6 +23,7 @@ while true; do
     STATUS+="{\"full_text\":\"Kyiv:+15C(cloudy)\"},"
     STATUS+="{\"full_text\":\"BT:on(1)\"},"
     STATUS+="{\"full_text\":\"NET:inet(↓1MB,↑5MB)\"},"
+    STATUS+="{\"full_text\":\"LOAD:$(load-status)\"},"
     STATUS+="{\"full_text\":\"DISK:$(disk-status)\"},"
     STATUS+="{\"full_text\":\"RAM:17GB\"},"
     STATUS+="{\"full_text\":\"CPU:6%(73°C)\"},"
