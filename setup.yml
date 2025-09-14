@@ -86,6 +86,7 @@
           - tldr # upgraded man
           - openssh # ssh/scp/sftp
           - curl
+          - bc # calculator
           - nvm # TODO: needs to be added to .zshrc
           - docker
           - docker-compose
