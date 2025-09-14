@@ -268,4 +268,4 @@ bindsym $mod+Ctrl+n exec makoctl dismiss
 # Dismiss all notifications  
 bindsym $mod+Shift+n exec makoctl dismiss --all
 # Show notification history in terminal
-bindsym $mod+Alt+n exec $term -e sh -c "makoctl history | less"
+bindsym $mod+Alt+n exec alacritty msg create-window -e sh -c "makoctl history | less"
