@@ -4,7 +4,7 @@ set -euo pipefail
 # TODO: rewrite
 
 load-status() {
-    uptime | awk '{print $(NF-2)}'
+    uptime | awk '{print $(NF-2)}' | sed s/,//
 }
 
 disk-status() {
