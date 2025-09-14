@@ -260,3 +260,12 @@ default_floating_border normal 1
 
 # TODO: $FONT
 font pango:IBM Plex Mono 13
+
+# Invoke default action on last notification (open/click)
+bindsym $mod+n exec makoctl invoke
+# Dismiss (close) last notification
+bindsym $mod+Ctrl+n exec makoctl dismiss
+# Dismiss all notifications  
+bindsym $mod+Shift+n exec makoctl dismiss --all
+# Show notification history in terminal
+bindsym $mod+Alt+n exec $term -e sh -c "makoctl history | less"
