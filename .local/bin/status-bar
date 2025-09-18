@@ -4,11 +4,15 @@ set -euo pipefail
 # TODO: rewrite
 
 load-status() {
-    uptime | awk '{print $(NF-2)}' | sed s/,//
+    awk '{print $1}' /proc/loadavg
 }
 
 disk-status() {
     df -h / | awk 'NR == 2 {print $(NF-1)}'
+}
+
+ram-status() {
+    awk '/MemTotal/ {mt=$2} /MemAvailable/ {ma=$2} END {printf("%.f%%", 100*(mt-ma)/mt)}' /proc/meminfo
 }
 
 volume-status() {
@@ -41,7 +45,7 @@ while true; do
     STATUS+="{\"full_text\":\"NET:inet(↓1MB,↑5MB)\"},"
     STATUS+="{\"full_text\":\"LOAD:$(load-status)\"},"
     STATUS+="{\"full_text\":\"DISK:$(disk-status)\"},"
-    STATUS+="{\"full_text\":\"RAM:17GB\"},"
+    STATUS+="{\"full_text\":\"RAM:$(ram-status)\"},"
     STATUS+="{\"full_text\":\"CPU:6%(73°C)\"},"
     STATUS+="{\"full_text\":\"RBT!\"},"
     STATUS+="{\"full_text\":\"PWR:80%(7:40h)\"},"
