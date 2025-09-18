@@ -3,6 +3,18 @@ set -euo pipefail
 
 # TODO: rewrite
 
+psi-io-status() {
+    awk '/some/ {split($2,arr,"="); printf("%d%%\n",arr[2])}' /proc/pressure/io
+}
+
+psi-ram-status() {
+    awk '/some/ {split($2,arr,"="); printf("%d%%\n",arr[2])}' /proc/pressure/memory
+}
+
+psi-cpu-status() {
+    awk '/some/ {split($2,arr,"="); printf("%d%%\n",arr[2])}' /proc/pressure/cpu
+}
+
 load-status() {
     awk '{print $1}' /proc/loadavg
 }
@@ -12,7 +24,7 @@ disk-status() {
 }
 
 ram-status() {
-    awk '/MemTotal/ {mt=$2} /MemAvailable/ {ma=$2} END {printf("%.f%%", 100*(mt-ma)/mt)}' /proc/meminfo
+    awk '/MemTotal/ {mt=$2} /MemAvailable/ {ma=$2} END {printf("%.f%%\n", 100*(mt-ma)/mt)}' /proc/meminfo
 }
 
 volume-status() {
@@ -40,10 +52,11 @@ echo '['
 while true; do
     STATUS=""
 
-    STATUS+="{\"full_text\":\"Kyiv:+15C(cloudy)\"},"
+    # STATUS+="{\"full_text\":\"Kyiv:+15C(cloudy)\"},"
     STATUS+="{\"full_text\":\"BT:on(1)\"},"
     STATUS+="{\"full_text\":\"NET:inet(↓1MB,↑5MB)\"},"
-    STATUS+="{\"full_text\":\"LOAD:$(load-status)\"},"
+    STATUS+="{\"full_text\":\"PSI:io$(psi-io-status),ram$(psi-ram-status),cpu$(psi-cpu-status)\"},"
+    # STATUS+="{\"full_text\":\"LOAD:$(load-status)\"},"
     STATUS+="{\"full_text\":\"DISK:$(disk-status)\"},"
     STATUS+="{\"full_text\":\"RAM:$(ram-status)\"},"
     STATUS+="{\"full_text\":\"CPU:6%(73°C)\"},"
