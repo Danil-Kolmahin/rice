@@ -3,6 +3,17 @@ set -euo pipefail
 
 # TODO: rewrite
 
+reboot-needed-status() {
+    vercmp $(pacman -Q linux | cut -d " " -f 2) $(uname -r)
+}
+
+net-status() {
+    # TODO: check connection
+    interface="$(ip route show default | awk '{print $5}')"
+    in="$(awk -v i="$interface" '$1 ~ i":" {print $2}' /proc/net/dev)"
+    out="$(awk -v i="$interface" '$1 ~ i":" {print $10}' /proc/net/dev)"
+}
+
 psi-io-status() {
     awk '/some/ {split($2,arr,"="); printf("%d%%\n",arr[2])}' /proc/pressure/io
 }
@@ -49,19 +60,33 @@ datetime-status() {
 
 echo '{"version":1}'
 echo '['
+
+interface="$(ip route show default | awk '{print $5}')"
+in="$(awk -v i="$interface" '$1 ~ i":" {print $2}' /proc/net/dev)"
+out="$(awk -v i="$interface" '$1 ~ i":" {print $10}' /proc/net/dev)"
+
 while true; do
     STATUS=""
 
+    [[ $(reboot-needed-status) -gt 0 ]] && STATUS+="{\"full_text\":\"REBOOT REQUIRED\",\"color\":\"#000000\",\"background\":\"#ff0000\",\"border\":\"#00000000\"},"
     # STATUS+="{\"full_text\":\"Kyiv:+15C(cloudy)\"},"
     STATUS+="{\"full_text\":\"BT:on(1)\"},"
-    STATUS+="{\"full_text\":\"NET:inet(↓1MB,↑5MB)\"},"
+    
+    interface="$(ip route show default | awk '{print $5}')"
+    new_in="$(awk -v i="$interface" '$1 ~ i":" {print $2}' /proc/net/dev)"
+    new_out="$(awk -v i="$interface" '$1 ~ i":" {print $10}' /proc/net/dev)"
+
+    STATUS+="{\"full_text\":\"NET:↓$(echo "$new_in - $in" | bc | numfmt --to=iec),↑$(echo "$new_out - $out" | bc | numfmt --to=iec)\"},"
+
+    in="$new_in"
+    out="$new_out"
+
     STATUS+="{\"full_text\":\"PSI:io$(psi-io-status),ram$(psi-ram-status),cpu$(psi-cpu-status)\"},"
     # STATUS+="{\"full_text\":\"LOAD:$(load-status)\"},"
     STATUS+="{\"full_text\":\"DISK:$(disk-status)\"},"
     STATUS+="{\"full_text\":\"RAM:$(ram-status)\"},"
-    STATUS+="{\"full_text\":\"CPU:6%(73°C)\"},"
-    STATUS+="{\"full_text\":\"RBT!\"},"
-    STATUS+="{\"full_text\":\"PWR:80%(7:40h)\"},"
+    STATUS+="{\"full_text\":\"CPU:6%,73°C\"},"
+    STATUS+="{\"full_text\":\"PWR:80%\"},"
     STATUS+="{\"full_text\":\"BRT:40%\"},"
     STATUS+="{\"full_text\":\"VOL:$(volume-status)\"},"
     # STATUS+="{\"full_text\":\"MIC:$(mic-status)\"},"
