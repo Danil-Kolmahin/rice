@@ -147,12 +147,6 @@
 ❣️ heart exclamation
 ❣ heart exclamation
 💔 broken heart
-❤️‍🔥 heart on fire
-❤‍🔥 heart on fire
-❤️‍🩹 mending heart
-❤‍🩹 mending heart
-❤️ red heart
-❤ red heart
 🩷 pink heart
 🧡 orange heart
 💛 yellow heart
@@ -175,10 +169,6 @@
 🕳️ hole
 🕳 hole
 💬 speech balloon
-👁️‍🗨️ eye in speech bubble
-👁‍🗨️ eye in speech bubble
-👁️‍🗨 eye in speech bubble
-👁‍🗨 eye in speech bubble
 🗨️ left speech bubble
 🗨 left speech bubble
 🗯️ right anger bubble
@@ -186,145 +176,29 @@
 💭 thought balloon
 💤 ZZZ
 👋 waving hand
-👋🏻 waving hand: light skin tone
-👋🏼 waving hand: medium-light skin tone
-👋🏽 waving hand: medium skin tone
-👋🏾 waving hand: medium-dark skin tone
-👋🏿 waving hand: dark skin tone
 🤚 raised back of hand
-🤚🏻 raised back of hand: light skin tone
-🤚🏼 raised back of hand: medium-light skin tone
-🤚🏽 raised back of hand: medium skin tone
-🤚🏾 raised back of hand: medium-dark skin tone
-🤚🏿 raised back of hand: dark skin tone
 🖐️ hand with fingers splayed
-🖐 hand with fingers splayed
-🖐🏻 hand with fingers splayed: light skin tone
-🖐🏼 hand with fingers splayed: medium-light skin tone
-🖐🏽 hand with fingers splayed: medium skin tone
-🖐🏾 hand with fingers splayed: medium-dark skin tone
-🖐🏿 hand with fingers splayed: dark skin tone
 ✋ raised hand
-✋🏻 raised hand: light skin tone
-✋🏼 raised hand: medium-light skin tone
-✋🏽 raised hand: medium skin tone
-✋🏾 raised hand: medium-dark skin tone
-✋🏿 raised hand: dark skin tone
 🖖 vulcan salute
-🖖🏻 vulcan salute: light skin tone
-🖖🏼 vulcan salute: medium-light skin tone
-🖖🏽 vulcan salute: medium skin tone
-🖖🏾 vulcan salute: medium-dark skin tone
-🖖🏿 vulcan salute: dark skin tone
 🫱 rightwards hand
-🫱🏻 rightwards hand: light skin tone
-🫱🏼 rightwards hand: medium-light skin tone
-🫱🏽 rightwards hand: medium skin tone
-🫱🏾 rightwards hand: medium-dark skin tone
-🫱🏿 rightwards hand: dark skin tone
 🫲 leftwards hand
-🫲🏻 leftwards hand: light skin tone
-🫲🏼 leftwards hand: medium-light skin tone
-🫲🏽 leftwards hand: medium skin tone
-🫲🏾 leftwards hand: medium-dark skin tone
-🫲🏿 leftwards hand: dark skin tone
 🫳 palm down hand
-🫳🏻 palm down hand: light skin tone
-🫳🏼 palm down hand: medium-light skin tone
-🫳🏽 palm down hand: medium skin tone
-🫳🏾 palm down hand: medium-dark skin tone
-🫳🏿 palm down hand: dark skin tone
 🫴 palm up hand
-🫴🏻 palm up hand: light skin tone
-🫴🏼 palm up hand: medium-light skin tone
-🫴🏽 palm up hand: medium skin tone
-🫴🏾 palm up hand: medium-dark skin tone
-🫴🏿 palm up hand: dark skin tone
 🫷 leftwards pushing hand
-🫷🏻 leftwards pushing hand: light skin tone
-🫷🏼 leftwards pushing hand: medium-light skin tone
-🫷🏽 leftwards pushing hand: medium skin tone
-🫷🏾 leftwards pushing hand: medium-dark skin tone
-🫷🏿 leftwards pushing hand: dark skin tone
 🫸 rightwards pushing hand
-🫸🏻 rightwards pushing hand: light skin tone
-🫸🏼 rightwards pushing hand: medium-light skin tone
-🫸🏽 rightwards pushing hand: medium skin tone
-🫸🏾 rightwards pushing hand: medium-dark skin tone
-🫸🏿 rightwards pushing hand: dark skin tone
 👌 OK hand
-👌🏻 OK hand: light skin tone
-👌🏼 OK hand: medium-light skin tone
-👌🏽 OK hand: medium skin tone
-👌🏾 OK hand: medium-dark skin tone
-👌🏿 OK hand: dark skin tone
 🤌 pinched fingers
-🤌🏻 pinched fingers: light skin tone
-🤌🏼 pinched fingers: medium-light skin tone
-🤌🏽 pinched fingers: medium skin tone
-🤌🏾 pinched fingers: medium-dark skin tone
-🤌🏿 pinched fingers: dark skin tone
 🤏 pinching hand
-🤏🏻 pinching hand: light skin tone
-🤏🏼 pinching hand: medium-light skin tone
-🤏🏽 pinching hand: medium skin tone
-🤏🏾 pinching hand: medium-dark skin tone
-🤏🏿 pinching hand: dark skin tone
 ✌️ victory hand
 ✌ victory hand
-✌🏻 victory hand: light skin tone
-✌🏼 victory hand: medium-light skin tone
-✌🏽 victory hand: medium skin tone
-✌🏾 victory hand: medium-dark skin tone
-✌🏿 victory hand: dark skin tone
 🤞 crossed fingers
-🤞🏻 crossed fingers: light skin tone
-🤞🏼 crossed fingers: medium-light skin tone
-🤞🏽 crossed fingers: medium skin tone
-🤞🏾 crossed fingers: medium-dark skin tone
-🤞🏿 crossed fingers: dark skin tone
 🫰 hand with index finger and thumb crossed
-🫰🏻 hand with index finger and thumb crossed: light skin tone
-🫰🏼 hand with index finger and thumb crossed: medium-light skin tone
-🫰🏽 hand with index finger and thumb crossed: medium skin tone
-🫰🏾 hand with index finger and thumb crossed: medium-dark skin tone
-🫰🏿 hand with index finger and thumb crossed: dark skin tone
 🤟 love-you gesture
-🤟🏻 love-you gesture: light skin tone
-🤟🏼 love-you gesture: medium-light skin tone
-🤟🏽 love-you gesture: medium skin tone
-🤟🏾 love-you gesture: medium-dark skin tone
-🤟🏿 love-you gesture: dark skin tone
 🤘 sign of the horns
-🤘🏻 sign of the horns: light skin tone
-🤘🏼 sign of the horns: medium-light skin tone
-🤘🏽 sign of the horns: medium skin tone
-🤘🏾 sign of the horns: medium-dark skin tone
-🤘🏿 sign of the horns: dark skin tone
 🤙 call me hand
-🤙🏻 call me hand: light skin tone
-🤙🏼 call me hand: medium-light skin tone
-🤙🏽 call me hand: medium skin tone
-🤙🏾 call me hand: medium-dark skin tone
-🤙🏿 call me hand: dark skin tone
 👈 backhand index pointing left
-👈🏻 backhand index pointing left: light skin tone
-👈🏼 backhand index pointing left: medium-light skin tone
-👈🏽 backhand index pointing left: medium skin tone
-👈🏾 backhand index pointing left: medium-dark skin tone
-👈🏿 backhand index pointing left: dark skin tone
 👉 backhand index pointing right
-👉🏻 backhand index pointing right: light skin tone
-👉🏼 backhand index pointing right: medium-light skin tone
-👉🏽 backhand index pointing right: medium skin tone
-👉🏾 backhand index pointing right: medium-dark skin tone
-👉🏿 backhand index pointing right: dark skin tone
 👆 backhand index pointing up
-👆🏻 backhand index pointing up: light skin tone
-👆🏼 backhand index pointing up: medium-light skin tone
-👆🏽 backhand index pointing up: medium skin tone
-👆🏾 backhand index pointing up: medium-dark skin tone
-👆🏿 backhand index pointing up: dark skin tone
 🖕 middle finger
 🖕🏻 middle finger: light skin tone
 🖕🏼 middle finger: medium-light skin tone
