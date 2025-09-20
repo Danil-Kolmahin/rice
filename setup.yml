@@ -128,10 +128,10 @@
         shell: /usr/bin/zsh
       become: true
 
-    - name: Configure git username
+    - name: Configure git init.defaultBranch
       community.general.git_config:
-        name: user.name
-        value: "{{ git_user_name }}"
+        name: init.defaultBranch
+        value: main
         scope: global
 
     - name: Install flatpak packages
