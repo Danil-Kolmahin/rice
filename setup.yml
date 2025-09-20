@@ -100,8 +100,8 @@
           - neovim
           - pastel # color palets
           - plantuml # TODO: works but better fix "No X11 DISPLAY variable was set"
+          - ncdu # disk usage display
           # - unipicker/rofimoji # emoji
-          # - gdu # disk usage display
           # - neofetch/fastfetch # system info
           # - pass # password manager TODO: configure and test
           # - upower/powertop/auto-cpufreq/tlp # possible eco power/resource management

@@ -30,6 +30,8 @@ set $file_manager mc
 
 set $system_monitor htop
 
+set $disk_monitor ncdu --color dark /
+
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
@@ -91,6 +93,8 @@ output * resolution 1920x1080
     bindsym $mod+m exec $term -T "File manager" -e $file_manager
 
     bindsym $mod+Shift+m exec $term -T "System monitor" -e $system_monitor
+    
+    bindsym $mod+Shift+d exec $term -T "Disk monitor" -e $disk_monitor
 
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
