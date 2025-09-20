@@ -14,3 +14,5 @@ PROMPT='%F{%(?.green.red)}%? %F{yellow}${PROMPT_TIME} %F{magenta}%n%F{brightwhit
 >'
 
 alias l='ls -lah --color=auto'
+
+. /usr/share/nvm/init-nvm.sh # enable nvm
