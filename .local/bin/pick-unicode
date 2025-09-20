@@ -3,15 +3,13 @@ set -euo pipefail
 
 UNICODE_LIST="$HOME/.local/share/unicode-data.txt"
 
-WMENU_OPTS='-N 000000 -n ffffff -M 000000 -m ffffff -S ffffff -s 000000 -i -p "unicode:" -f "IBM Plex Mono 14.5"'
-
 choice=$(
     awk -F\; '{print $1 "\t" $2}' "$UNICODE_LIST" \
     | while IFS=$'\t' read -r code name; do
         symbol=$(printf "%s" "$code" | xxd -r -p 2>/dev/null || true)
         printf "%s\tU+%s\t%s\n" "$symbol" "$code" "$name"
       done \
-    | wmenu-run $WMENU_OPTS
+    | wmenu -N 000000 -n ffffff -M 000000 -m ffffff -S ffffff -s 000000 -i -p "unicode:" -f "IBM Plex Mono 14.5"
 )
 
 if [ -n "$choice" ]; then
