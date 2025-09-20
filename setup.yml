@@ -209,3 +209,11 @@
         WAYLAND_DISPLAY={{ lookup('env', 'WAYLAND_DISPLAY') }}
         XDG_CURRENT_DESKTOP={{ lookup('env', 'XDG_CURRENT_DESKTOP') | default('sway:wlroots') }}
       when: "'WAYLAND_DISPLAY' not in systemctl_user_env.stdout"
+
+    - name: Download unicode-data.txt
+      ansible.builtin.get_url:
+        url: https://www.unicode.org/Public/UNIDATA/UnicodeData.txt
+        dest: "/home/{{ username }}/.local/share/unicode-data.txt"
+        owner: "{{ username }}"
+        group: "{{ username }}"
+        mode: "755"
