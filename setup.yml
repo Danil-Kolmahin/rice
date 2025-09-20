@@ -210,7 +210,7 @@
         XDG_CURRENT_DESKTOP={{ lookup('env', 'XDG_CURRENT_DESKTOP') | default('sway:wlroots') }}
       when: "'WAYLAND_DISPLAY' not in systemctl_user_env.stdout"
 
-    - name: Download unicode-data.txt
+    - name: Download unicode-emoji-data.txt
       ansible.builtin.get_url:
         url: https://unicode.org/Public/emoji/latest/emoji-test.txt
         dest: "/home/{{ username }}/.local/share/unicode-emoji-data.txt"

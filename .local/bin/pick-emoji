@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+UNICODE_EMOJI_LIST="$HOME/.local/share/unicode-emoji-data.txt"
+
+choice=$(cat ${UNICODE_EMOJI_LIST} | \
+        grep '^[A-Z0-9]*\s*;' | \
+        sed 's/.*# //' | \
+        sed 's/E[0-9.]* //' | \
+        wmenu \
+        -N 000000 -n ffffff \
+        -M 000000 -m ffffff \
+        -S ffffff -s 000000 \
+        -i \
+        -p "unicode:" \
+        -f "IBM Plex Mono 14.5") # TODO: use $FONT
+
+if [ -n "$choice" ]; then
+    symbol=$(echo "$choice" | awk '{print $1}')
+    printf "%s" "$symbol" # TODO: | wl-copy
+fi
