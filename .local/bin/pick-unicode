@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+UNICODE_LIST="$HOME/.local/share/unicode-data.txt"
+
+if [ ! -f "$UNICODE_LIST" ]; then
+    curl -s https://www.unicode.org/Public/UNIDATA/UnicodeData.txt \
+        | awk -F\; '{printf "%s\t%s\n", $1, $2}' \
+        | awk '{printf "%s\tU+%s\n", $2, $1}' > "$UNICODE_LIST"
+fi
+
+choice=$(cut -f2- "$UNICODE_LIST" | wmenu \
+    -N 000000 -n ffffff \
+    -M 000000 -m ffffff \
+    -S ffffff -s 000000 \
+    -i \
+    -p "symbol:" \
+    -f "IBM Plex Mono 14.5")
+
+if [ -n "$choice" ]; then
+    symbol=$(grep -F "$choice" "$UNICODE_LIST" | cut -f1 | xxd -r -p)
+    printf "%s" "$symbol" # | wl-copy
+fi
