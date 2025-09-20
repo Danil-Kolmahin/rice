@@ -213,7 +213,7 @@
     - name: Download unicode-data.txt
       ansible.builtin.get_url:
         url: https://unicode.org/Public/emoji/latest/emoji-test.txt
-        dest: "/home/{{ username }}/.local/share/unicode-data.txt"
+        dest: "/home/{{ username }}/.local/share/unicode-emoji-data.txt"
         owner: "{{ username }}"
         group: "{{ username }}"
         mode: "755"

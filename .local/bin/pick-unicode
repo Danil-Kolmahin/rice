@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-UNICODE_LIST="$HOME/.local/share/unicode-data.txt"
+UNICODE_LIST="$HOME/.local/share/unicode-emoji-data.txt"
 
 choice=$(
     awk -F\; '{print $1 "\t" $2}' "$UNICODE_LIST" \
