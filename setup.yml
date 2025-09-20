@@ -101,8 +101,8 @@
           - pastel # color palets
           - plantuml # TODO: works but better fix "No X11 DISPLAY variable was set"
           - ncdu # disk usage display
+          - fastfetch # system info
           # - unipicker/rofimoji # emoji
-          # - neofetch/fastfetch # system info
           # - pass # password manager TODO: configure and test
           # - upower/powertop/auto-cpufreq/tlp # possible eco power/resource management
         state: present
