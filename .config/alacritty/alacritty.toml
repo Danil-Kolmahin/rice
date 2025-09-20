@@ -1,3 +1,6 @@
+[window]
+title = "Terminal"
+
 [scrolling]
 history = 100000
 multiplier = 1

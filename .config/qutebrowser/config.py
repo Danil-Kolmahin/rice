@@ -2174,7 +2174,7 @@ c.fonts.default_size = '13pt'
 ## Format to use for the window title. The same placeholders like for
 ## `tabs.title.format` are defined.
 ## Type: FormatString
-# c.window.title_format = '{perc}{current_title}{title_sep}qutebrowser'
+c.window.title_format = 'Browser{title_sep}{perc}{current_title}'
 
 ## Set the main window background to transparent.  This allows having a
 ## transparent tab- or statusbar (might require a compositor such as

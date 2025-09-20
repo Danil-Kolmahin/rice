@@ -88,9 +88,9 @@ output * resolution 1920x1080
 
     bindsym $mod+q exec $browser
 
-    bindsym $mod+m exec $term -e $file_manager
+    bindsym $mod+m exec $term -T "File manager" -e $file_manager
 
-    bindsym $mod+Shift+m exec $term -e $system_monitor
+    bindsym $mod+Shift+m exec $term -T "System monitor" -e $system_monitor
 
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
@@ -278,4 +278,4 @@ bindsym $mod+Ctrl+n exec makoctl dismiss
 # Dismiss all notifications  
 bindsym $mod+Shift+n exec makoctl dismiss --all
 # Show notification history in terminal
-bindsym $mod+Alt+n exec alacritty msg create-window -e sh -c "makoctl history | less"
+bindsym $mod+Alt+n exec alacritty msg create-window -T "Notification history" -e sh -c "makoctl history | less"
