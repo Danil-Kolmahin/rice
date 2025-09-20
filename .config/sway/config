@@ -26,6 +26,8 @@ set $menu wmenu-run \
 
 set $browser qutebrowser
 
+set $file_manager mc
+
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
@@ -83,6 +85,8 @@ output * resolution 1920x1080
     bindsym $mod+d exec $menu
 
     bindsym $mod+q exec $browser
+
+    bindsym $mod+m exec $term -e $file_manager
 
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
