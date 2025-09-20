@@ -1,0 +1,6 @@
+[Layout]
+message_visible=false
+xterm_title=false
+command_prompt=false
+free_space=false
+horizontal_split=true

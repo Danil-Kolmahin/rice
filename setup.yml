@@ -68,6 +68,7 @@
           - swaylock # lock screen for sway
           - wmenu # app launcher
           - ttf-ibm-plex # font, TODO: consider other options - ttf-jetbrains-mono, iosevka-nerd-font
+          - mc # file manager
           - qutebrowser
           - qt6-base # for qutebrowser TODO: check if actually needed
           - qt6-webengine # for qutebrowser TODO: check if actually needed
@@ -103,7 +104,6 @@
           # - gdu # disk usage display
           # - neofetch/fastfetch # system info
           # - pass # password manager TODO: configure and test
-          # - mc/vifm # possible file manager
           # - upower/powertop/auto-cpufreq/tlp # possible eco power/resource management
         state: present
       become: true
