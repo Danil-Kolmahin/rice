@@ -36,6 +36,24 @@ load-nvmrc() {
     echo "Reverting to nvm default version"
     nvm use default
   fi
+
+  # TODO: possibly faster opens terminal
+  # if [[ $PWD == $PREV_PWD ]]; then
+  #   return
+  # fi
+
+  # if [[ "$PWD" =~ "$PREV_PWD" && ! -f ".nvmrc" ]]; then
+  #   return
+  # fi
+
+  # PREV_PWD=$PWD
+  # if [[ -f ".nvmrc" ]]; then
+  #   nvm use
+  #   NVM_DIRTY=true
+  # elif [[ $NVM_DIRTY = true ]]; then
+  #   nvm use default
+  #   NVM_DIRTY=false
+  # fi
 }
 add-zsh-hook chpwd load-nvmrc
 load-nvmrc
