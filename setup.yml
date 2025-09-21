@@ -84,6 +84,8 @@
           - pipewire # for audio handling
           - wireplumber # pipewire helper
           - pipewire-pulse # pipewire helper - pulseaudio replacement
+          - wl-clipboard # basic copy paste
+          - cliphist # wl-clipboard + clipboard history
           - man-db # main man repo
           - man-pages # provides both the Linux and the POSIX.1 man pages
           - tldr # upgraded man
