@@ -283,3 +283,6 @@ bindsym $mod+Ctrl+n exec makoctl dismiss
 bindsym $mod+Shift+n exec makoctl dismiss --all
 # Show notification history in terminal
 bindsym $mod+Alt+n exec alacritty msg create-window -T "Notification history" -e sh -c "makoctl history | less"
+
+wl-paste --primary --watch wl-copy # synchronize primary and clipboard
+wl-paste --watch cliphist store # clipboard history
