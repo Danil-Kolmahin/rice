@@ -76,7 +76,7 @@
           - qt6-wayland # for qutebrowser TODO: check if actually needed
           - mesa # for qutebrowser TODO: check if actually needed
           - xcb-util-cursor # for qutebrowser TODO: check if actually needed
-          - # brightnessctl # TODO: test not on WM; check wluma as alternative if ALS
+          # brightnessctl # TODO: test not on WM; check wluma as alternative if ALS
           - flatpak
           - base-devel # for yay tool build
           - ffmpeg # for video/audio processing
