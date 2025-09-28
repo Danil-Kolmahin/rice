@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# TODO: rewrite all
+
+for f in *.mp4; do
+  out="${f%.*}_e.mp4"
+  ffmpeg -i "$f" \
+  -c:v libx264 -preset veryslow -crf 28 -r 30 \
+  -c:a aac -ar 44100 -ac 1 \
+  "$out"
+done
