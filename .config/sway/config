@@ -279,9 +279,19 @@ font pango:IBM Plex Mono 13
 bindsym $mod+n exec makoctl invoke
 # Dismiss (close) last notification
 bindsym $mod+Ctrl+n exec makoctl dismiss
-# Dismiss all notifications  
+# Dismiss all notifications
 bindsym $mod+Shift+n exec makoctl dismiss --all
 # Show notification history in terminal
 bindsym $mod+Alt+n exec alacritty msg create-window -T "Notification history" -e sh -c "makoctl history | less"
+# Show clipboard menu
+bindsym $mod+c exec cliphist list | wmenu \
+         -N 000000 -n ffffff \
+         -M 000000 -m ffffff \
+         -S ffffff -s 000000 \
+         -i \
+         -p "copy:" \
+         -f "IBM Plex Mono 14.5" | cliphist decode | wl-copy # TODO: $FONT (here is is 1.5pt bigger!!!)
+# Show emoji picking menu
+bindsym $mod+u exec pick-emoji
 
 exec wl-paste --watch cliphist store # clipboard history

@@ -27,7 +27,9 @@ PROMPT='%F{%(?.green.red)}%? %F{yellow}${PROMPT_TIME}${PROMPT_ELAPSED:+ "%F{blue
 >'
 
 alias l='ls -lah --color=auto'
-alias h="history -t'%F %T' -D 1"
+h() {
+  history -t'%F %T' -D 1 | less +G
+}
 
 # TODO: fix nvm slowness https://github.com/nvm-sh/nvm/issues/2724
 # . /usr/share/nvm/init-nvm.sh # enable nvm

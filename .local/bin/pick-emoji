@@ -17,5 +17,5 @@ choice=$(cat ${UNICODE_EMOJI_LIST} | \
 
 if [ -n "$choice" ]; then
     symbol=$(echo "$choice" | awk '{print $1}')
-    printf "%s" "$symbol" # TODO: | wl-copy
+    printf "%s" "$symbol" | wl-copy
 fi
