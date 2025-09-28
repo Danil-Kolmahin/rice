@@ -1,12 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-UNICODE_EMOJI_LIST="$HOME/.local/share/unicode-emoji-data.txt"
+UNICODE_EMOJI_LIST="$HOME/.local/share/unicode-emoji-data-cut.txt"
 
 choice=$(cat ${UNICODE_EMOJI_LIST} | \
-        grep '^[A-Z0-9]*\s*;' | \
-        sed 's/.*# //' | \
-        sed 's/E[0-9.]* //' | \
         wmenu \
         -N 000000 -n ffffff \
         -M 000000 -m ffffff \
