@@ -23,7 +23,7 @@ precmd() {
 }
 
 
-PROMPT='%F{%(?.green.red)}%? %F{yellow}${PROMPT_TIME} ${PROMPT_ELAPSED:+%F{brightyellow}${PROMPT_ELAPSED} }%F{magenta}%n%F{brightwhite}@%F{white}%m %F{cyan}%~ %f
+PROMPT='%F{%(?.green.red)}%? %F{yellow}${PROMPT_TIME}${PROMPT_ELAPSED:+ "%F{blue}${PROMPT_ELAPSED}"} %F{magenta}%n%F{brightwhite}@%F{white}%m %F{cyan}%~ %f
 >'
 
 alias l='ls -lah --color=auto'
