@@ -9,21 +9,13 @@ setopt EXTENDED_HISTORY
 setopt SHARE_HISTORY
 
 preexec() {
-  PROMPT_TIMER_EPOCH=$EPOCHREALTIME
+  PROMPT_TIMER=$(date +%s%3N)
 }
 
 precmd() {
-  if [[ -n $CMD_START_TIME ]]; then
-    local now=$EPOCHREALTIME
-    local dt=$(printf "%.3f" "$(echo "$now - $CMD_START_TIME" | bc)")
-    LAST_CMD_DURATION="${dt}s"
-  else
-    LAST_CMD_DURATION=""
-  fi
-
   if [ $PROMPT_TIMER ]; then
-    timer_show=$(($SECONDS - $timer))
-    export RPROMPT="%F{cyan}${timer_show}s %{$reset_color%}"
+    local elapsed=$(($(date +%s%3N) - $PROMPT_TIMER))
+    PROMPT_ELAPSED=${printf "%d.%d" $((elapsed / 1000)) $((elapsed % 1000))}
     unset PROMPT_TIMER
   fi
 
@@ -31,7 +23,7 @@ precmd() {
 }
 
 
-PROMPT='%F{%(?.green.red)}%? %F{yellow}${PROMPT_TIME} %F{magenta}%n%F{brightwhite}@%F{white}%m %F{cyan}%~ %f
+PROMPT='%F{%(?.green.red)}%? %F{yellow}${PROMPT_TIME} %F{blue}${PROMPT_ELAPSED}s %F{magenta}%n%F{brightwhite}@%F{white}%m %F{cyan}%~ %f
 >'
 
 alias l='ls -lah --color=auto'
