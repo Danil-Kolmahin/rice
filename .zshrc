@@ -15,7 +15,7 @@ preexec() {
 precmd() {
   if [ $PROMPT_TIMER ]; then
     local elapsed=$(($(date +%s%3N) - $PROMPT_TIMER))
-    PROMPT_ELAPSED=${printf "%d.%d" $((elapsed / 1000)) $((elapsed % 1000))}
+    PROMPT_ELAPSED=$(printf "%d.%#.3d" $((elapsed / 1000)) $((elapsed % 1000)))
     unset PROMPT_TIMER
   fi
 
@@ -23,7 +23,7 @@ precmd() {
 }
 
 
-PROMPT='%F{%(?.green.red)}%? %F{yellow}${PROMPT_TIME} %F{blue}${PROMPT_ELAPSED}s %F{magenta}%n%F{brightwhite}@%F{white}%m %F{cyan}%~ %f
+PROMPT='%F{%(?.green.red)}%? %F{yellow}${PROMPT_TIME} %F{blue}${PROMPT_ELAPSED} %F{magenta}%n%F{brightwhite}@%F{white}%m %F{cyan}%~ %f
 >'
 
 alias l='ls -lah --color=auto'
