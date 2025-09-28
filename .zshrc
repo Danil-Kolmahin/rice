@@ -8,9 +8,28 @@ setopt prompt_subst
 setopt EXTENDED_HISTORY
 setopt SHARE_HISTORY
 
-precmd() {
-  export PROMPT_TIME=$(date +'%H:%M:%S.%3N')
+preexec() {
+  PROMPT_TIMER_EPOCH=$EPOCHREALTIME
 }
+
+precmd() {
+  if [[ -n $CMD_START_TIME ]]; then
+    local now=$EPOCHREALTIME
+    local dt=$(printf "%.3f" "$(echo "$now - $CMD_START_TIME" | bc)")
+    LAST_CMD_DURATION="${dt}s"
+  else
+    LAST_CMD_DURATION=""
+  fi
+
+  if [ $PROMPT_TIMER ]; then
+    timer_show=$(($SECONDS - $timer))
+    export RPROMPT="%F{cyan}${timer_show}s %{$reset_color%}"
+    unset PROMPT_TIMER
+  fi
+
+  PROMPT_TIME=$(date +'%H:%M:%S.%3N')
+}
+
 
 PROMPT='%F{%(?.green.red)}%? %F{yellow}${PROMPT_TIME} %F{magenta}%n%F{brightwhite}@%F{white}%m %F{cyan}%~ %f
 >'
