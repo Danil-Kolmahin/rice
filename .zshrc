@@ -5,6 +5,8 @@ SAVEHIST=999999999
 # End of lines configured by zsh-newuser-install
 
 setopt prompt_subst
+setopt EXTENDED_HISTORY
+setopt SHARE_HISTORY
 
 precmd() {
   export PROMPT_TIME=$(date +'%H:%M:%S.%3N')
@@ -14,6 +16,7 @@ PROMPT='%F{%(?.green.red)}%? %F{yellow}${PROMPT_TIME} %F{magenta}%n%F{brightwhit
 >'
 
 alias l='ls -lah --color=auto'
+alias h="history -t'%F %T' -D 1"
 
 # TODO: fix nvm slowness https://github.com/nvm-sh/nvm/issues/2724
 # . /usr/share/nvm/init-nvm.sh # enable nvm
