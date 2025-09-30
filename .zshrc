@@ -30,6 +30,7 @@ alias l='ls -lah --color=auto'
 h() {
   history -t'%F %T' -D 1 | less +G
 }
+alias remem='nano "$HOME/.local/share/remem.md"' # TODO: change for emacs/nvim
 
 # TODO: fix nvm slowness https://github.com/nvm-sh/nvm/issues/2724
 # . /usr/share/nvm/init-nvm.sh # enable nvm
