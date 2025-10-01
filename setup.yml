@@ -91,6 +91,7 @@
           - tldr # upgraded man
           - openssh # ssh/scp/sftp
           - curl
+          - hurl # curl authomation
           - bc # calculator
           - nvm
           - docker
@@ -101,7 +102,10 @@
           - jq
           - yq
           - k9s
-          - neovim
+          # TODO: choose neovim or emacs 
+          - github-cli
+          - lazygit
+          - asciinema # terminal session recording
           - pastel # color palets
           - plantuml # TODO: works but better fix "No X11 DISPLAY variable was set"
           - ncdu # disk usage display

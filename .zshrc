@@ -9,10 +9,14 @@ setopt EXTENDED_HISTORY
 setopt SHARE_HISTORY
 
 preexec() {
+  print -Pn "\e]0;Terminal - $1\a" # set terminal title to first cmd word
+
   PROMPT_TIMER=$(date +%s%3N)
 }
 
 precmd() {
+  print -Pn "\e]0;Terminal\a" # set terminal title back
+
   if [ $PROMPT_TIMER ]; then
     local elapsed=$(($(date +%s%3N) - $PROMPT_TIMER))
     PROMPT_ELAPSED=$(printf "%d.%#.3d" $((elapsed / 1000)) $((elapsed % 1000)))
