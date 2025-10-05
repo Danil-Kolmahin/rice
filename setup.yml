@@ -1,6 +1,9 @@
 ---
-- hosts: localhost
+- hosts: "{{ target_hosts }}"
   tasks:
+    - name: Set ansible_user variable # TODO: fix https://github.com/ansible/ansible/issues/23530
+      set_fact: ansible_user="{{ lookup('pipe', 'whoami') }}"
+
     - name: Enable sudo for wheel group
       ansible.builtin.lineinfile:
         path: /etc/sudoers
@@ -16,16 +19,16 @@
         password: "!"
       become: true
 
-    - name: Set hostname
-      ansible.builtin.hostname:
-        name: "{{ hostname }}"
+    # - name: Set hostname # TODO: move to pre-setup
+    #   ansible.builtin.hostname:
+    #     name: "{{ hostname }}"
 
     - name: Copy dotfiles
       ansible.builtin.copy:
         src: "{{ item }}"
-        dest: "/home/{{ username }}/"
-        owner: "{{ username }}"
-        group: "{{ username }}"
+        dest: "/home/{{ ansible_user }}/"
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
         directory_mode: "755"
         mode: "644"
       with_items:
@@ -38,9 +41,9 @@
     - name: Copy .local except bin
       ansible.builtin.copy:
         src: "{{ item }}"
-        dest: "/home/{{ username }}/.local/{{ item | basename }}"
-        owner: "{{ username }}"
-        group: "{{ username }}"
+        dest: "/home/{{ ansible_user }}/.local/{{ item | basename }}"
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
         directory_mode: "755"
         mode: "644"
       with_fileglob:
@@ -50,9 +53,9 @@
     - name: Copy .local/bin with exec permissions
       ansible.builtin.copy:
         src: ".local/bin"
-        dest: "/home/{{ username }}/.local"
-        owner: "{{ username }}"
-        group: "{{ username }}"
+        dest: "/home/{{ ansible_user }}/.local"
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
         directory_mode: "755"
         mode: "755"
 
@@ -123,7 +126,7 @@
 
     - name: Ensure user is in docker group
       ansible.builtin.user:
-        name: "{{ username }}"
+        name: "{{ ansible_user }}"
         groups: docker
         append: yes
 
@@ -131,7 +134,7 @@
 
     - name: Set default shell to zsh
       ansible.builtin.user:
-        name: "{{ username }}"
+        name: "{{ ansible_user }}"
         shell: /usr/bin/zsh
       become: true
 
