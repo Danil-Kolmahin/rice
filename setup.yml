@@ -72,7 +72,7 @@
           - wmenu # app launcher
           - ttf-ibm-plex # font, TODO: consider other options - ttf-jetbrains-mono, iosevka-nerd-font
           - noto-fonts-emoji # emojis
-          - mc # file manager
+          - mc # file manager # TODO: check ranger
           - qutebrowser
           - qt6-base # for qutebrowser TODO: check if actually needed
           - qt6-webengine # for qutebrowser TODO: check if actually needed
@@ -105,7 +105,6 @@
           - jq
           - yq
           - k9s
-          # TODO: choose neovim or emacs 
           - github-cli
           - lazygit
           - asciinema # terminal session recording
@@ -182,6 +181,7 @@
       vars:
         aur_packages:
           - chromium-widevine # for qutebrowser, allows streaming (DRM content)
+          - vscodium # TODO: change to vim/neovim/emacs
       ansible.builtin.shell: |
         sudo -u aur_builder yay -S --noconfirm --needed {{ aur_packages | join(' ') }}
       args:
