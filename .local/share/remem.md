@@ -34,3 +34,15 @@ pass git init
 (cd /home/$HOME/.password-store/ && git config user.email "you@example.com")
 (cd /home/$HOME/.password-store/ && git config user.name "Your Name")
 pass git init
+
+# get all upper level node_modules
+find . -type d -name node_modules -prune
+
+# archiving with tar and gzip
+tar -I 'gzip -9' -cf backup.tar.gz etc
+# archiving with tar only
+tar -cf backup.tar.gz etc
+# extract any tar archive (result would be etc directory)
+tar -xf backup.tar.gz
+# view archive content (without changes, like ls -la)
+tar -tvf backup.tar.gz
