@@ -183,11 +183,12 @@
           - chromium-widevine # for qutebrowser, allows streaming (DRM content)
           - vscodium # TODO: change to vim/neovim/emacs
       ansible.builtin.shell: |
-        sudo -u aur_builder yay -S --noconfirm --needed {{ aur_packages | join(' ') }}
+        runuser -u aur_builder -- yay -S --noconfirm --noprogressbar --needed {{ aur_packages | join(' ') }}
       args:
         executable: /bin/bash
       register: aur_install_result
       changed_when: "'Downloading' in aur_install_result.stdout"
+      become: true
 
     - name: Check if qutebrowser is already the default browser
       ansible.builtin.shell: xdg-mime query default x-scheme-handler/http
