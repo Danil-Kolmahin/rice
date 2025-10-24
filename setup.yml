@@ -114,6 +114,7 @@
           - fastfetch # system info
           - pass # password manager TODO: configure and test
           # - upower/powertop/auto-cpufreq/tlp # possible eco power/resource management
+          - croc # super convinient file node-to-node transfer tool 
         state: present
       become: true
 
