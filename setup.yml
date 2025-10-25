@@ -36,37 +36,22 @@
         - .zshenv
         - .zprofile
         - .config
+        - .local
 
-    - name: Install essential packages
-      ansible.builtin.pacman:
-        name:
-          # - uv # should be beforehand
-          # - git # should be beforehand
-          - rsync
-          - curl
-        state: present
-      become: true
-
-    - name: Copy .local except bin
-      ansible.posix.synchronize:
-        src: ".local"
-        dest: "/home/{{ ansible_user }}/.local"
-        archive: false
-        rsync_opts:
-          - "--exclude=bin"
-          - "--chmod=D755,F644"
-
-    - name: Copy .local/bin with exec permissions
-      ansible.posix.synchronize:
+    - name: Copy .local/bin with exec permissions # fix incorrect "changed" on each run after "Copy dotfiles" task
+      ansible.builtin.copy:
         src: ".local/bin"
         dest: "/home/{{ ansible_user }}/.local"
-        archive: false
-        rsync_opts:
-          - "--chmod=D755,F755"
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        directory_mode: "755"
+        mode: "755"
 
     - name: Install packages
       ansible.builtin.pacman:
         name:
+          # - uv # should be beforehand
+          # - git # should be beforehand
           - zsh
           - alacritty
           - sway
@@ -96,6 +81,7 @@
           - man-pages # provides both the Linux and the POSIX.1 man pages
           - tldr # upgraded man
           - openssh # ssh/scp/sftp
+          - curl
           - hurl # curl authomation
           - bc # calculator
           - nvm
