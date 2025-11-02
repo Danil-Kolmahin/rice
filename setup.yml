@@ -111,12 +111,14 @@
         name: docker.service
         enabled: yes
         state: started
+      become: true
 
     - name: Ensure user is in docker group
       ansible.builtin.user:
         name: "{{ ansible_user }}"
         groups: docker
         append: yes
+      become: true
 
     # relogin !!!
 
@@ -157,7 +159,7 @@
 
     - name: Install yay from AUR manually
       ansible.builtin.shell: |
-        sudo -u aur_builder bash -c '
+        runuser -u aur_builder -- bash -c '
         git clone https://aur.archlinux.org/yay.git /home/aur_builder/yay || echo "already cloned"
         cd /home/aur_builder/yay
         makepkg -si --noconfirm
@@ -165,12 +167,13 @@
       args:
         executable: /bin/bash
         creates: /usr/bin/yay
+      become: true
 
     - name: Install AUR packages manually
       vars:
         aur_packages:
           - chromium-widevine # for qutebrowser, allows streaming (DRM content)
-          - vscodium # TODO: change to vim/neovim/emacs
+          # - vscodium # TODO: change to vim/neovim/emacs
       ansible.builtin.shell: |
         runuser -u aur_builder -- yay -S --noconfirm --noprogressbar --needed {{ aur_packages | join(' ') }}
       args:
