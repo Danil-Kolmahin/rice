@@ -19,6 +19,11 @@
         password: "!"
       become: true
 
+    - name: Set timezone
+      community.general.timezone:
+        name: Europe/Kyiv
+      become: true
+
     # - name: Set hostname # TODO: move to pre-setup
     #   ansible.builtin.hostname:
     #     name: "{{ hostname }}"
