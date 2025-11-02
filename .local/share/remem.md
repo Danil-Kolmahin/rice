@@ -46,3 +46,33 @@ tar -cf backup.tar.gz etc
 tar -xf backup.tar.gz
 # view archive content (without changes, like ls -la)
 tar -tvf backup.tar.gz
+
+# qemu/kvm archlinux VM - UEFI (secure boot off)
+virt-install \
+  --name myarchlinux \
+  --osinfo archlinux \
+  --cdrom $HOME/Downloads/archlinux-x86_64.iso \
+  --disk size=30 \
+  --memory 4096 \
+  --vcpus 1 \
+  --graphics spice \
+  --machine q35 \
+  --boot firmware=efi,firmware.feature0.enabled=no,firmware.feature0.name=secure-boot
+
+# qemu/kvm archlinux VM - BIOS
+virt-install \
+  --name myarchlinux \
+  --osinfo archlinux \
+  --cdrom $HOME/Downloads/archlinux-x86_64.iso \
+  --disk size=30 \
+  --memory 4096 \
+  --vcpus 1 \
+  --graphics spice
+
+# vm management
+virsh list --all
+virsh start myarchlinux
+virt-viewer myarchlinux
+virsh console myarchlinux
+virsh destroy myarchlinux
+virsh undefine myarchlinux --remove-all-storage --nvram 
