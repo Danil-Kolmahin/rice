@@ -54,6 +54,11 @@ mic-status() {
     if [ "$mute" = "yes" ]; then echo "MUTE"; fi
 }
 
+keyboard-layout() {
+    # TODO improve to take original lang name, use xkb
+    swaymsg -t get_inputs | jq 'map(select(has("xkb_active_layout_name")))[0].xkb_active_layout_name' | sed 's/.*/\L&/' | cut -c2-3
+}
+
 datetime-status() {
     date +'%Y-%m-%d %X'
 }
@@ -90,7 +95,7 @@ while true; do
     STATUS+="{\"full_text\":\"BRT:40%\"},"
     STATUS+="{\"full_text\":\"VOL:$(volume-status)\"},"
     # STATUS+="{\"full_text\":\"MIC:$(mic-status)\"},"
-    STATUS+="{\"full_text\":\"en\"},"
+    STATUS+="{\"full_text\":\"$(keyboard-layout)\"},"
     STATUS+="{\"full_text\":\"$(datetime-status)\"}"
 
     echo "[$STATUS],"

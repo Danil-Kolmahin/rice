@@ -69,7 +69,7 @@ output * resolution 1920x1080
 #   }
 #
   input type:keyboard {
-      # TODO: read config from xkb file and add display to status-bar
+      # TODO: read config from xkb file
       xkb_layout "us,ua"
       xkb_options "grp:alt_shift_toggle"
   }
