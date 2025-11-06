@@ -92,7 +92,6 @@ while true; do
     STATUS=""
 
     [[ $(reboot-needed-status) -gt 0 ]] && STATUS+="{\"full_text\":\"REBOOT REQUIRED\",\"color\":\"#000000\",\"background\":\"#ff0000\",\"border\":\"#00000000\"},"
-    # STATUS+="{\"full_text\":\"Kyiv:+15C(cloudy)\"},"
     STATUS+="{\"full_text\":\"BT:on(1)\"},"
     
     interface="$(ip route show default | awk '{print $5}')"
@@ -105,7 +104,6 @@ while true; do
     out="$new_out"
 
     STATUS+="{\"full_text\":\"PSI:io$(psi-io-status),ram$(psi-ram-status),cpu$(psi-cpu-status)\"},"
-    # STATUS+="{\"full_text\":\"LOAD:$(load-status)\"},"
     STATUS+="{\"full_text\":\"DISK:$(disk-status)\"},"
     STATUS+="{\"full_text\":\"RAM:$(ram-status)\"},"
     STATUS+="{\"full_text\":\"CPU:$(cpu-status)%,73°C\"},"
