@@ -68,9 +68,11 @@ output * resolution 1920x1080
 #       middle_emulation enabled
 #   }
 #
-#   input type:keyboard {
-#       xkb_layout "eu"
-#   }
+  input type:keyboard {
+      # TODO: read config from xkb file and add display to status-bar
+      xkb_layout "us,ua"
+      xkb_options "grp:alt_shift_toggle"
+  }
 #
 # You can also configure each device individually.
 # Read `man 5 sway-input` for more information about this section.
