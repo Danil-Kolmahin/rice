@@ -38,6 +38,24 @@ ram-status() {
     awk '/MemTotal/ {mt=$2} /MemAvailable/ {ma=$2} END {printf("%.f%%\n", 100*(mt-ma)/mt)}' /proc/meminfo
 }
 
+# TODO: refactor, rename, test
+workJiffies1=0
+totalJiffies1=0
+cpu-status() {
+    read -r sb_cs_0 sb_cs_user sb_cs_nice sb_cs_system sb_cs_idle sb_cs_iowait sb_cs_irq sb_cs_softirq sb_cs_0 < /proc/stat
+
+    workJiffies2=$((sb_cs_user + sb_cs_nice + sb_cs_system))
+    totalJiffies2=$((workJiffies2 + sb_cs_idle + sb_cs_iowait + sb_cs_irq + sb_cs_softirq))
+
+    workDiff=$((workJiffies2 - workJiffies1))
+    totalDiff=$((totalJiffies2 - totalJiffies1))
+
+    workJiffies1=$workJiffies2
+    totalJiffies1=$totalJiffies2
+
+    echo $((100 * $workDiff / $totalDiff))
+}
+
 volume-status() {
     volume=$(pactl get-sink-volume @DEFAULT_SINK@ | awk '{print $5}')
     mute=$(pactl get-sink-mute @DEFAULT_SINK@ | awk '{print $2}')
@@ -90,7 +108,7 @@ while true; do
     # STATUS+="{\"full_text\":\"LOAD:$(load-status)\"},"
     STATUS+="{\"full_text\":\"DISK:$(disk-status)\"},"
     STATUS+="{\"full_text\":\"RAM:$(ram-status)\"},"
-    STATUS+="{\"full_text\":\"CPU:6%,73°C\"},"
+    STATUS+="{\"full_text\":\"CPU:$(cpu-status)%,73°C\"},"
     STATUS+="{\"full_text\":\"PWR:80%\"},"
     STATUS+="{\"full_text\":\"BRT:40%\"},"
     STATUS+="{\"full_text\":\"VOL:$(volume-status)\"},"
