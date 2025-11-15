@@ -295,5 +295,7 @@ bindsym $mod+c exec cliphist list | wmenu \
          -f "IBM Plex Mono 14.5" | cliphist decode | wl-copy # TODO: $FONT (here is is 1.5pt bigger!!!)
 # Show emoji picking menu
 bindsym $mod+u exec pick-emoji
+# Open temp browser
+bindsym $mod+t exec br-tmp
 
 exec wl-paste --watch cliphist store # clipboard history

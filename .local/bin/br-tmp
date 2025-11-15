@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# TODO: rewrite all
+
+swaymsg exec 'qutebrowser -T -C $HOME/.config/qutebrowser/config.py'
