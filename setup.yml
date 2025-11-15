@@ -110,6 +110,10 @@
           - croc # super convinient file node-to-node transfer tool
           - grim # cli screenshots, screenshots gui backend
           - flameshot # screenshots gui
+          - gimp # raster image editor
+          - inkscape # vector image editor
+          - libreoffice-fresh # office suite
+          - torbrowser-launcher # the only way to run tor from pacman
         state: present
       become: true
 
@@ -146,7 +150,7 @@
         name:
           - io.github.ungoogled_software.ungoogled_chromium
           - me.iepure.devtoolbox
-          - com.belmoussaoui.Obfuscate
+          - io.dbeaver.DBeaverCommunity
 
     - name: Create the `aur_builder` user
       ansible.builtin.user:
