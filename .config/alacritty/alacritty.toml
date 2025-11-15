@@ -37,5 +37,8 @@ white   = "0xffffff"
 style = { shape = "Underline", blinking = "On" }
 unfocused_hollow = false
 
+[terminal]
+shell = { program = "/usr/bin/zsh", args = ["-l"] }
+
 [bell]
 command = { program = "bash", args = ["-c", "pw-play -q 1 --volume 0.11 $HOME/.local/share/sounds/bell.wav"] }
