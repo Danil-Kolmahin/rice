@@ -107,7 +107,9 @@
           - fastfetch # system info
           - pass # password manager TODO: configure and test
           # - upower/powertop/auto-cpufreq/tlp # possible eco power/resource management
-          - croc # super convinient file node-to-node transfer tool 
+          - croc # super convinient file node-to-node transfer tool
+          - grim # cli screenshots, screenshots gui backend
+          - flameshot # screenshots gui
         state: present
       become: true
 
