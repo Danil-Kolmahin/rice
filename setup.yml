@@ -70,6 +70,9 @@
           - qt6-base # for qutebrowser TODO: check if actually needed
           - qt6-webengine # for qutebrowser TODO: check if actually needed
           - qt6-wayland # for qutebrowser TODO: check if actually needed
+          - xdg-desktop-portal # file access, opening URIs, printing etc | https://github.com/swaywm/sway/wiki/XDG-Desktop-Portal-configuration
+          - xdg-desktop-portal-wlr # wayland xdg-desktop-portal
+          - xdg-desktop-portal-gtk # backup for xdg-desktop-portal-wlr TODO: check for replacing on kde
           - mesa # for qutebrowser TODO: check if actually needed
           - xcb-util-cursor # for qutebrowser TODO: check if actually needed
           # brightnessctl # TODO: test not on WM; check wluma as alternative if ALS
@@ -208,9 +211,6 @@
       when: "'org.qutebrowser.qutebrowser.desktop' not in current_default_browser.stdout"
       changed_when: true
 
-    # maybe needed
-    # exec systemctl --user set-environment "WAYLAND_DISPLAY=${WAYLAND_DISPLAY}" "XDG_CURRENT_DESKTOP=${XDG_CURRENT_DESKTOP:-sway:wlroots}"
-    # more here: https://github.com/swaywm/sway/wiki/XDG-Desktop-Portal-configuration
     - name: Check if WAYLAND_DISPLAY is in systemd user env
       ansible.builtin.command: systemctl --user show-environment
       register: systemctl_user_env
