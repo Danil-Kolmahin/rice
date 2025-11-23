@@ -76,3 +76,6 @@ virt-viewer myarchlinux
 virsh console myarchlinux
 virsh destroy myarchlinux
 virsh undefine myarchlinux --remove-all-storage --nvram 
+
+# check my ip
+curl https://ipinfo.io
