@@ -117,6 +117,8 @@
           - inkscape # vector image editor
           - libreoffice-fresh # office suite
           - torbrowser-launcher # the only way to run tor from pacman
+          - libnotify # send desktop notifications (notify-send)
+          - cava # audio visualization tool
         state: present
       become: true
 

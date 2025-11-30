@@ -87,3 +87,25 @@ virsh undefine myarchlinux --remove-all-storage --nvram
 curl https://ipinfo.io
 curl https://ipinfo.io | jq
 curl https://ipinfo.io/ip
+
+# mount external drive
+lsblk
+sudo mount --mkdir /dev/sda1 /mnt/portable-drive-0
+sync
+sudo umount /mnt/portable-drive-0
+
+# record audio
+pw-record record.mp3
+pw-play record.mp3
+
+# mpv
+# mpv show image
+mpv img.png --keep-open
+# mpv show image in fullscreen
+mpv img.png --fs --keep-open
+
+# display desktop notification
+notify-send "VLC" "Video playback is finished" -i vlc
+
+# dual boot - boot into windows
+systemctl reboot --boot-loader-entry=auto-windows
