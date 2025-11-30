@@ -1,3 +1,15 @@
+# list commands
+# all commands
+printf '%s\n' ${(ok)commands}
+# all builtin commands
+printf '%s\n' ${(ok)builtins}
+# all aliases
+printf '%s\n' ${(ok)aliases}
+# get aliased value for "l"
+echo $aliases[l]
+# get aliased path for "git"
+echo $commands[git]
+
 # search for comunity cheatsheets
 curl cheat.sh
 
