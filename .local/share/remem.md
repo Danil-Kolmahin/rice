@@ -4,6 +4,12 @@ curl cheat.sh
 # clear clipboard history
 cliphist wipe
 
+# calendar
+cal -my
+
+# calculator
+bc -ql
+
 # clear duplicates from command-line history
 # TODO
 
@@ -41,7 +47,7 @@ find . -type d -name node_modules -prune
 # archiving with tar and gzip
 tar -I 'gzip -9' -cf backup.tar.gz etc
 # archiving with tar only
-tar -cf backup.tar.gz etc
+tar -cf backup.tar etc
 # extract any tar archive (result would be etc directory)
 tar -xf backup.tar.gz
 # view archive content (without changes, like ls -la)
@@ -52,7 +58,7 @@ virt-install \
   --name myarchlinux \
   --osinfo archlinux \
   --cdrom $HOME/Downloads/archlinux-x86_64.iso \
-  --disk size=30 \
+  --disk size=50 \
   --memory 4096 \
   --vcpus 1 \
   --graphics spice \
@@ -64,7 +70,7 @@ virt-install \
   --name myarchlinux \
   --osinfo archlinux \
   --cdrom $HOME/Downloads/archlinux-x86_64.iso \
-  --disk size=30 \
+  --disk size=50 \
   --memory 4096 \
   --vcpus 1 \
   --graphics spice
@@ -79,3 +85,5 @@ virsh undefine myarchlinux --remove-all-storage --nvram
 
 # check my ip
 curl https://ipinfo.io
+curl https://ipinfo.io | jq
+curl https://ipinfo.io/ip
