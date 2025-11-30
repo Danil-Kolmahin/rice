@@ -222,3 +222,11 @@
         WAYLAND_DISPLAY={{ lookup('env', 'WAYLAND_DISPLAY') }}
         XDG_CURRENT_DESKTOP={{ lookup('env', 'XDG_CURRENT_DESKTOP') | default('sway:wlroots') }}
       when: "'WAYLAND_DISPLAY' not in systemctl_user_env.stdout"
+
+    - name: Download git-activity script
+      ansible.builtin.get_url:
+        url: https://raw.githubusercontent.com/aaossa/git-activity/refs/heads/main/git-activity
+        dest: "/home/{{ ansible_user }}/.local/bin/git-activity"
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: "755"
