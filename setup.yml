@@ -73,6 +73,7 @@
           - xdg-desktop-portal # file access, opening URIs, printing etc | https://github.com/swaywm/sway/wiki/XDG-Desktop-Portal-configuration
           - xdg-desktop-portal-wlr # wayland xdg-desktop-portal
           - xdg-desktop-portal-gtk # backup for xdg-desktop-portal-wlr TODO: check for replacing on kde
+          # TODO: test `systemctl --user restart xdg-desktop-portal xdg-desktop-portal-wlr xdg-desktop-portal-gtk` maybe needed for wayland features like screen share in qutebrowser
           - mesa # for qutebrowser TODO: check if actually needed
           - xcb-util-cursor # for qutebrowser TODO: check if actually needed
           # brightnessctl # TODO: test not on WM; check wluma as alternative if ALS
@@ -119,6 +120,7 @@
           - torbrowser-launcher # the only way to run tor from pacman
           - libnotify # send desktop notifications (notify-send)
           - cava # audio visualization tool
+          - speedtest-cli # https://speed.cloudflare.com could be used in browser 
         state: present
       become: true
 

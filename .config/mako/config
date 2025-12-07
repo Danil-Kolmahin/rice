@@ -1,7 +1,7 @@
 max-history=999
 sort=-time
 
-on-notify=exec pw-play -q 1 --volume 0.11 ~/.local/share/sounds/push.wav
+on-notify=exec pw-play ~/.local/share/sounds/push.wav
 
 # TODO: $FONT
 font=IBM Plex Mono 13

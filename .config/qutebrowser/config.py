@@ -661,7 +661,8 @@ c.colors.webpage.preferred_color_scheme = 'dark' # TODO: set dark theme system w
 
 ## Automatically start playing `<video>` elements.
 ## Type: Bool
-c.content.autoplay = False
+# c.content.autoplay = True
+config.set('content.autoplay', False, '*.youtube.com')
 
 ## List of URLs to ABP-style adblocking rulesets.  Only used when Brave's
 ## ABP-style adblocker is used (see `content.blocking.method`).  You can
@@ -1804,7 +1805,7 @@ c.fonts.default_size = '13pt'
 
 ## Load a restored tab as soon as it takes focus.
 ## Type: Bool
-# c.session.lazy_restore = False
+# c.session.lazy_restore = False # TODO: add when it would work, could solve https://github.com/qutebrowser/qutebrowser/issues/7095
 
 ## Languages to use for spell checking. You can check for available
 ## languages and install dictionaries using scripts/dictcli.py. Run the
