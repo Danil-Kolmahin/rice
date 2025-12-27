@@ -66,26 +66,28 @@ tar -xf backup.tar.gz
 tar -tvf backup.tar.gz
 
 # qemu/kvm archlinux VM - UEFI (secure boot off)
-virt-install \
+DISPLAY=0 virt-install \
   --name myarchlinux \
   --osinfo archlinux \
-  --cdrom $HOME/Downloads/archlinux-x86_64.iso \
+  --cdrom $HOME/downloads/archlinux-x86_64.iso \
   --disk size=50 \
   --memory 4096 \
   --vcpus 1 \
   --graphics spice \
   --machine q35 \
   --boot firmware=efi,firmware.feature0.enabled=no,firmware.feature0.name=secure-boot
+## TODO: look on fixing "DISPLAY=0" workaround
 
 # qemu/kvm archlinux VM - BIOS
-virt-install \
+DISPLAY=0 virt-install \
   --name myarchlinux \
   --osinfo archlinux \
-  --cdrom $HOME/Downloads/archlinux-x86_64.iso \
+  --cdrom $HOME/downloads/archlinux-x86_64.iso \
   --disk size=50 \
   --memory 4096 \
   --vcpus 1 \
   --graphics spice
+## TODO: look on fixing "DISPLAY=0" workaround
 
 # vm management
 virsh list --all
