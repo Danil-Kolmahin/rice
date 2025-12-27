@@ -121,3 +121,8 @@ notify-send "VLC" "Video playback is finished" -i vlc
 
 # dual boot - boot into windows
 systemctl reboot --boot-loader-entry=auto-windows
+
+# generate random values
+openssl rand -hex 16
+openssl rand -hex 12
+base64 /dev/random | head -c 2M > ~/file.txt

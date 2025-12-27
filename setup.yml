@@ -27,6 +27,7 @@
     # - name: Set hostname # TODO: move to pre-setup
     #   ansible.builtin.hostname:
     #     name: "{{ hostname }}"
+    #   become: true
 
     - name: Copy dotfiles
       ansible.builtin.copy:
@@ -76,7 +77,7 @@
           # TODO: test `systemctl --user restart xdg-desktop-portal xdg-desktop-portal-wlr xdg-desktop-portal-gtk` maybe needed for wayland features like screen share in qutebrowser
           - mesa # for qutebrowser TODO: check if actually needed
           - xcb-util-cursor # for qutebrowser TODO: check if actually needed
-          # brightnessctl # TODO: test not on WM; check wluma as alternative if ALS
+          - brightnessctl # backlight/screen brightness manager
           - flatpak
           - base-devel # for yay tool build
           - ffmpeg # for video/audio processing
@@ -120,7 +121,7 @@
           - torbrowser-launcher # the only way to run tor from pacman
           - libnotify # send desktop notifications (notify-send)
           - cava # audio visualization tool
-          - speedtest-cli # https://speed.cloudflare.com could be used in browser 
+          - speedtest-cli # https://speed.cloudflare.com could be used in browser
         state: present
       become: true
 
