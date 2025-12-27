@@ -56,6 +56,10 @@ cpu-status() {
     echo $((100 * $workDiff / $totalDiff))
 }
 
+brightness-level() {
+    brightnessctl i -m | awk -F',' '{print $4}' | sed 's/.$//'
+}
+
 volume-status() {
     volume=$(pactl get-sink-volume @DEFAULT_SINK@ | awk '{print $5}')
     mute=$(pactl get-sink-mute @DEFAULT_SINK@ | awk '{print $2}')
@@ -92,13 +96,13 @@ while true; do
     STATUS=""
 
     [[ $(reboot-needed-status) -gt 0 ]] && STATUS+="{\"full_text\":\"REBOOT REQUIRED\",\"color\":\"#000000\",\"background\":\"#ff0000\",\"border\":\"#00000000\"},"
-    STATUS+="{\"full_text\":\"BT:on(1)\"},"
+    # STATUS+="{\"full_text\":\"BT:on(1)\"},"
     
     interface="$(ip route show default | awk '{print $5}')"
     new_in="$(awk -v i="$interface" '$1 ~ i":" {print $2}' /proc/net/dev)"
     new_out="$(awk -v i="$interface" '$1 ~ i":" {print $10}' /proc/net/dev)"
 
-    STATUS+="{\"full_text\":\"NET:↓$(echo "$new_in - $in" | bc | numfmt --to=iec),↑$(echo "$new_out - $out" | bc | numfmt --to=iec)\"},"
+    STATUS+="{\"full_text\":\"NET:↓$(echo "$new_in - $in" | bc | numfmt --to=iec)B,↑$(echo "$new_out - $out" | bc | numfmt --to=iec)B\"},"
 
     in="$new_in"
     out="$new_out"
@@ -106,9 +110,9 @@ while true; do
     STATUS+="{\"full_text\":\"PSI:io$(psi-io-status),ram$(psi-ram-status),cpu$(psi-cpu-status)\"},"
     STATUS+="{\"full_text\":\"DISK:$(disk-status)\"},"
     STATUS+="{\"full_text\":\"RAM:$(ram-status)\"},"
-    STATUS+="{\"full_text\":\"CPU:$(cpu-status)%,73°C\"},"
+    STATUS+="{\"full_text\":\"CPU:$(cpu-status)%\"}," # TODO: add ,73°C
     STATUS+="{\"full_text\":\"PWR:80%\"},"
-    STATUS+="{\"full_text\":\"BRT:40%\"},"
+    STATUS+="{\"full_text\":\"BRT:$(brightness-level)%\"},"
     STATUS+="{\"full_text\":\"VOL:$(volume-status)\"},"
     # STATUS+="{\"full_text\":\"MIC:$(mic-status)\"},"
     STATUS+="{\"full_text\":\"$(keyboard-layout)\"},"

@@ -122,6 +122,7 @@
           - libnotify # send desktop notifications (notify-send)
           - cava # audio visualization tool
           - speedtest-cli # https://speed.cloudflare.com could be used in browser
+          - xdg-user-dirs # "well known" (.config/user-dirs.dirs) user directories manager
         state: present
       become: true
 

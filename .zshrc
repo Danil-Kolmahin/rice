@@ -37,7 +37,7 @@ h() {
 alias remem='nano "$HOME/.local/share/remem.md"' # TODO: change for emacs/nvim
 
 # TODO: fix nvm slowness https://github.com/nvm-sh/nvm/issues/2724
-# . /usr/share/nvm/init-nvm.sh # enable nvm
+. /usr/share/nvm/init-nvm.sh # enable nvm
 
 # # enable auto nvm
 # autoload -U add-zsh-hook
