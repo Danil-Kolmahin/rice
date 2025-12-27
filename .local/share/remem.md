@@ -67,7 +67,7 @@ tar -tvf backup.tar.gz
 
 # qemu/kvm archlinux VM - UEFI (secure boot off)
 DISPLAY=0 virt-install \
-  --name myarchlinux \
+  --name mirror \
   --osinfo archlinux \
   --cdrom $HOME/downloads/archlinux-x86_64.iso \
   --disk size=50 \
@@ -80,7 +80,7 @@ DISPLAY=0 virt-install \
 
 # qemu/kvm archlinux VM - BIOS
 DISPLAY=0 virt-install \
-  --name myarchlinux \
+  --name mirror \
   --osinfo archlinux \
   --cdrom $HOME/downloads/archlinux-x86_64.iso \
   --disk size=50 \
@@ -91,11 +91,11 @@ DISPLAY=0 virt-install \
 
 # vm management
 virsh list --all
-virsh start myarchlinux
-virt-viewer myarchlinux
-virsh console myarchlinux
-virsh destroy myarchlinux
-virsh undefine myarchlinux --remove-all-storage --nvram 
+virsh start mirror
+virt-viewer mirror
+virsh console mirror
+virsh destroy mirror
+virsh undefine mirror --remove-all-storage --nvram 
 
 # check my ip
 curl https://ipinfo.io

@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# TODO: rewrite all
+
+VM="mirror"
+
+if virsh list --state-running | grep -q "$VM"; then
+    virsh destroy "$VM"
+else
+    virsh start "$VM"
+    if [ $? -eq 0 ]; then
+        virt-viewer "$VM" &
+    fi
+fi
