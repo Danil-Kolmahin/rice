@@ -123,20 +123,28 @@
           - cava # audio visualization tool
           - speedtest-cli # https://speed.cloudflare.com could be used in browser
           - xdg-user-dirs # "well known" (.config/user-dirs.dirs) user directories manager
+          - qemu-full # qemu/kvm VMs
+          - libvirt # qemu/kvm VMs (cli)
+          - dnsmasq # qemu/kvm VMs (network, low chance to be optional)
+          - virt-install # qemu/kvm VMs
+          - virt-viewer # qemu/kvm VMs
         state: present
       become: true
 
-    - name: Enable and start docker.service
+    - name: Enable and start systemd services
       ansible.builtin.systemd:
-        name: docker.service
+        unit: '{{ item }}.service'
         enabled: yes
         state: started
+      with_items:
+        - docker
+        - libvirtd
       become: true
 
-    - name: Ensure user is in docker group
+    - name: Ensure user is respective groups
       ansible.builtin.user:
         name: "{{ ansible_user }}"
-        groups: docker
+        groups: docker,libvirt
         append: yes
       become: true
 
