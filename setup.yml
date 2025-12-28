@@ -117,6 +117,7 @@
           - flameshot # screenshots gui
           - gimp # raster image editor
           - inkscape # vector image editor
+          - blender # 3D modelling
           - libreoffice-fresh # office suite
           - torbrowser-launcher # the only way to run tor from pacman
           - libnotify # send desktop notifications (notify-send)
