@@ -1,0 +1,145 @@
+{
+  "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/master/doc/json_schema.json",
+  "logo": { "type": "none" },
+  "display": {
+    "stat": false,
+    "pipe": false,
+    "showErrors": true,
+    "disableLinewrap": false,
+    "hideCursor": false,
+    "separator": ": ",
+    "brightColor": true,
+    "duration": {
+      "abbreviation": true,
+      "spaceBeforeUnit": "never"
+    },
+    "size": {
+      "maxPrefix": "TB",
+      "binaryPrefix": "jedec",
+      "ndigits": 2,
+      "spaceBeforeUnit": "never"
+    },
+    "temp": {
+      "unit": "C",
+      "ndigits": 1,
+      "color": {
+        "green": "white",
+        "red": "white",
+        "yellow": "white"
+      }
+    },
+    "percent": {
+      "type": 1, // "type": 0
+      "ndigits": 2
+    },
+    // "bar": {
+    //   "char": {
+    //     "elapsed": "■",
+    //     "total": "-"
+    //   },
+    //   "border": {
+    //     "left": "[ ",
+    //     "right": " ]",
+    //     "leftElapsed": "",
+    //     "rightElapsed": ""
+    //   },
+    //   "color": {
+    //     "elapsed": "auto",
+    //     "total": "97",
+    //     "border": "97"
+    //   },
+    //   "width": 10
+    // },
+    "fraction": {
+      "ndigits": 2,
+      "trailingZeros": "always"
+    },
+    "key": {
+      "width": 32,
+      "paddingLeft": 2
+    },
+    "freq": {
+      "ndigits": 2,
+      "spaceBeforeUnit": "never"
+    },
+    "color": {
+      "keys": "red",
+      "separator": "white",
+      "output": "white"
+    }
+  },
+  "modules": [
+    { "type": "os", "format": "{name} {arch} ({build-id})" },
+    { "type": "host", "format": "{vendor} {name} {version}" },
+    { "type": "kernel", "format": "{sysname} {release} {arch} {version}" },
+    // { "type": "packages" },
+    { "type": "shell", "format": "{exe} {version}" },
+    {
+      "type": "display"
+      // "compactType": "none",
+      // "preciseRefreshRate": false,
+      // "order": null,
+    },
+    { "type": "wm" },
+    // { "type": "theme" },
+    // { "type": "icons" },
+    // { "type": "font" },
+    { "type": "cursor" },
+    { "type": "terminal" },
+    {
+      "type": "cpu",
+      "format": "{vendor}: {name}; {cores-physical} physical, {cores-logical} logical cores; {freq-base} base, {freq-max} max frequency; {temperature}; {core-types} logical cores grouped by frequency; {march} microarchitecture",
+      "temp": true,
+      "showPeCoreCount": true
+    },
+    {
+      "type": "gpu",
+      "format": "{vendor}: {name}; driver - {driver}; {temperature}; {core-count} cores; {type}; {shared-used} / {shared-total} ({shared-percentage-num}) shared memory; {dedicated-used} / {dedicated-total} ({dedicated-percentage-num}) dedicated memory; {frequency}; {core-usage-num} core usage",
+      "driverSpecific": true,
+      "detectionMethod": "auto",
+      "temp": true
+    },
+    { "type": "memory" },
+    { "type": "swap", "separate": true },
+    {
+      "type": "disk",
+      "format": "{size-used} / {size-total} ({size-percentage}); {files-used} / {files-total} ({files-percentage}) files used; {filesystem} filesystem",
+      "showRegular": true,
+      "showExternal": true,
+      "showHidden": true,
+      "showSubvolumes": true,
+      "showReadOnly": true,
+      "showUnknown": true
+    },
+    // {
+    //   "type": "localip",
+    //   "format": "1. {ipv4}: IPv4 address\n    2. {ipv6}: IPv6 address\n    3. {mac}: MAC address\n    4. {ifname}: Interface name\n    5. {is-default-route}: Is default route\n    6. {mtu}: MTU size in bytes\n    7. {speed}: Link speed (formatted)\n    8. {flags}: Interface flags",
+    //   "showIpv4": true,
+    //   "showIpv6": true,
+    //   "showMac": false,
+    //   "showLoop": true,
+    //   "showPrefixLen": true,
+    //   "showMtu": true,
+    //   "showSpeed": true,
+    //   "showFlags": true,
+    //   "compact": false,
+    //   "defaultRouteOnly": false,
+    //   "showAllIps": true
+    // },
+    {
+      "type": "battery",
+      "format": "{manufacturer}: {model-name}; {technology}; {capacity} [{status}] {time-formatted}"
+    },
+    // {
+    //   "type": "poweradapter",
+    //   "format": "1. {watts}: Power adapter watts\n    2. {name}: Power adapter name\n    3. {manufacturer}: Power adapter manufacturer\n    4. {model}: Power adapter model\n    5. {description}: Power adapter description\n    6. {serial}: Power adapter serial number"
+    // },
+    { "type": "locale" },
+    { "type": "uptime" },
+    {
+      "type": "command",
+      "key": "Colors",
+      "text": "printf '\\e[40m   \\e[41m   \\e[42m   \\e[43m   \\e[44m   \\e[45m   \\e[46m   \\e[47m   \\e[0m\\e[100m   \\e[101m   \\e[102m   \\e[103m   \\e[104m   \\e[105m   \\e[106m   \\e[107m   \\e[0m'"
+    }
+  ]
+}
