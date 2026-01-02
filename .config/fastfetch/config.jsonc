@@ -7,8 +7,8 @@
     "showErrors": true,
     "disableLinewrap": false,
     "hideCursor": false,
-    "separator": ": ",
-    "brightColor": true,
+    "separator": " = ",
+    "brightColor": false,
     "duration": {
       "abbreviation": true,
       "spaceBeforeUnit": "never"
@@ -23,9 +23,9 @@
       "unit": "C",
       "ndigits": 1,
       "color": {
-        "green": "white",
-        "red": "white",
-        "yellow": "white"
+        "green": "light_white",
+        "red": "light_white",
+        "yellow": "light_white"
       }
     },
     "percent": {
@@ -55,17 +55,17 @@
       "trailingZeros": "always"
     },
     "key": {
-      "width": 32,
-      "paddingLeft": 2
+      "width": 0,
+      "paddingLeft": 0
     },
     "freq": {
       "ndigits": 2,
       "spaceBeforeUnit": "never"
     },
     "color": {
-      "keys": "red",
-      "separator": "white",
-      "output": "white"
+      "keys": "light_white",
+      "separator": "light_white",
+      "output": "light_white"
     }
   },
   "modules": [
