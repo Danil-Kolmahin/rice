@@ -74,7 +74,6 @@
           - xdg-desktop-portal # file access, opening URIs, printing etc | https://github.com/swaywm/sway/wiki/XDG-Desktop-Portal-configuration
           - xdg-desktop-portal-wlr # wayland xdg-desktop-portal
           - xdg-desktop-portal-gtk # backup for xdg-desktop-portal-wlr TODO: check for replacing on kde
-          # TODO: test `systemctl --user restart xdg-desktop-portal xdg-desktop-portal-wlr xdg-desktop-portal-gtk` maybe needed for wayland features like screen share in qutebrowser
           - mesa # for qutebrowser TODO: check if actually needed
           - xcb-util-cursor # for qutebrowser TODO: check if actually needed
           - brightnessctl # backlight/screen brightness manager
@@ -92,7 +91,7 @@
           - tldr # upgraded man
           - openssh # ssh/scp/sftp
           - curl
-          - hurl # curl authomation
+          - hurl # curl automation
           - bc # calculator
           - nvm
           - docker
@@ -110,7 +109,7 @@
           - plantuml # TODO: works but better fix "No X11 DISPLAY variable was set"
           - ncdu # disk usage display
           - fastfetch # system info
-          - pass # password manager TODO: configure and test
+          - pass # password manager
           - tlp
           - tlp-pd
           - upower
