@@ -298,4 +298,6 @@ bindsym $mod+u exec pick-emoji
 # Open temp browser
 bindsym $mod+t exec br-tmp
 
+bindsym $mod+p exec switch-power-profile
+
 exec wl-paste --watch cliphist store # clipboard history

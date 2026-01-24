@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# TODO: refactor
+
+current_profile=$(tlpctl get)
+
+case $current_profile in
+    power-saver)
+        new_profile=performance # AC
+        ;;
+
+    performance)
+        new_profile=balanced # BAT
+        ;;
+
+    balanced)
+        new_profile=power-saver # SAV
+        ;;
+esac
+
+tlpctl $new_profile

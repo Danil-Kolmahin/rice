@@ -111,7 +111,9 @@
           - ncdu # disk usage display
           - fastfetch # system info
           - pass # password manager TODO: configure and test
-          # - upower/powertop/auto-cpufreq/tlp # possible eco power/resource management
+          - tlp
+          - tlp-pd
+          - upower
           - croc # super convinient file node-to-node transfer tool
           - grim # cli screenshots, screenshots gui backend
           - flameshot # screenshots gui
@@ -140,6 +142,8 @@
       with_items:
         - docker
         - libvirtd
+        - tlp
+        - tlp-pd
       become: true
 
     - name: Ensure user is respective groups

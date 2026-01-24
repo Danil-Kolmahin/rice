@@ -56,6 +56,36 @@ cpu-status() {
     echo $((100 * $workDiff / $totalDiff))
 }
 
+power-status() {
+    local percentage
+    local power
+    local time_to_empty
+    local time_to_full
+    percentage=$(upower -b | awk '/percentage/ {print $2}')
+    power=$(upower -b | awk '/energy-rate/ {printf "%.1fW\n", $2}')
+    case $(upower -b | awk '/state/ {print $2}') in
+        discharging)
+            time_to_empty=$(upower -b | grep "time to empty" | awk '{print $4 " " $5}')
+            echo "$percentage(-$power, $time_to_empty)"
+            ;;
+        charging)
+            time_to_full=$(upower -b | grep "time to full" | awk '{print $4 " " $5}')
+            echo "$percentage(+$power, $time_to_full)"
+            ;;
+        full)
+            echo "$percentage"
+            ;;
+    esac
+}
+
+power-profile() {
+    case $(tlpctl get) in
+        performance) echo "AC" ;;
+        balanced) echo "BAT" ;;
+        power-saver) echo "SAV" ;;
+    esac
+}
+
 brightness-level() {
     brightnessctl i -m | awk -F',' '{print $4}' | sed 's/.$//'
 }
@@ -111,7 +141,11 @@ while true; do
     STATUS+="{\"full_text\":\"DISK:$(disk-status)\"},"
     STATUS+="{\"full_text\":\"RAM:$(ram-status)\"},"
     STATUS+="{\"full_text\":\"CPU:$(cpu-status)%\"}," # TODO: add ,73°C
-    STATUS+="{\"full_text\":\"PWR:80%\"},"
+    if [ $(upower -b | awk '/state/ {print $2}') = "discharging" ]; then
+        STATUS+="{\"full_text\":\"$(power-profile):$(power-status)\",\"color\":\"#000000\",\"background\":\"#ff0000\",\"border\":\"#00000000\"},"
+    else
+        STATUS+="{\"full_text\":\"$(power-profile):$(power-status)\"},"
+    fi
     STATUS+="{\"full_text\":\"BRT:$(brightness-level)%\"},"
     STATUS+="{\"full_text\":\"VOL:$(volume-status)\"},"
     # STATUS+="{\"full_text\":\"MIC:$(mic-status)\"},"
