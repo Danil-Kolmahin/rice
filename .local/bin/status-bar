@@ -72,7 +72,7 @@ power-status() {
             time_to_full=$(upower -b | grep "time to full" | awk '{print $4 " " $5}')
             echo "$percentage(+$power, $time_to_full)"
             ;;
-        full)
+        fully-charged)
             echo "$percentage"
             ;;
     esac
