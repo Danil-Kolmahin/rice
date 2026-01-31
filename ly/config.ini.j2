@@ -46,7 +46,7 @@ auth_fails = 3
 # Identifier for battery whose charge to display at top left
 # Primary battery is usually BAT0 or BAT1
 # If set to null, battery status won't be shown
-battery_id = {{ battery_id.stdout | default('null') }}
+battery_id = {{ battery_id.stdout | default('null', true) }}
 
 # Automatic login configuration
 # This feature allows Ly to automatically log in a user without password prompt.
