@@ -130,6 +130,7 @@
           - dnsmasq # qemu/kvm VMs (network, low chance to be optional)
           - virt-install # qemu/kvm VMs
           - virt-viewer # qemu/kvm VMs
+          - ly # display manager (semi-login manager)
         state: present
       become: true
 
@@ -143,6 +144,7 @@
         - libvirtd
         - tlp
         - tlp-pd
+        - ly@tty1
       become: true
 
     - name: Ensure user is respective groups
@@ -150,6 +152,15 @@
         name: "{{ ansible_user }}"
         groups: docker,libvirt
         append: yes
+      become: true
+
+    - name: Copy ly/config.ini # TODO: came out with the way to copy all system files | TODO: look into "file written before package install" potential problem
+      ansible.builtin.copy:
+        src: "ly/config.ini"
+        dest: "/etc/ly/config.ini"
+        owner: "root"
+        group: "root"
+        mode: "644"
       become: true
 
     # relogin !!!
