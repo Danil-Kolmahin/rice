@@ -95,7 +95,35 @@ virsh start mirror
 virt-viewer mirror
 virsh console mirror
 virsh destroy mirror
-virsh undefine mirror --remove-all-storage --nvram 
+virsh undefine mirror --remove-all-storage --nvram
+
+# vm attach shared directory
+## on host (vm needs to be started after this, or restarted):
+mkdir ~/mirror
+virsh attach-device mirror --config --file /dev/stdin <<EOF
+<filesystem type='mount' accessmode='mapped'>
+  <source dir='$HOME/mirror'/>
+  <target dir='mirror'/>
+</filesystem>
+EOF
+
+### remove
+virsh detach-device mirror --config --file /dev/stdin <<EOF
+<filesystem type='mount' accessmode='mapped'>
+  <source dir='$HOME/mirror'/>
+  <target dir='mirror'/>
+</filesystem>
+EOF
+rm -rf ~/mirror
+
+## on vm
+sudo mkdir -p /mnt/mirror
+echo 'mirror /mnt/mirror 9p trans=virtio,version=9p2000.L 0 0' | sudo tee -a /etc/fstab
+sudo mount -a
+### remove
+sudo umount /mnt/mirror
+sudo sed -i '/mirror.*\/mnt\/mirror.*9p/d' /etc/fstab
+rm -rf /mnt/mirror
 
 # check my ip
 curl https://ipinfo.io
