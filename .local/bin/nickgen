@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# TODO: rewrite all
+
+len=${1:-4}
+
+vowels="aeiou"
+consonants="bcdfghjklmnprstvwz"
+
+rand_char() {
+  str=$1
+  n=${#str}
+  head -c 4 /dev/urandom | od -A n -t u1 | tr -d ' ' | cut -c1-3 | awk -v n="$n" '{print $1 % n}'
+}
+
+pick() {
+  str=$1
+  idx=$(rand_char "$str")
+  echo "$str" | cut -c$((idx+1))
+}
+
+syllable() {
+  type=$(($(od -A n -t u1 -N 1 /dev/urandom | tr -d ' ') % 3))
+  case $type in
+    0) printf '%s%s' "$(pick "$consonants")" "$(pick "$vowels")" ;;
+    1) printf '%s%s' "$(pick "$vowels")" "$(pick "$consonants")" ;;
+    2) printf '%s%s%s' "$(pick "$consonants")" "$(pick "$vowels")" "$(pick "$consonants")" ;;
+  esac
+}
+
+make_nick() {
+  target=$1
+  while true; do
+    nick=""
+    while [ ${#nick} -lt "$target" ]; do
+      nick="${nick}$(syllable)"
+    done
+    nick=$(echo "$nick" | cut -c1-"$target")
+    echo "$nick" | grep -q '[aeiou]' || continue
+    echo "$nick" | grep -qE '[aeiou]{3}' && continue
+    echo "$nick" | grep -qE '(ass|sex|cum|fuk|kys|nig|fag)' && continue
+    echo "$nick"
+    return
+  done
+}
+
+i=0
+while [ $i -lt 10 ]; do
+  make_nick "$len"
+  i=$((i+1))
+done
