@@ -138,7 +138,16 @@ while true; do
     out="$new_out"
 
     STATUS+="{\"full_text\":\"PSI:io$(psi-io-status),ram$(psi-ram-status),cpu$(psi-cpu-status)\"},"
-    STATUS+="{\"full_text\":\"DISK:$(disk-status)\"},"
+
+    disk_pct=$(df / | awk 'NR == 2 {gsub(/%/,"",$5); print $5}') # TODO: unify
+    if [ "$disk_pct" -ge 90 ]; then
+        STATUS+="{\"full_text\":\"DISK:$(disk-status)\",\"color\":\"#000000\",\"background\":\"#ff0000\",\"border\":\"#00000000\"},"
+    elif [ "$disk_pct" -ge 75 ]; then
+        STATUS+="{\"full_text\":\"DISK:$(disk-status)\",\"color\":\"#000000\",\"background\":\"#ffff00\",\"border\":\"#00000000\"},"
+    else
+        STATUS+="{\"full_text\":\"DISK:$(disk-status)\"},"
+    fi
+
     STATUS+="{\"full_text\":\"RAM:$(ram-status)\"},"
     STATUS+="{\"full_text\":\"CPU:$(cpu-status)%\"}," # TODO: add ,73°C
     if [ $(upower -b | awk '/state/ {print $2}') = "discharging" ]; then
