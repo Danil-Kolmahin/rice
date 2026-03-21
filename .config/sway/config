@@ -263,6 +263,8 @@ bar {
     }
 }
 
+xwayland force # fixes a lot of "No X11 DISPLAY variable was set"
+
 include /etc/sway/config.d/*
 
 client.focused           #ffffff #ffffff #000000 #ffffff #ffffff
@@ -299,5 +301,7 @@ bindsym $mod+u exec pick-emoji
 bindsym $mod+t exec br-tmp
 
 bindsym $mod+p exec switch-power-profile
+
+bindsym $mod+z exec swaylock
 
 exec wl-paste --watch cliphist store # clipboard history

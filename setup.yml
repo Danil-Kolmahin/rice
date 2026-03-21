@@ -106,7 +106,7 @@
           - lazygit
           - asciinema # terminal session recording
           - pastel # color palets
-          - plantuml # TODO: works but better fix "No X11 DISPLAY variable was set"
+          - plantuml
           - ncdu # disk usage display
           - fastfetch # system info
           - pass # password manager
@@ -131,6 +131,9 @@
           - virt-install # qemu/kvm VMs
           - virt-viewer # qemu/kvm VMs
           - ly # display manager (semi-login manager)
+          - terraform
+          - ollama
+          - ollama-cuda # TODO: change to AMD hopefully
         state: present
       become: true
 
@@ -145,6 +148,7 @@
         - tlp
         - tlp-pd
         - ly@tty1
+        - ollama
       become: true
 
     - name: Ensure user is respective groups
@@ -153,6 +157,16 @@
         groups: docker,libvirt
         append: yes
       become: true
+
+    # # TODO: test and refactor
+    # - name: Configure Ollama environment variables
+    #   ansible.builtin.copy:
+    #     dest: /etc/systemd/system/ollama.service.d/override.conf
+    #     content: |
+    #       [Service]
+    #       Environment="OLLAMA_CONTEXT_LENGTH=64000"
+    #     mode: '0644'
+    #   # notify: restart ollama # TODO: do we need restarts?
 
     - name: Get battery ID
       ansible.builtin.command: bash -c "upower -b | awk '/native-path/ {print $2}'"
@@ -188,6 +202,7 @@
           - io.github.ungoogled_software.ungoogled_chromium
           - me.iepure.devtoolbox
           - io.dbeaver.DBeaverCommunity
+          # - org.qbittorrent.qBittorrent or qbittorrent-nox from pacman (search for alternatives like rtorrent)
 
     - name: Create the `aur_builder` user
       ansible.builtin.user:
@@ -222,6 +237,9 @@
         aur_packages:
           - chromium-widevine # for qutebrowser, allows streaming (DRM content)
           # - vscodium # TODO: change to vim/neovim/emacs
+          - opencode-bin
+          - claude-code
+          # - argos-translate
       ansible.builtin.shell: |
         runuser -u aur_builder -- yay -S --noconfirm --noprogressbar --needed {{ aur_packages | join(' ') }}
       args:
