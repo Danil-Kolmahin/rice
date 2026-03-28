@@ -134,6 +134,9 @@
           - terraform
           - ollama
           - ollama-cuda # TODO: change to AMD hopefully
+          - bluez # bluetooth
+          - bluez-utils # bluez cli
+          - bluetui # bluetooth tui
         state: present
       become: true
 
@@ -149,6 +152,7 @@
         - tlp-pd
         - ly@tty1
         - ollama
+        - bluetooth
       become: true
 
     - name: Ensure user is respective groups

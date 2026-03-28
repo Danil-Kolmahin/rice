@@ -72,6 +72,8 @@ output * resolution 1920x1080
       # TODO: read config from xkb file
       xkb_layout "us,ua"
       xkb_options "grp:alt_shift_toggle"
+      # TODO: delete when there is better keyboard
+      xkb_numlock enabled
   }
 #
 # You can also configure each device individually.
@@ -263,7 +265,8 @@ bar {
     }
 }
 
-xwayland force # fixes a lot of "No X11 DISPLAY variable was set"
+# fixes a lot of "No X11 DISPLAY variable was set"
+xwayland force
 
 include /etc/sway/config.d/*
 
