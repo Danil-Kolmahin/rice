@@ -3,7 +3,7 @@ set -euo pipefail
 
 # TODO: rewrite
 
-PATTERNS=("node_modules" ".venv" "venv" "dist" "build")
+PATTERNS=("node_modules" ".venv" "venv" "dist" "build" ".terraform")
  
 # Build: -name A -o -name B -o ...
 name_expr=()
