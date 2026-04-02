@@ -279,6 +279,8 @@ client.urgent            #ff0000 #000000 #ff0000 #ff0000 #ff0000
 default_border normal 1
 default_floating_border normal 1
 
+hide_edge_borders both
+
 # TODO: $FONT
 font pango:IBM Plex Mono 13
 

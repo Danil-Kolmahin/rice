@@ -237,15 +237,15 @@ c.colors.downloads.stop.fg = C0_BLACK
 ## Background color for hints. Note that you can use a `rgba(...)` value
 ## for transparency.
 ## Type: QssColor
-c.colors.hints.bg = CA_GREEN_BR
+c.colors.hints.bg = C0_BLACK
 
 ## Font color for hints.
 ## Type: QssColor
-c.colors.hints.fg = C0_BLACK
+c.colors.hints.fg = CF_WHITE_BR
 
 ## Font color for the matched part of hints.
 ## Type: QtColor
-c.colors.hints.match.fg = C5_MAGENTA
+c.colors.hints.match.fg = CB_YELLOW_BR
 
 ## Background color of the keyhint widget.
 ## Type: QssColor
@@ -349,11 +349,11 @@ c.colors.statusbar.command.private.fg = C5_MAGENTA
 
 ## Background color of the statusbar in insert mode.
 ## Type: QssColor
-c.colors.statusbar.insert.bg = CD_MAGENTA_BR
+c.colors.statusbar.insert.bg = C2_GREEN
 
 ## Foreground color of the statusbar in insert mode.
 ## Type: QssColor
-c.colors.statusbar.insert.fg = C0_BLACK
+c.colors.statusbar.insert.fg = CF_WHITE_BR
 
 ## Background color of the statusbar.
 ## Type: QssColor
@@ -389,11 +389,11 @@ c.colors.statusbar.url.error.fg = C8_BLACK_BR
 
 ## Default foreground color of the URL in the statusbar.
 ## Type: QssColor
-c.colors.statusbar.url.fg = C5_MAGENTA
+c.colors.statusbar.url.fg = CF_WHITE_BR
 
 ## Foreground color of the URL in the statusbar for hovered links.
 ## Type: QssColor
-c.colors.statusbar.url.hover.fg = C5_MAGENTA
+c.colors.statusbar.url.hover.fg = C2_GREEN
 
 ## Foreground color of the URL in the statusbar on successful load
 ## (http).
@@ -419,19 +419,19 @@ c.colors.tabs.even.bg = C0_BLACK
 
 ## Foreground color of unselected even tabs.
 ## Type: QtColor
-c.colors.tabs.even.fg = C5_MAGENTA
+c.colors.tabs.even.fg = CF_WHITE_BR
 
 ## Color for the tab indicator on errors.
 ## Type: QtColor
-c.colors.tabs.indicator.error = C8_BLACK_BR
+c.colors.tabs.indicator.error = C9_RED_BR
 
 ## Color gradient start for the tab indicator.
 ## Type: QtColor
-c.colors.tabs.indicator.start = CD_MAGENTA_BR
+c.colors.tabs.indicator.start = C3_YELLOW
 
 ## Color gradient end for the tab indicator.
 ## Type: QtColor
-c.colors.tabs.indicator.stop = CC_BLUE_BR
+c.colors.tabs.indicator.stop = C2_GREEN
 
 ## Color gradient interpolation system for the tab indicator.
 ## Type: ColorSystem
@@ -444,59 +444,59 @@ c.colors.tabs.indicator.stop = CC_BLUE_BR
 
 ## Background color of unselected odd tabs.
 ## Type: QtColor
-c.colors.tabs.odd.bg = C1_RED
+c.colors.tabs.odd.bg = C0_BLACK
 
 ## Foreground color of unselected odd tabs.
 ## Type: QtColor
-c.colors.tabs.odd.fg = C5_MAGENTA
+c.colors.tabs.odd.fg = CF_WHITE_BR
 
 ## Background color of pinned unselected even tabs.
 ## Type: QtColor
-c.colors.tabs.pinned.even.bg = CC_BLUE_BR
+c.colors.tabs.pinned.even.bg = C0_BLACK
 
 ## Foreground color of pinned unselected even tabs.
 ## Type: QtColor
-c.colors.tabs.pinned.even.fg = C7_WHITE
+c.colors.tabs.pinned.even.fg = CF_WHITE_BR
 
 ## Background color of pinned unselected odd tabs.
 ## Type: QtColor
-c.colors.tabs.pinned.odd.bg = CB_YELLOW_BR
+c.colors.tabs.pinned.odd.bg = C0_BLACK
 
 ## Foreground color of pinned unselected odd tabs.
 ## Type: QtColor
-c.colors.tabs.pinned.odd.fg = C7_WHITE
+c.colors.tabs.pinned.odd.fg = CF_WHITE_BR
 
 ## Background color of pinned selected even tabs.
 ## Type: QtColor
-c.colors.tabs.pinned.selected.even.bg = C2_GREEN
+c.colors.tabs.pinned.selected.even.bg = CF_WHITE_BR
 
 ## Foreground color of pinned selected even tabs.
 ## Type: QtColor
-c.colors.tabs.pinned.selected.even.fg = C5_MAGENTA
+c.colors.tabs.pinned.selected.even.fg = C0_BLACK
 
 ## Background color of pinned selected odd tabs.
 ## Type: QtColor
-c.colors.tabs.pinned.selected.odd.bg = C2_GREEN
+c.colors.tabs.pinned.selected.odd.bg = CF_WHITE_BR
 
 ## Foreground color of pinned selected odd tabs.
 ## Type: QtColor
-c.colors.tabs.pinned.selected.odd.fg = C5_MAGENTA
+c.colors.tabs.pinned.selected.odd.fg = C0_BLACK
 
 ## Background color of selected even tabs.
 ## Type: QtColor
-c.colors.tabs.selected.even.bg = C2_GREEN
+c.colors.tabs.selected.even.bg = CF_WHITE_BR
 
 ## Foreground color of selected even tabs.
 ## Type: QtColor
-c.colors.tabs.selected.even.fg = C5_MAGENTA
+c.colors.tabs.selected.even.fg = C0_BLACK
 
 ## Background color of selected odd tabs.
 ## Type: QtColor
-c.colors.tabs.selected.odd.bg = C2_GREEN
+c.colors.tabs.selected.odd.bg = CF_WHITE_BR
 
 ## Foreground color of selected odd tabs.
 ## Type: QtColor
-c.colors.tabs.selected.odd.fg = C5_MAGENTA
+c.colors.tabs.selected.odd.fg = C0_BLACK
 
 ## Background color of tooltips. If set to null, the Qt default is used.
 ## Type: QssColor
@@ -509,7 +509,7 @@ c.colors.tabs.selected.odd.fg = C5_MAGENTA
 ## Background color for webpages if unset (or empty to use the theme's
 ## color).
 ## Type: QtColor
-# c.colors.webpage.bg = 'white'
+c.colors.webpage.bg = C0_BLACK
 
 ## Which algorithm to use for modifying how colors are rendered with dark
 ## mode. The `lightness-cielab` value was added with QtWebEngine 5.14 and
@@ -1408,7 +1408,7 @@ c.fonts.default_size = '13pt'
 
 ## CSS border value for hints.
 ## Type: String
-# c.hints.border = '1px solid #E3BE23'
+c.hints.border = f"1px solid {CF_WHITE_BR}"
 
 ## Characters used for hint strings.
 ## Type: UniqueCharString
@@ -1459,7 +1459,7 @@ c.fonts.default_size = '13pt'
 
 ## Rounding radius (in pixels) for the edges of hints.
 ## Type: Int
-# c.hints.radius = 3
+c.hints.radius = 0
 
 ## Scatter hint key chains (like Vimium) or not (like dwb). Ignored for
 ## number hints.
@@ -1951,11 +1951,11 @@ c.fonts.default_size = '13pt'
 
 ## Padding (in pixels) for tab indicators.
 ## Type: Padding
-# c.tabs.indicator.padding = {'top': 2, 'bottom': 2, 'left': 0, 'right': 4}
+c.tabs.indicator.padding = {'top': 0, 'bottom': 0, 'left': 0, 'right': 4}
 
 ## Width (in pixels) of the progress indicator (0 to disable).
 ## Type: Int
-# c.tabs.indicator.width = 3
+c.tabs.indicator.width = 3
 
 ## How to behave when the last tab is closed. If the
 ## `tabs.tabs_are_windows` setting is set, this is ignored and the
@@ -2024,7 +2024,7 @@ c.fonts.default_size = '13pt'
 
 ## Padding (in pixels) around text for tabs.
 ## Type: Padding
-# c.tabs.padding = {'top': 0, 'bottom': 0, 'left': 5, 'right': 5}
+c.tabs.padding = {'top': 0, 'bottom': 0, 'left': 0, 'right': 5}
 
 ## Force pinned tabs to stay at fixed URL.
 ## Type: Bool
