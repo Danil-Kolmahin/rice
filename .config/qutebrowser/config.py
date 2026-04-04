@@ -522,7 +522,7 @@ c.colors.tooltip.fg = CF_WHITE_BR
 ## Background color for webpages if unset (or empty to use the theme's
 ## color).
 ## Type: QtColor
-c.colors.webpage.bg = C0_BLACK
+# c.colors.webpage.bg = C0_BLACK # TODO: return when works on sites like qute://..., https://sqlite.org
 
 ## Which algorithm to use for modifying how colors are rendered with dark
 ## mode. The `lightness-cielab` value was added with QtWebEngine 5.14 and
