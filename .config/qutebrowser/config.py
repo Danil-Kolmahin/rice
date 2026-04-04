@@ -10,6 +10,12 @@
 ##   qute://help/configuring.html
 ##   qute://help/settings.html
 
+import subprocess
+
+xdg_download = subprocess.check_output(
+    ['xdg-user-dir', 'DOWNLOAD'], text=True
+).strip()
+
 # TODO: move out to general config
 C0_BLACK      = "#000000"
 C1_RED        = "#B40000"
@@ -27,6 +33,13 @@ CC_BLUE_BR    = "#164AFF"
 CD_MAGENTA_BR = "#FF00FF"
 CE_CYAN_BR    = "#00FFFF"
 CF_WHITE_BR   = "#FFFFFF"
+
+# TODO: make adapter colors config like:
+# colors = {
+#   DEFAULT_BG = C0_BLACK
+#   DEFAULT_FG = CF_WHITE_BR
+#   ERROR = C1_RED
+# }
 
 ## This is here so configs done via the GUI are still loaded.
 ## Remove it to not load settings done via the GUI.
@@ -103,7 +116,7 @@ c.colors.completion.category.bg = C0_BLACK
 
 ## Bottom border color of the completion widget category headers.
 ## Type: QssColor
-c.colors.completion.category.border.bottom = C0_BLACK
+c.colors.completion.category.border.bottom = CF_WHITE_BR
 
 ## Top border color of the completion widget category headers.
 ## Type: QssColor
@@ -111,7 +124,7 @@ c.colors.completion.category.border.top = C0_BLACK
 
 ## Foreground color of completion widget category headers.
 ## Type: QtColor
-c.colors.completion.category.fg = CA_GREEN_BR
+c.colors.completion.category.fg = CF_WHITE_BR
 
 ## Background color of the completion widget for even rows.
 ## Type: QssColor
@@ -120,35 +133,35 @@ c.colors.completion.even.bg = C0_BLACK
 ## Text color of the completion widget. May be a single color to use for
 ## all columns or a list of three colors, one for each column.
 ## Type: List of QtColor, or QtColor
-c.colors.completion.fg = C5_MAGENTA
+c.colors.completion.fg = CF_WHITE_BR
 
 ## Background color of the selected completion item.
 ## Type: QssColor
-c.colors.completion.item.selected.bg = C2_GREEN
+c.colors.completion.item.selected.bg = C3_YELLOW
 
 ## Bottom border color of the selected completion item.
 ## Type: QssColor
-c.colors.completion.item.selected.border.bottom = C2_GREEN
+c.colors.completion.item.selected.border.bottom = C0_BLACK
 
 ## Top border color of the selected completion item.
 ## Type: QssColor
-c.colors.completion.item.selected.border.top = C2_GREEN
+c.colors.completion.item.selected.border.top = C0_BLACK
 
 ## Foreground color of the selected completion item.
 ## Type: QtColor
-c.colors.completion.item.selected.fg = C5_MAGENTA
+c.colors.completion.item.selected.fg = C0_BLACK
 
 ## Foreground color of the matched text in the selected completion item.
 ## Type: QtColor
-c.colors.completion.item.selected.match.fg = CB_YELLOW_BR
+c.colors.completion.item.selected.match.fg = CF_WHITE_BR
 
 ## Foreground color of the matched text in the completion.
 ## Type: QtColor
-c.colors.completion.match.fg = CB_YELLOW_BR
+c.colors.completion.match.fg = C3_YELLOW
 
 ## Background color of the completion widget for odd rows.
 ## Type: QssColor
-c.colors.completion.odd.bg = C1_RED
+c.colors.completion.odd.bg = C0_BLACK
 
 ## Color of the scrollbar in the completion view.
 ## Type: QssColor
@@ -156,17 +169,17 @@ c.colors.completion.scrollbar.bg = C0_BLACK
 
 ## Color of the scrollbar handle in the completion view.
 ## Type: QssColor
-c.colors.completion.scrollbar.fg = C5_MAGENTA
+c.colors.completion.scrollbar.fg = CF_WHITE_BR
 
 ## Background color of disabled items in the context menu. If set to
 ## null, the Qt default is used.
 ## Type: QssColor
-c.colors.contextmenu.disabled.bg = C1_RED
+c.colors.contextmenu.disabled.bg = C8_BLACK_BR
 
 ## Foreground color of disabled items in the context menu. If set to
 ## null, the Qt default is used.
 ## Type: QssColor
-c.colors.contextmenu.disabled.fg = C4_BLUE
+c.colors.contextmenu.disabled.fg = CF_WHITE_BR
 
 ## Background color of the context menu. If set to null, the Qt default
 ## is used.
@@ -176,17 +189,17 @@ c.colors.contextmenu.menu.bg = C0_BLACK
 ## Foreground color of the context menu. If set to null, the Qt default
 ## is used.
 ## Type: QssColor
-c.colors.contextmenu.menu.fg = C5_MAGENTA
+c.colors.contextmenu.menu.fg = CF_WHITE_BR
 
 ## Background color of the context menu's selected item. If set to null,
 ## the Qt default is used.
 ## Type: QssColor
-c.colors.contextmenu.selected.bg = C2_GREEN
+c.colors.contextmenu.selected.bg = CF_WHITE_BR
 
 ## Foreground color of the context menu's selected item. If set to null,
 ## the Qt default is used.
 ## Type: QssColor
-c.colors.contextmenu.selected.fg = C5_MAGENTA
+c.colors.contextmenu.selected.fg = C0_BLACK
 
 ## Background color for the download bar.
 ## Type: QssColor
@@ -194,15 +207,15 @@ c.colors.downloads.bar.bg = C0_BLACK
 
 ## Background color for downloads with errors.
 ## Type: QtColor
-# c.colors.downloads.error.bg = 'red'
+c.colors.downloads.error.bg = C1_RED
 
 ## Foreground color for downloads with errors.
 ## Type: QtColor
-c.colors.downloads.error.fg = C8_BLACK_BR
+c.colors.downloads.error.fg = C0_BLACK
 
 ## Color gradient start for download backgrounds.
 ## Type: QtColor
-c.colors.downloads.start.bg = CD_MAGENTA_BR
+c.colors.downloads.start.bg = C3_YELLOW
 
 ## Color gradient start for download text.
 ## Type: QtColor
@@ -210,7 +223,7 @@ c.colors.downloads.start.fg = C0_BLACK
 
 ## Color gradient stop for download backgrounds.
 ## Type: QtColor
-c.colors.downloads.stop.bg = CC_BLUE_BR
+c.colors.downloads.stop.bg = C2_GREEN
 
 ## Color gradient end for download text.
 ## Type: QtColor
@@ -253,19 +266,19 @@ c.colors.keyhint.bg = C0_BLACK
 
 ## Text color for the keyhint widget.
 ## Type: QssColor
-c.colors.keyhint.fg = C5_MAGENTA
+c.colors.keyhint.fg = CF_WHITE_BR
 
 ## Highlight color for keys to complete the current keychain.
 ## Type: QssColor
-c.colors.keyhint.suffix.fg = C5_MAGENTA
+c.colors.keyhint.suffix.fg = C6_CYAN
 
 ## Background color of an error message.
 ## Type: QssColor
-c.colors.messages.error.bg = C8_BLACK_BR
+c.colors.messages.error.bg = C9_RED_BR
 
 ## Border color of an error message.
 ## Type: QssColor
-c.colors.messages.error.border = C8_BLACK_BR
+c.colors.messages.error.border = C9_RED_BR
 
 ## Foreground color of an error message.
 ## Type: QssColor
@@ -273,23 +286,23 @@ c.colors.messages.error.fg = C0_BLACK
 
 ## Background color of an info message.
 ## Type: QssColor
-c.colors.messages.info.bg = C0_BLACK
+c.colors.messages.info.bg = C6_CYAN
 
 ## Border color of an info message.
 ## Type: QssColor
-c.colors.messages.info.border = C0_BLACK
+c.colors.messages.info.border = C6_CYAN
 
 ## Foreground color of an info message.
 ## Type: QssColor
-c.colors.messages.info.fg = C5_MAGENTA
+c.colors.messages.info.fg = C0_BLACK
 
 ## Background color of a warning message.
 ## Type: QssColor
-c.colors.messages.warning.bg = CE_CYAN_BR
+c.colors.messages.warning.bg = CB_YELLOW_BR
 
 ## Border color of a warning message.
 ## Type: QssColor
-c.colors.messages.warning.border = CE_CYAN_BR
+c.colors.messages.warning.border = C3_YELLOW
 
 ## Foreground color of a warning message.
 ## Type: QssColor
@@ -301,19 +314,19 @@ c.colors.prompts.bg = C0_BLACK
 
 ## Border used around UI elements in prompts.
 ## Type: String
-c.colors.prompts.border = C0_BLACK
+c.colors.prompts.border = f"1px solid {CF_WHITE_BR}"
 
 ## Foreground color for prompts.
 ## Type: QssColor
-c.colors.prompts.fg = C5_MAGENTA
+c.colors.prompts.fg = CF_WHITE_BR
 
 ## Background color for the selected item in filename prompts.
 ## Type: QssColor
-c.colors.prompts.selected.bg = C2_GREEN
+c.colors.prompts.selected.bg = CF_WHITE_BR
 
 ## Foreground color for the selected item in filename prompts.
 ## Type: QssColor
-c.colors.prompts.selected.fg = C5_MAGENTA
+c.colors.prompts.selected.fg = C0_BLACK
 
 ## Background color of the statusbar in caret mode.
 ## Type: QssColor
@@ -586,7 +599,7 @@ c.colors.webpage.preferred_color_scheme = 'dark' # TODO: set dark theme system w
 ## Number of commands to save in the command history. 0: no history / -1:
 ## unlimited
 ## Type: Int
-# c.completion.cmd_history_max_items = 100
+c.completion.cmd_history_max_items = 999
 
 ## Delay (in milliseconds) before updating completions after typing a
 ## character.
@@ -597,7 +610,7 @@ c.colors.webpage.preferred_color_scheme = 'dark' # TODO: set dark theme system w
 ## this list show up in the completion window under the Filesystem
 ## category when the command line contains `:open` but no argument.
 ## Type: List of String
-# c.completion.favorite_paths = []
+c.completion.favorite_paths = [xdg_download]
 
 ## Height (in pixels or as percentage of the window) of the completion.
 ## Type: PercOrInt
@@ -615,7 +628,7 @@ c.colors.webpage.preferred_color_scheme = 'dark' # TODO: set dark theme system w
 ##   - bookmarks
 ##   - history
 ##   - filesystem
-# c.completion.open_categories = ['searchengines', 'quickmarks', 'bookmarks', 'history', 'filesystem']
+c.completion.open_categories = ['quickmarks', 'bookmarks', 'searchengines', 'filesystem', 'history']
 
 ## Move on to the next part when there's only one possible completion
 ## left.
@@ -649,7 +662,7 @@ c.colors.webpage.preferred_color_scheme = 'dark' # TODO: set dark theme system w
 ## behavior for allowed substitutions, qutebrowser uses both sqlite and
 ## Python to format its timestamps.
 ## Type: String
-# c.completion.timestamp_format = '%Y-%m-%d %H:%M'
+c.completion.timestamp_format = '%F %T'
 
 ## Execute the best-matching command on a partial match.
 ## Type: Bool
@@ -675,7 +688,7 @@ c.colors.webpage.preferred_color_scheme = 'dark' # TODO: set dark theme system w
 ##   - multiple-tabs: Show a confirmation if multiple tabs are opened.
 ##   - downloads: Show a confirmation if downloads are running
 ##   - never: Never show a confirmation.
-# c.confirm_quit = ['never']
+c.confirm_quit = ['downloads']
 
 ## Automatically start playing `<video>` elements.
 ## Type: Bool
@@ -1178,7 +1191,7 @@ config.set('content.autoplay', False, '*.youtube.com')
 ## Directory to save downloads to. If unset, a sensible OS-specific
 ## default is used.
 ## Type: Directory
-# c.downloads.location.directory = None
+c.downloads.location.directory = xdg_download
 
 ## Prompt the user for the download location. If set to false,
 ## `downloads.location.directory` will be used.
@@ -1579,7 +1592,7 @@ c.hints.radius = 0
 
 ## Rounding radius (in pixels) for the edges of the keyhint dialog.
 ## Type: Int
-# c.keyhint.radius = 6
+c.keyhint.radius = 0
 
 ## Level for console (stdout/stderr) logs. Ignored if the `--loglevel` or
 ## `--debug` CLI flags are used.
@@ -1639,7 +1652,7 @@ c.hints.radius = 0
 
 ## Rounding radius (in pixels) for the edges of prompts.
 ## Type: Int
-# c.prompt.radius = 8
+c.prompt.radius = 0
 
 ## Additional arguments to pass to Qt, without leading `--`. With
 ## QtWebEngine, some Chromium arguments (see
