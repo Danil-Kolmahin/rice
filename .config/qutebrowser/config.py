@@ -513,11 +513,11 @@ c.colors.tabs.selected.odd.fg = C0_BLACK
 
 ## Background color of tooltips. If set to null, the Qt default is used.
 ## Type: QssColor
-# c.colors.tooltip.bg = None
+c.colors.tooltip.bg = C0_BLACK
 
 ## Foreground color of tooltips. If set to null, the Qt default is used.
 ## Type: QssColor
-# c.colors.tooltip.fg = None
+c.colors.tooltip.fg = CF_WHITE_BR
 
 ## Background color for webpages if unset (or empty to use the theme's
 ## color).
