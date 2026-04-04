@@ -317,35 +317,35 @@ c.colors.prompts.selected.fg = C5_MAGENTA
 
 ## Background color of the statusbar in caret mode.
 ## Type: QssColor
-c.colors.statusbar.caret.bg = CE_CYAN_BR
+c.colors.statusbar.caret.bg = C6_CYAN
 
 ## Foreground color of the statusbar in caret mode.
 ## Type: QssColor
-c.colors.statusbar.caret.fg = C0_BLACK
+c.colors.statusbar.caret.fg = CF_WHITE_BR
 
 ## Background color of the statusbar in caret mode with a selection.
 ## Type: QssColor
-c.colors.statusbar.caret.selection.bg = CD_MAGENTA_BR
+c.colors.statusbar.caret.selection.bg = C6_CYAN
 
 ## Foreground color of the statusbar in caret mode with a selection.
 ## Type: QssColor
-c.colors.statusbar.caret.selection.fg = C0_BLACK
+c.colors.statusbar.caret.selection.fg = CF_WHITE_BR
 
 ## Background color of the statusbar in command mode.
 ## Type: QssColor
-c.colors.statusbar.command.bg = C0_BLACK
+c.colors.statusbar.command.bg = C4_BLUE
 
 ## Foreground color of the statusbar in command mode.
 ## Type: QssColor
-c.colors.statusbar.command.fg = C5_MAGENTA
+c.colors.statusbar.command.fg = CF_WHITE_BR
 
 ## Background color of the statusbar in private browsing + command mode.
 ## Type: QssColor
-c.colors.statusbar.command.private.bg = C0_BLACK
+c.colors.statusbar.command.private.bg = C1_RED
 
 ## Foreground color of the statusbar in private browsing + command mode.
 ## Type: QssColor
-c.colors.statusbar.command.private.fg = C5_MAGENTA
+c.colors.statusbar.command.private.fg = CF_WHITE_BR
 
 ## Background color of the statusbar in insert mode.
 ## Type: QssColor
@@ -361,15 +361,15 @@ c.colors.statusbar.normal.bg = C0_BLACK
 
 ## Foreground color of the statusbar.
 ## Type: QssColor
-c.colors.statusbar.normal.fg = CB_YELLOW_BR
+c.colors.statusbar.normal.fg = CF_WHITE_BR
 
 ## Background color of the statusbar in passthrough mode.
 ## Type: QssColor
-c.colors.statusbar.passthrough.bg = CC_BLUE_BR
+c.colors.statusbar.passthrough.bg = C5_MAGENTA
 
 ## Foreground color of the statusbar in passthrough mode.
 ## Type: QssColor
-c.colors.statusbar.passthrough.fg = C0_BLACK
+c.colors.statusbar.passthrough.fg = CF_WHITE_BR
 
 ## Background color of the statusbar in private browsing mode.
 ## Type: QssColor
@@ -377,15 +377,15 @@ c.colors.statusbar.private.bg = C1_RED
 
 ## Foreground color of the statusbar in private browsing mode.
 ## Type: QssColor
-c.colors.statusbar.private.fg = C0_BLACK
+c.colors.statusbar.private.fg = CF_WHITE_BR
 
 ## Background color of the progress bar.
 ## Type: QssColor
-c.colors.statusbar.progress.bg = CD_MAGENTA_BR
+c.colors.statusbar.progress.bg = CF_WHITE_BR
 
 ## Foreground color of the URL in the statusbar on error.
 ## Type: QssColor
-c.colors.statusbar.url.error.fg = C8_BLACK_BR
+c.colors.statusbar.url.error.fg = C9_RED_BR
 
 ## Default foreground color of the URL in the statusbar.
 ## Type: QssColor
@@ -393,21 +393,21 @@ c.colors.statusbar.url.fg = CF_WHITE_BR
 
 ## Foreground color of the URL in the statusbar for hovered links.
 ## Type: QssColor
-c.colors.statusbar.url.hover.fg = C2_GREEN
+c.colors.statusbar.url.hover.fg = CE_CYAN_BR
 
 ## Foreground color of the URL in the statusbar on successful load
 ## (http).
 ## Type: QssColor
-c.colors.statusbar.url.success.http.fg = CC_BLUE_BR
+c.colors.statusbar.url.success.http.fg = CB_YELLOW_BR
 
 ## Foreground color of the URL in the statusbar on successful load
 ## (https).
 ## Type: QssColor
-c.colors.statusbar.url.success.https.fg = CB_YELLOW_BR
+c.colors.statusbar.url.success.https.fg = CF_WHITE_BR
 
 ## Foreground color of the URL in the statusbar when there's a warning.
 ## Type: QssColor
-c.colors.statusbar.url.warn.fg = CE_CYAN_BR
+c.colors.statusbar.url.warn.fg = CB_YELLOW_BR
 
 ## Background color of the tab bar.
 ## Type: QssColor
@@ -1907,7 +1907,7 @@ c.hints.radius = 0
 ##   - progress: Progress bar for the current page loading.
 ##   - text:foo: Display the static text after the colon, `foo` in the example.
 ##   - clock: Display current time. The format can be changed by adding a format string via `clock:...`. For supported format strings, see https://docs.python.org/3/library/datetime.html#strftime-and-strptime-format-codes[the Python datetime documentation].
-# c.statusbar.widgets = ['keypress', 'search_match', 'url', 'scroll', 'history', 'tabs', 'progress']
+c.statusbar.widgets = ['keypress', 'search_match', 'url', 'history', 'scroll', 'progress']
 
 ## Open new tabs (middleclick/ctrl+click) in the background.
 ## Type: Bool
