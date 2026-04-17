@@ -243,6 +243,7 @@
           # - vscodium # TODO: change to vim/neovim/emacs
           - opencode-bin
           - claude-code
+          - pi-coding-agent
           # - argos-translate
       ansible.builtin.shell: |
         runuser -u aur_builder -- yay -S --noconfirm --noprogressbar --needed {{ aur_packages | join(' ') }}
