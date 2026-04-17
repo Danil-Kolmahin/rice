@@ -134,12 +134,19 @@
         state: started
       with_items:
         - docker
-        - libvirtd
         - tlp
         - tlp-pd
         - ly@tty1
         - ollama
         - bluetooth
+      become: true
+
+    - name: Enable on-demand systemd services
+      ansible.builtin.systemd:
+        unit: '{{ item }}.service'
+        enabled: yes
+      with_items:
+        - libvirtd
       become: true
 
     - name: Ensure user is respective groups
