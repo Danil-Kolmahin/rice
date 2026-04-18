@@ -1,0 +1,102 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "autoupdate": false,
+  "permission": {
+    "*": "ask"
+  },
+  "compaction": {
+    "auto": false,
+    "prune": false
+  },
+  "share": "manual",
+  "default_agent": "default",
+  "model": "ollama/mistral:7b",
+  "small_model": "none",
+  "disabled_providers": ["opencode"],
+  "agent": {
+    "default": {
+      "color": "#FFFF00",
+      // "steps": 1,
+      "prompt": " ",
+      "permission": {
+        "*": "deny"
+      },  
+      "tools": {
+        "*": false,
+        // "bash": false,
+        // "edit": false,
+        // "write": false,
+        // "read": false,
+        // "grep": false,
+        // "glob": false,
+        // "lsp": false,
+        // "patch": false,
+        // "skill": false,
+        // "todowrite": false,
+        // "todoread": false,
+        // "webfetch": false,
+        // "question": false
+      }
+    },
+    "normal": {
+      "color": "#00FF00",
+      "permission": {
+        "*": "deny",
+        "read": {
+          "*": "allow",
+          "*.env": "deny",
+          "*.env.*": "deny",
+          "*.env.example": "allow"
+        },
+        "edit": "ask",
+        "glob": "allow",
+        "grep": "allow",
+        "bash": "ask",
+        "task": "deny",
+        "skill": "deny",
+        "lsp": "deny",
+        "question": "allow",
+        "webfetch": "deny",
+        "websearch": "deny",
+        "codesearch": "deny",
+        "external_directory": "ask",
+        "doom_loop": "ask"	  
+      },
+      "tools": {
+        "*": false,
+        "bash": true,
+        "edit": true,
+        "write": true,
+        "read": true,
+        "grep": true,
+        "glob": true,
+        "lsp": false,
+        "patch": true,
+        "skill": false,
+        "todowrite": false,
+        "todoread": false,
+        "webfetch": false,
+        "question": true
+      }
+    },
+    "build": { "disable": true },
+    "plan": { "disable": true },
+    "general": { "disable": true },
+    "explore": { "disable": true },
+    "compaction": { "disable": true },
+    "summary": { "disable": true }
+  },
+  "provider": {
+    "ollama": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Ollama (local)",
+      "options": { "baseURL": "http://localhost:11434/v1" },
+      "models": {
+        "mistral:7b": {
+          "name": "mistral:7b",
+          "_launch": true
+        }
+      }
+    }
+  }
+}
