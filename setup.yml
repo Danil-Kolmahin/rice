@@ -67,6 +67,7 @@
           - flatpak
           - base-devel # for yay tool build
           - ffmpeg # for video/audio processing
+          - emacs-nox
           - vlc # media player TODO: search for cli tools
           - pipewire # for audio handling
           - wireplumber # pipewire helper
@@ -75,7 +76,6 @@
           - cliphist # wl-clipboard + clipboard history
           - man-db # main man repo
           - man-pages # provides both the Linux and the POSIX.1 man pages
-          - tldr # upgraded man
           - openssh # ssh/scp/sftp
           - curl
           - hurl # curl automation
@@ -234,7 +234,6 @@
       vars:
         aur_packages:
           - chromium-widevine # for qutebrowser, allows streaming (DRM content)
-          # - vscodium # TODO: change to vim/neovim/emacs
           - opencode-bin
           - claude-code
           - pi-coding-agent
