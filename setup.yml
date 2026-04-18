@@ -29,6 +29,7 @@
     #     name: "{{ hostname }}"
     #   become: true
 
+    # TODO: make faster by using ansible.posix.synchronize (bad, requires rsync) or by parallelizing
     - name: Copy dotfiles
       ansible.builtin.copy:
         src: "{{ item }}"
@@ -127,6 +128,7 @@
         state: present
       become: true
 
+    # TODO: make faster by parallelizing
     - name: Enable and start systemd services
       ansible.builtin.systemd:
         unit: '{{ item }}.service'
@@ -230,6 +232,7 @@
         creates: /usr/bin/yay
       become: true
 
+    # TODO: stop upgrading!
     - name: Install AUR packages manually
       vars:
         aur_packages:
