@@ -16,26 +16,12 @@
   "agent": {
     "default": {
       "color": "#FFFF00",
-      // "steps": 1,
       "prompt": " ",
       "permission": {
         "*": "deny"
       },  
       "tools": {
-        "*": false,
-        // "bash": false,
-        // "edit": false,
-        // "write": false,
-        // "read": false,
-        // "grep": false,
-        // "glob": false,
-        // "lsp": false,
-        // "patch": false,
-        // "skill": false,
-        // "todowrite": false,
-        // "todoread": false,
-        // "webfetch": false,
-        // "question": false
+        "*": false
       }
     },
     "normal": {
