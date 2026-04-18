@@ -22,7 +22,7 @@ set $menu wmenu-run \
          -S ffffff -s 000000 \
          -i \
          -p "run:" \
-         -f "IBM Plex Mono 14.5" # TODO: $FONT (here is is 1.5pt bigger!!!)
+         -f "IBM Plex Mono 13" # TODO: $FONT
 
 set $browser qutebrowser
 
@@ -41,6 +41,8 @@ set $disk_monitor ncdu --color dark /
 #
 #   output HDMI-A-1 resolution 1920x1080 position 1920,0
 output * resolution 1920x1080
+output eDP-1 resolution --custom 1920x1200@60Hz
+# laptop1 (TODO: change) # output eDP-1 resolution 2560x1600@60Hz scale 1.5
 #
 # You can get the names of your outputs by running: swaymsg -t get_outputs
 
@@ -85,6 +87,7 @@ output * resolution 1920x1080
 #
     # Start a terminal
     bindsym $mod+Return exec $term
+    # TODO: bindsym $mod+Shift+Return exec $term; floating enable
 
     # Kill focused window
     bindsym $mod+Shift+q kill
@@ -249,6 +252,10 @@ bar {
     # The default just shows the current date and time.
     status_command status-bar
 
+    height 26
+    # font*2=13*2=26 # TODO: fixes strange vertical padding
+    # font*scale=13*1.5=20 # TODO: fixes strange vertical padding
+
     separator_symbol " "
 
     status_edge_padding 0
@@ -299,7 +306,7 @@ bindsym $mod+c exec cliphist list | wmenu \
          -S ffffff -s 000000 \
          -i \
          -p "copy:" \
-         -f "IBM Plex Mono 14.5" | cliphist decode | wl-copy # TODO: $FONT (here is is 1.5pt bigger!!!)
+         -f "IBM Plex Mono 13" | cliphist decode | wl-copy # TODO: $FONT
 # Show emoji picking menu
 bindsym $mod+u exec pick-emoji
 # Open temp browser
