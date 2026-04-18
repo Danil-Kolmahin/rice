@@ -240,6 +240,8 @@
           - opencode-bin
           - claude-code
           - pi-coding-agent
+          - models-bin
+          - llmfit
           # - argos-translate
       ansible.builtin.shell: |
         runuser -u aur_builder -- yay -S --noconfirm --noprogressbar --needed {{ aur_packages | join(' ') }}
