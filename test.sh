@@ -1,184 +1,96 @@
-```sh
-fdisk -l # check availlable disks
+#!/usr/bin/env bash
+# Usage: ./install.sh <step>
+# Steps in order: partition | install | configure | finish
+set -euo pipefail
 
-fdisk /dev/vda # "/dev/vda" is the chosen disk to be partioned into our FS
+DISK="/dev/vda"
+EFI_PART="${DISK}1"
+ROOT_PART="${DISK}2"
+LUKS_NAME="main"
 
-# --- inside fdisk ---
-g               # partion type GPT (default)
-n               # work on partion 1
-<Enter>         # name (default 1)
-<Enter>         # start point
-+1G             # end point
-t               # change partion type
-1               # "EFI System"
+case "${1:-}" in
 
-n               # work on partion 2
-<Enter>         # name (default 2)
-<Enter>         # start point
-<Enter>         # end point
+partition)
+  echo "==> Cannot automate partitioning — run fdisk manually:"
+  echo ""
+  echo "  fdisk $DISK"
+  echo "    g          # new GPT"
+  echo "    n          # partition 1 (EFI)"
+  echo "    <enter> <enter> +1G"
+  echo "    t  1       # type: EFI System"
+  echo "    n          # partition 2 (root)"
+  echo "    <enter> <enter> <enter>"
+  echo "    w          # write & exit"
+  echo ""
+  echo "Then run: $0 install"
+  ;;
 
-p               # (optional) check partion, should be /dev/vda1, /dev/vda2
-w               # write and exit
-# --- inside fdisk ---
+install)
+  mkfs.fat -F32 "$EFI_PART"
 
-mkfs.fat -F32 /dev/vda1 # format EFI partion
-cryptsetup luksFormat /dev/vda2 # encrypt partition
-cryptsetup open /dev/vda2 main # temporaly open as "main" (reboot will close)
-mkfs.ext4 /dev/mapper/main #format FS partion
+  echo "==> LUKS passphrase (you will be prompted twice):"
+  cryptsetup luksFormat "$ROOT_PART"
+  cryptsetup open "$ROOT_PART" "$LUKS_NAME"
+  mkfs.ext4 /dev/mapper/"$LUKS_NAME"
 
-mount /dev/mapper/main /mnt
-mount --mkdir /dev/vda1 /mnt/boot
+  mount /dev/mapper/"$LUKS_NAME" /mnt
+  mount --mkdir "$EFI_PART" /mnt/boot
 
-pacstrap -K /mnt base linux linux-firmware
+  pacstrap -K /mnt base linux linux-firmware
+  genfstab -U /mnt >> /mnt/etc/fstab
 
-genfstab -U /mnt >> /mnt/etc/fstab # save partion info into system
+  echo "Done. Run: $0 configure"
+  ;;
 
-arch-chroot /mnt
+configure)
+  read -rp  "Username: "           USERNAME
+  read -rsp "Root password: "      ROOT_PASS; echo
+  read -rsp "Password for $USERNAME: " USER_PASS; echo
 
-passwd
+  arch-chroot /mnt bash -s "$USERNAME" "$ROOT_PASS" "$USER_PASS" <<'CHROOT'
+    USERNAME="$1"; ROOT_PASS="$2"; USER_PASS="$3"
 
-## possible to automate
+    echo "root:${ROOT_PASS}" | chpasswd
 
-pacman -S networkmanager sudo git uv
-systemctl enable NetworkManager # add `--now` flag if after install
+    pacman -S --noconfirm networkmanager sudo git uv
+    systemctl enable NetworkManager
 
-useradd -m -G wheel se
-passwd se
+    useradd -m -G wheel "$USERNAME"
+    echo "${USERNAME}:${USER_PASS}" | chpasswd
+    sed -i 's/^# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
 
-EDITOR=nano visudo # or `nano /etc/sudoers`, enable sudo usage
-# uncomment
-%wheel ALL=(ALL:ALL) ALL
-# uncomment
+    sed -i 's/^HOOKS=.*/HOOKS=(base systemd autodetect microcode modconf kms keyboard sd-vconsole sd-encrypt block filesystems fsck)/' /etc/mkinitcpio.conf
+    mkinitcpio -P
+CHROOT
 
-## possible to automate
+  ROOT_UUID=$(blkid -s UUID -o value "$ROOT_PART")
+  arch-chroot /mnt bootctl install
 
-nano /etc/mkinitcpio.conf
-# change/add line inside (sd-encrypt needs to be added)
-HOOKS=(base systemd autodetect microcode modconf kms keyboard sd-vconsole sd-encrypt block filesystems fsck)
-# change/add line inside (sd-encrypt needs to be added)
-
-mkinitcpio -P # update/rewrite config
-
-bootctl install # install systemd-boot
-
-cat > /boot/loader/loader.conf << EOF
-default @saved
+  cat > /mnt/boot/loader/loader.conf <<'EOF'
+default arch
 timeout 3
 console-mode max
 editor no
-auto-reboot yes
-auto-poweroff yes
 EOF
 
-cat > /boot/loader/entries/arch.conf << EOF
-title Arch Linux
-linux /vmlinuz-linux
-initrd /initramfs-linux.img
-options rd.luks.name=$(blkid -s UUID -o value /dev/vda2)=main root=/dev/mapper/main rd.luks.options=password-echo=no
+  cat > /mnt/boot/loader/entries/arch.conf <<EOF
+title   Arch Linux
+linux   /vmlinuz-linux
+initrd  /initramfs-linux.img
+options rd.luks.name=${ROOT_UUID}=${LUKS_NAME} root=/dev/mapper/${LUKS_NAME} rd.luks.options=password-echo=no rw
 EOF
 
-bootctl update # TODO: test if needed
+  echo "Done. Run: $0 finish"
+  ;;
 
-exit
+finish)
+  umount -R /mnt
+  echo "All done. Remove install medium and reboot."
+  ;;
 
-umount -R /mnt
+*)
+  echo "Usage: $0 <step>"
+  echo "Steps in order: partition | install | configure | finish"
+  ;;
 
-reboot
-```
-
-#### real device
-```sh
-nmtui # connect to wifi, `iwctl` if `nmtui` missing 
-
-fdisk -l # check availlable disks
-
-fdisk /dev/nvme0n # "/dev/nvme0n" is the chosen disk to be partioned into our FS
-
-# --- inside fdisk ---
-n               # work on partion
-5               # partion #5
-<Enter>         # start point
-+1G             # end point
-t               # change partion type
-1               # "EFI System"
-
-n               # work on partion
-6               # partion #6
-<Enter>         # start point
-<Enter>         # end point
-
-p               # (optional) check partion, should be /dev/nvme0n5p, /dev/nvme0n6p + 1-4 from win11
-w               # write and exit
-# --- inside fdisk ---
-
-mkfs.fat -F32 /dev/nvme0n5p # format EFI partion
-cryptsetup luksFormat /dev/nvme0n6p # encrypt partition
-cryptsetup open /dev/nvme0n6p main # temporaly open as "main" (reboot will close)
-mkfs.ext4 /dev/mapper/main #format FS partion
-
-mount /dev/mapper/main /mnt
-mount --mkdir /dev/nvme0n5p /mnt/boot
-
-pacstrap -K /mnt base linux linux-firmware
-
-genfstab -U /mnt >> /mnt/etc/fstab # save partion info into system
-
-mount --mkdir /dev/nvme0n1p /mnt/windows-efi # mount win11 efi for copying
-
-arch-chroot /mnt
-
-passwd
-
-## possible to automate
-
-pacman -S networkmanager sudo git uv
-systemctl enable NetworkManager # add `--now` flag if after install
-
-pacman -S nvidia nvidia-utils # TODO: test if both needed, try nuvea
-
-useradd -m -G wheel se
-passwd se
-
-EDITOR=nano visudo # or `nano /etc/sudoers`, enable sudo usage
-# uncomment
-%wheel ALL=(ALL:ALL) ALL
-# uncomment
-
-## possible to automate
-
-nano /etc/mkinitcpio.conf
-# change/add line inside (sd-encrypt needs to be added)
-HOOKS=(base systemd autodetect microcode modconf kms keyboard sd-vconsole sd-encrypt block filesystems fsck)
-# change/add line inside (sd-encrypt needs to be added)
-
-mkinitcpio -P # update/rewrite config
-
-bootctl install # install systemd-boot
-
-cat > /boot/loader/loader.conf << EOF
-default @saved
-timeout 3
-console-mode max
-editor no
-auto-reboot yes
-auto-poweroff yes
-EOF
-
-cat > /boot/loader/entries/arch.conf << EOF
-title Arch Linux
-linux /vmlinuz-linux
-initrd /initramfs-linux.img
-options rd.luks.name=$(blkid -s UUID -o value /dev/uda2)=main root=/dev/mapper/main rd.luks.options=password-echo=no
-EOF
-
-cp -r /mnt/windows-efi/EFI/Microsoft /boot/EFI # copy win11 efi to anable systemd-boot recognition
-# TODO: check if not corrupted by win11 updates, find more sustainable option
-
-bootctl update # TODO: test if needed
-
-exit
-
-umount -R /mnt
-
-reboot
-```
+esac
