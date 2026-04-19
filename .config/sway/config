@@ -283,6 +283,10 @@ client.focused_tab_title #ffffff #000000 #ffffff
 client.unfocused         #ffffff #000000 #ffffff #ffffff #ffffff
 client.urgent            #ff0000 #000000 #ff0000 #ff0000 #ff0000
 
+titlebar_border_thickness 1
+titlebar_padding 6 1
+# <horizontal> = font size / 2 % 1
+
 default_border normal 1
 default_floating_border normal 1
 
