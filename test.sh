@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Usage: ./install.sh <step>
 # Steps in order: partition | install | configure | finish
+# curl https://raw.githubusercontent.com/Danil-Kolmahin/rice/refs/heads/main/test.sh > test.sh
 set -euo pipefail
 
 DISK="/dev/vda"
@@ -60,7 +61,7 @@ configure)
     sed -i 's/^# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
 
     sed -i 's/^HOOKS=.*/HOOKS=(base systemd autodetect microcode modconf kms keyboard sd-vconsole sd-encrypt block filesystems fsck)/' /etc/mkinitcpio.conf
-    mkinitcpio -P
+    mkinitcpio -P || true
 CHROOT
 
   ROOT_UUID=$(blkid -s UUID -o value "$ROOT_PART")
