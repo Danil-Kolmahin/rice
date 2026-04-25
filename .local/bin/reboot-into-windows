@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+systemctl reboot --boot-loader-entry=auto-windows
