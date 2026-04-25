@@ -31,9 +31,34 @@ PROMPT='%F{%(?.green.red)}%? %F{yellow}${PROMPT_TIME}${PROMPT_ELAPSED:+ "%F{blue
 >'
 
 alias l='ls -lah --color=auto'
+alias e='$EDITOR'
 h() {
   history -t'%F %T' -D 1 | less +G
 }
+_read_input() {
+  # TODO: rewrite this and reliant functions to work in all this cases:
+  # en2uk hello 
+  # en2uk "hello world"
+  # echo "hello" | en2uk
+  # en2uk ./path/to/file
+  # en2uk # - starts interactive prompt
+  if [ ! -t 0 ]; then
+    cat
+  elif [ "${#@}" -eq 1 ] && [ -f "$1" ]; then
+    cat "$1"
+  elif [ "${#@}" -gt 0 ]; then
+    echo "$*"
+  else
+    vared -p "text: " -c text
+    echo "$text"
+  fi
+}
+
+spell-uk() { _read_input "$@" | languagetool -l uk-UA - 2>/dev/null }
+spell-en() { _read_input "$@" | languagetool -m uk-UA -l en-US - 2>/dev/null }
+
+en2uk() { ~/.local/share/argos-env/bin/argos-translate -f en -t uk "$(_read_input "$@")" 2>/dev/null }
+uk2en() { ~/.local/share/argos-env/bin/argos-translate -f uk -t en "$(_read_input "$@")" 2>/dev/null }
 alias remem='nano "$HOME/.local/share/remem.md"' # TODO: change for emacs/nvim
 
 # TODO: fix nvm slowness https://github.com/nvm-sh/nvm/issues/2724
