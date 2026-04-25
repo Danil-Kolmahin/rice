@@ -8,6 +8,12 @@ EFI_PART="${DISK}1"
 ROOT_PART="${DISK}2"
 LUKS_NAME="main"
 
+collect_input() {
+  USERNAME=$(whiptail --inputbox "Username:" 8 40 3>&1 1>&2 2>&3)
+  ROOT_PASS=$(whiptail --passwordbox "Root password:" 8 40 3>&1 1>&2 2>&3)
+  USER_PASS=$(whiptail --passwordbox "Password for $USERNAME:" 8 40 3>&1 1>&2 2>&3)
+}
+
 case "${1:-}" in
 
 partition)
@@ -43,9 +49,7 @@ install)
   ;;
 
 configure)
-  read -rp  "Username: "           USERNAME
-  read -rsp "Root password: "      ROOT_PASS; echo
-  read -rsp "Password for $USERNAME: " USER_PASS; echo
+  collect_input
 
   arch-chroot /mnt bash -s "$USERNAME" "$ROOT_PASS" "$USER_PASS" <<'CHROOT'
     USERNAME="$1"; ROOT_PASS="$2"; USER_PASS="$3"
@@ -81,6 +85,9 @@ linux /vmlinuz-linux
 initrd /initramfs-linux.img
 options rd.luks.name=${ROOT_UUID}=${LUKS_NAME} root=/dev/mapper/${LUKS_NAME} rd.luks.options=password-echo=no
 EOF
+
+  git clone https://github.com/Danil-Kolmahin/rice.git /mnt/home/"$USERNAME"/projects/rice
+  arch-chroot /mnt chown -R "$USERNAME:$USERNAME" /home/"$USERNAME"/projects
 
   echo "All done. Remove install medium and reboot."
   ;;
