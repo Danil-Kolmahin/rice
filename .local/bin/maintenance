@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+sudo pacman -Syu
+
+sudo find /etc -name '*.pacnew'
+systemctl --failed
+
+read -rp "Done. Move forward? (Y/n): " proceed_ans
+[[ "${proceed_ans:-Y}" =~ ^[Nn]$ ]] && exit 1
+
+yay -Sua --noconfirm --answerdiff None --answeredit None
+
+flatpak update
+
+sudo freshclam # clamscan -ri ~ # clamscan -ri --exclude-dir='^/sys|^/dev' /
