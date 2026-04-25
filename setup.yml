@@ -34,6 +34,7 @@
       ansible.builtin.copy:
         src: "{{ item }}"
         dest: "/home/{{ ansible_user }}/"
+        mode: preserve
       with_items:
         - .zshrc
         - .zshenv
