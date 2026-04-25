@@ -4,6 +4,7 @@ set -euo pipefail
 # curl -s https://raw.githubusercontent.com/Danil-Kolmahin/rice/main/test.sh | bash
 
 USERNAME=$(whiptail --inputbox "Username:" 8 40 3>&1 1>&2 2>&3)
+# TODO: find a way to not display password length
 ROOT_PASS=$(whiptail --passwordbox "Root password:" 8 40 3>&1 1>&2 2>&3)
 USER_PASS=$(whiptail --passwordbox "Password for $USERNAME:" 8 40 3>&1 1>&2 2>&3)
 DISK=$(whiptail --inputbox "Target disk:" 8 40 "/dev/vda" 3>&1 1>&2 2>&3)
@@ -70,7 +71,7 @@ initrd /initramfs-linux.img
 options rd.luks.name=${ROOT_UUID}=${LUKS_NAME} root=/dev/mapper/${LUKS_NAME} rd.luks.options=password-echo=no
 EOF
 
-git clone https://github.com/Danil-Kolmahin/rice.git /mnt/home/"$USERNAME"/projects/rice
+arch-chroot /mnt git clone https://github.com/Danil-Kolmahin/rice.git /home/"$USERNAME"/projects/rice
 arch-chroot /mnt chown -R "$USERNAME:$USERNAME" /home/"$USERNAME"/projects
 
 umount -R /mnt
