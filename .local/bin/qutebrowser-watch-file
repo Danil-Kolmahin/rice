@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# TODO: rewrite all
+
+FILE_PATH=$(echo "$QUTE_URL" | sed 's|^file://||')
+
+if [ ! -f "$FILE_PATH" ]; then
+    echo "Current page is not a local file: $FILE_PATH"
+    exit 1
+fi
+
+LAST_MOD=$(stat -c %Y "$FILE_PATH")
+
+while true; do
+    CURRENT_MOD=$(stat -c %Y "$FILE_PATH")
+    
+    if [ "$CURRENT_MOD" != "$LAST_MOD" ]; then
+        echo "tab-select file://$FILE_PATH" >> "$QUTE_FIFO"
+        echo "reload" >> "$QUTE_FIFO"
+        LAST_MOD=$CURRENT_MOD
+    fi
+
+    sleep 1
+done
