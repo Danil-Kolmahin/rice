@@ -23,8 +23,8 @@ EOF
 mkfs.fat -F32 "$EFI_PART"
 
 echo "Setting up disk encryption..."
-echo "$LUKS_PASS" | cryptsetup luksFormat "$ROOT_PART" -
-echo "$LUKS_PASS" | cryptsetup open "$ROOT_PART" "$LUKS_NAME" -
+echo "$LUKS_PASS" | cryptsetup luksFormat --batch-mode "$ROOT_PART"
+echo "$LUKS_PASS" | cryptsetup open "$ROOT_PART" "$LUKS_NAME"
 mkfs.ext4 /dev/mapper/"$LUKS_NAME"
 
 mount /dev/mapper/"$LUKS_NAME" /mnt
@@ -75,5 +75,5 @@ arch-chroot /mnt chown -R "$USERNAME:$USERNAME" /home/"$USERNAME"/projects
 
 umount -R /mnt
 
-read -rp "Done. You can safely remove install medium. Reboot now? (Y/n): " reboot-ans
-[[ "${reboot-ans:-Y}" =~ ^[Yy]$ ]] && reboot
+read -rp "Done. You can safely remove install medium. Reboot now? (Y/n): " reboot_ans
+[[ "${reboot_ans:-Y}" =~ ^[Yy]$ ]] && reboot
