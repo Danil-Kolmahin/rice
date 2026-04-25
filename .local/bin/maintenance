@@ -13,4 +13,4 @@ yay -Sua --noconfirm --answerdiff None --answeredit None
 
 flatpak update
 
-sudo freshclam # clamscan -ri ~ # clamscan -ri --exclude-dir='^/sys|^/dev' /
+sudo freshclam
