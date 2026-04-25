@@ -68,7 +68,7 @@ CHROOT
 
   cat > /mnt/boot/loader/loader.conf <<'EOF'
 default @saved
-timeout 3
+timeout 0
 console-mode max
 editor no
 auto-reboot yes
