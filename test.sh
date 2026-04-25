@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
-# Usage: ./install.sh <step>
-# Steps in order: partition | install | configure | finish
-# curl https://raw.githubusercontent.com/Danil-Kolmahin/rice/refs/heads/main/test.sh > test.sh
 set -euo pipefail
+
+# curl -s https://raw.githubusercontent.com/Danil-Kolmahin/rice/main/test.sh | bash
 
 DISK="/dev/vda"
 EFI_PART="${DISK}1"
@@ -68,30 +67,27 @@ CHROOT
   arch-chroot /mnt bootctl install
 
   cat > /mnt/boot/loader/loader.conf <<'EOF'
-default arch
+default @saved
 timeout 3
 console-mode max
 editor no
+auto-reboot yes
+auto-poweroff yes
 EOF
 
   cat > /mnt/boot/loader/entries/arch.conf <<EOF
-title   Arch Linux
-linux   /vmlinuz-linux
-initrd  /initramfs-linux.img
-options rd.luks.name=${ROOT_UUID}=${LUKS_NAME} root=/dev/mapper/${LUKS_NAME} rd.luks.options=password-echo=no rw
+title Arch Linux
+linux /vmlinuz-linux
+initrd /initramfs-linux.img
+options rd.luks.name=${ROOT_UUID}=${LUKS_NAME} root=/dev/mapper/${LUKS_NAME} rd.luks.options=password-echo=no
 EOF
 
-  echo "Done. Run: $0 finish"
-  ;;
-
-finish)
-  umount -R /mnt
   echo "All done. Remove install medium and reboot."
   ;;
 
 *)
   echo "Usage: $0 <step>"
-  echo "Steps in order: partition | install | configure | finish"
+  echo "Steps in order: partition | install | configure"
   ;;
 
 esac
