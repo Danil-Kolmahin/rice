@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-mpv /dev/video0 --untimed --profile=low-latency
+mpv /dev/video0 --untimed --profile=low-latency --title=webcam
