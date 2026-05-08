@@ -127,6 +127,9 @@
           - bluez # bluetooth
           - bluez-utils # bluez cli
           - bluetui # bluetooth tui
+          - tesseract
+          - tesseract-data-eng
+          - tesseract-data-ukr
         state: present
       become: true
 
