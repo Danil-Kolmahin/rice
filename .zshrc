@@ -32,9 +32,12 @@ PROMPT='%F{%(?.green.red)}%? %F{yellow}${PROMPT_TIME}${PROMPT_ELAPSED:+ "%F{blue
 
 alias l='ls -lah --color=auto'
 alias e='$EDITOR'
+alias remem='$EDITOR "$HOME/.local/share/remem.md"'
+
 h() {
   history -t'%F %T' -D 1 | less +G
 }
+
 _read_input() {
   # TODO: rewrite this and reliant functions to work in all this cases:
   # en2uk hello 
@@ -59,7 +62,6 @@ spell-en() { _read_input "$@" | languagetool -m uk-UA -l en-US - 2>/dev/null }
 
 en2uk() { ~/.local/share/argos-env/bin/argos-translate -f en -t uk "$(_read_input "$@")" 2>/dev/null }
 uk2en() { ~/.local/share/argos-env/bin/argos-translate -f uk -t en "$(_read_input "$@")" 2>/dev/null }
-alias remem='nano "$HOME/.local/share/remem.md"' # TODO: change for emacs/nvim
 
 # Fast nvm lazy-load (avoids ~300ms init on every terminal open)
 # See: https://github.com/nvm-sh/nvm/issues/2724
