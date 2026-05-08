@@ -47,6 +47,7 @@
         name:
           # - uv # should be beforehand
           # - git # should be beforehand
+          - pacman-contrib # paccache
           - zsh
           - alacritty
           - sway
