@@ -4,9 +4,9 @@ HISTSIZE=999999999
 SAVEHIST=999999999
 # End of lines configured by zsh-newuser-install
 
-setopt prompt_subst
+setopt PROMPT_SUBST
 setopt EXTENDED_HISTORY
-setopt SHARE_HISTORY
+setopt INC_APPEND_HISTORY_TIME
 
 preexec() {
   print -Pn "\e]0;Terminal - $1\a" # set terminal title to first cmd word
