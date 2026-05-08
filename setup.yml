@@ -105,6 +105,7 @@
           - croc # super convinient file node-to-node transfer tool
           - grim # cli screenshots, screenshots gui backend
           - flameshot # screenshots gui
+          - wf-recorder # screencast
           - gimp # raster image editor
           - inkscape # vector image editor
           - blender # 3D modelling
