@@ -61,46 +61,32 @@ en2uk() { ~/.local/share/argos-env/bin/argos-translate -f en -t uk "$(_read_inpu
 uk2en() { ~/.local/share/argos-env/bin/argos-translate -f uk -t en "$(_read_input "$@")" 2>/dev/null }
 alias remem='nano "$HOME/.local/share/remem.md"' # TODO: change for emacs/nvim
 
-# TODO: fix nvm slowness https://github.com/nvm-sh/nvm/issues/2724
-. /usr/share/nvm/init-nvm.sh # enable nvm
+# Fast nvm lazy-load (avoids ~300ms init on every terminal open)
+# See: https://github.com/nvm-sh/nvm/issues/2724
+_load_nvm() {
+  unfunction nvm node npm npx yarn 2>/dev/null
+  [ -s /usr/share/nvm/init-nvm.sh ] && . /usr/share/nvm/init-nvm.sh
 
-# # enable auto nvm
-# autoload -U add-zsh-hook
-# load-nvmrc() {
-#   local nvmrc_path
-#   nvmrc_path="$(nvm_find_nvmrc)"
+  # Auto-switch version based on .nvmrc (runs once on first trigger)
+  local nvmrc_path
+  nvmrc_path="$(nvm_find_nvmrc)"
 
-#   if [ -n "$nvmrc_path" ]; then
-#     local nvmrc_node_version
-#     nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
+  if [ -n "$nvmrc_path" ]; then
+    local nvmrc_node_version
+    nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
 
-#     if [ "$nvmrc_node_version" = "N/A" ]; then
-#       nvm install
-#     elif [ "$nvmrc_node_version" != "$(nvm version)" ]; then
-#       nvm use
-#     fi
-#   elif [ -n "$(PWD=$OLDPWD nvm_find_nvmrc)" ] && [ "$(nvm version)" != "$(nvm version default)" ]; then
-#     echo "Reverting to nvm default version"
-#     nvm use default
-#   fi
+    if [ "$nvmrc_node_version" = "N/A" ]; then
+      nvm install
+    elif [ "$nvmrc_node_version" != "$(nvm version)" ]; then
+      nvm use
+    fi
+  elif [ "$(nvm version)" != "$(nvm version default)" ]; then
+    nvm use default
+  fi
+}
 
-#   # TODO: possibly faster opens terminal
-#   # if [[ $PWD == $PREV_PWD ]]; then
-#   #   return
-#   # fi
-
-#   # if [[ "$PWD" =~ "$PREV_PWD" && ! -f ".nvmrc" ]]; then
-#   #   return
-#   # fi
-
-#   # PREV_PWD=$PWD
-#   # if [[ -f ".nvmrc" ]]; then
-#   #   nvm use
-#   #   NVM_DIRTY=true
-#   # elif [[ $NVM_DIRTY = true ]]; then
-#   #   nvm use default
-#   #   NVM_DIRTY=false
-#   # fi
-# }
-# add-zsh-hook chpwd load-nvmrc
-# load-nvmrc
+nvm()   { _load_nvm; nvm   "$@"; }
+node()  { _load_nvm; node  "$@"; }
+npm()   { _load_nvm; npm   "$@"; }
+npx()   { _load_nvm; npx   "$@"; }
+yarn()  { _load_nvm; yarn  "$@"; }
