@@ -7,6 +7,37 @@ reboot-needed-status() {
     vercmp $(pacman -Q linux | cut -d " " -f 2) $(uname -r)
 }
 
+mic-active() {
+    if fuser /dev/snd/pcmC*c 2>/dev/null | grep -q .; then
+        echo "MIC"
+    fi
+
+    # # TODO: fix fn+F9 (probably emulation thing)
+    # mute=$(pactl get-source-mute @DEFAULT_SOURCE@ | awk '{print $2}')
+    # if [ "$mute" = "yes" ]; then echo "MUTE"; fi
+    # # STATUS+="{\"full_text\":\"MIC:$(mic-status)\"},"
+}
+
+cam-active() {
+    for dev in /dev/video*; do
+        if fuser "$dev" 2>/dev/null | grep -q .; then
+            echo "CAM"
+            return
+        fi
+    done
+}
+
+rec-active() {
+    if pw-dump 2>/dev/null | jq -e '
+        .[] | select(
+            .info.props["media.class"] == "Video/Source" and
+            (.info.state? == "running")
+        )' > /dev/null 2>&1; then
+        echo "REC"
+    fi
+    pgrep -x "wf-recorder|obs|gpu-screen-recorder|kooha" > /dev/null && echo "REC"
+}
+
 net-status() {
     # TODO: check connection
     interface="$(ip route show default | awk '{print $5}')"
@@ -100,12 +131,6 @@ volume-status() {
     fi
 }
 
-mic-status() {
-    # TODO: fix fn+F9 (probably emulation thing)
-    mute=$(pactl get-source-mute @DEFAULT_SOURCE@ | awk '{print $2}')
-    if [ "$mute" = "yes" ]; then echo "MUTE"; fi
-}
-
 keyboard-layout() {
     # TODO improve to take original lang name, use xkb
     swaymsg -t get_inputs | jq 'map(select(has("xkb_active_layout_name")))[0].xkb_active_layout_name' | sed 's/.*/\L&/' | cut -c2-3
@@ -127,6 +152,10 @@ while true; do
 
     [[ $(reboot-needed-status) -gt 0 ]] && STATUS+="{\"full_text\":\"REBOOT REQUIRED\",\"color\":\"#000000\",\"background\":\"#ff0000\",\"border\":\"#00000000\"},"
     # STATUS+="{\"full_text\":\"BT:on(1)\"},"
+
+    [ -n "$(mic-active)" ] && STATUS+="{\"full_text\":\"MIC\",\"color\":\"#000000\",\"background\":\"#ff0000\",\"border\":\"#00000000\"},"
+    [ -n "$(cam-active)" ] && STATUS+="{\"full_text\":\"CAM\",\"color\":\"#000000\",\"background\":\"#ff0000\",\"border\":\"#00000000\"},"
+    [ -n "$(rec-active)" ] && STATUS+="{\"full_text\":\"REC\",\"color\":\"#000000\",\"background\":\"#ff0000\",\"border\":\"#00000000\"},"
     
     interface="$(ip route show default | awk '{print $5}')"
     new_in="$(awk -v i="$interface" '$1 ~ i":" {print $2}' /proc/net/dev)"
@@ -157,7 +186,6 @@ while true; do
     fi
     STATUS+="{\"full_text\":\"BRT:$(brightness-level)%\"},"
     STATUS+="{\"full_text\":\"VOL:$(volume-status)\"},"
-    # STATUS+="{\"full_text\":\"MIC:$(mic-status)\"},"
     STATUS+="{\"full_text\":\"$(keyboard-layout)\"},"
     STATUS+="{\"full_text\":\"$(datetime-status)\"}"
 
