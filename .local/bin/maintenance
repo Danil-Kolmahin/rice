@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-sudo pacman -Syu
+sudo reflector --country Ukraine,Poland,Germany --age 24 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
+
+sudo pacman --sync --refresh --refresh archlinux-keyring --needed --noconfirm
+sudo pacman --sync --sysupgrade --downloadonly --needed --noconfirm
+sudo pacman --sync --sysupgrade --needed
 
 sudo find /etc -name '*.pacnew'
 systemctl --failed
@@ -9,8 +13,13 @@ systemctl --failed
 read -rp "Done. Move forward? (Y/n): " proceed_ans
 [[ "${proceed_ans:-Y}" =~ ^[Nn]$ ]] && exit 1
 
-yay -Sua --noconfirm --answerdiff None --answeredit None
+yay --sync --aur --sysupgrade --needed # --noconfirm --answerdiff None --answeredit None
 
-flatpak update
+flatpak update --noninteractive --assumeyes
 
 sudo freshclam
+
+read -rp "Done. Move forward? (Y/n): " proceed_ans
+[[ "${proceed_ans:-Y}" =~ ^[Nn]$ ]] && exit 1
+sudo paccache -r
+flatpak uninstall --unused --assumeyes
