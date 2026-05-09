@@ -38,6 +38,7 @@ reflector --country Ukraine,Poland,Germany --age 24 --protocol https --sort rate
 echo "Installing base system..."
 pacstrap -K /mnt base linux linux-firmware
 genfstab -U /mnt >> /mnt/etc/fstab
+cp /etc/pacman.d/mirrorlist /mnt/etc/pacman.d/mirrorlist
 
 echo "Configuring initial system configurations..."
 arch-chroot /mnt bash -s "$USERNAME" "$ROOT_PASS" "$USER_PASS" "$HOSTNAME" <<'CHROOT'
