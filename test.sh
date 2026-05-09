@@ -4,6 +4,7 @@ set -euo pipefail
 # curl -s https://raw.githubusercontent.com/Danil-Kolmahin/rice/main/test.sh | bash
 
 USERNAME=$(whiptail --inputbox "Username:" 8 40 3>&1 1>&2 2>&3)
+HOSTNAME=$(whiptail --inputbox "Hostname:" 8 40 3>&1 1>&2 2>&3)
 # TODO: find a way to not display password length
 ROOT_PASS=$(whiptail --passwordbox "Root password:" 8 40 3>&1 1>&2 2>&3)
 USER_PASS=$(whiptail --passwordbox "Password for $USERNAME:" 8 40 3>&1 1>&2 2>&3)
@@ -39,8 +40,8 @@ pacstrap -K /mnt base linux linux-firmware
 genfstab -U /mnt >> /mnt/etc/fstab
 
 echo "Configuring initial system configurations..."
-arch-chroot /mnt bash -s "$USERNAME" "$ROOT_PASS" "$USER_PASS" <<'CHROOT'
-  USERNAME="$1"; ROOT_PASS="$2"; USER_PASS="$3"
+arch-chroot /mnt bash -s "$USERNAME" "$ROOT_PASS" "$USER_PASS" "$HOSTNAME" <<'CHROOT'
+  USERNAME="$1"; ROOT_PASS="$2"; USER_PASS="$3"; HOSTNAME="$4"
 
   echo "root:${ROOT_PASS}" | chpasswd
 
@@ -50,6 +51,8 @@ arch-chroot /mnt bash -s "$USERNAME" "$ROOT_PASS" "$USER_PASS" <<'CHROOT'
   useradd -m -G wheel "$USERNAME"
   echo "${USERNAME}:${USER_PASS}" | chpasswd
   sed -i 's/^# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
+
+  echo "$HOSTNAME" > /etc/hostname
 
   sed -i 's/^HOOKS=.*/HOOKS=(base systemd autodetect microcode modconf kms keyboard sd-vconsole sd-encrypt block filesystems fsck)/' /etc/mkinitcpio.conf
   mkinitcpio -P || true
