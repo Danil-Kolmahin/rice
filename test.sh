@@ -31,6 +31,9 @@ mkfs.ext4 /dev/mapper/"$LUKS_NAME"
 mount /dev/mapper/"$LUKS_NAME" /mnt
 mount --mkdir "$EFI_PART" /mnt/boot
 
+echo "Selecting fastest mirrors..."
+reflector --country Ukraine,Poland,Germany --age 24 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
+
 echo "Installing base system..."
 pacstrap -K /mnt base linux linux-firmware
 genfstab -U /mnt >> /mnt/etc/fstab
@@ -41,7 +44,7 @@ arch-chroot /mnt bash -s "$USERNAME" "$ROOT_PASS" "$USER_PASS" <<'CHROOT'
 
   echo "root:${ROOT_PASS}" | chpasswd
 
-  pacman -S --noconfirm networkmanager sudo git uv
+  pacman -S --noconfirm networkmanager sudo git uv reflector
   systemctl enable NetworkManager
 
   useradd -m -G wheel "$USERNAME"
