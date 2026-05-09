@@ -24,11 +24,6 @@
         name: Europe/Kyiv
       become: true
 
-    # - name: Set hostname # TODO: move to pre-setup
-    #   ansible.builtin.hostname:
-    #     name: "{{ hostname }}"
-    #   become: true
-
     # TODO: make faster by using ansible.posix.synchronize (bad, requires rsync) or by parallelizing
     - name: Copy dotfiles
       ansible.builtin.copy:
@@ -45,92 +40,90 @@
     - name: Install packages
       ansible.builtin.pacman:
         name:
-          # - uv # should be beforehand
-          # - git # should be beforehand
           - pacman-contrib # paccache
-          - zsh
-          - alacritty
-          - sway
-          - mako # notifycations
-          - swaylock # lock screen for sway
-          - wmenu # app launcher
-          - ttf-ibm-plex # font, TODO: consider other options - ttf-jetbrains-mono, iosevka-nerd-font
-          - noto-fonts-emoji # emojis
-          - mc # file manager # TODO: check ranger
-          - qutebrowser
-          - qt6-base # for qutebrowser TODO: check if actually needed
-          - qt6-webengine # for qutebrowser TODO: check if actually needed
-          - qt6-wayland # for qutebrowser TODO: check if actually needed
-          - xdg-desktop-portal # file access, opening URIs, printing etc | https://github.com/swaywm/sway/wiki/XDG-Desktop-Portal-configuration
-          - xdg-desktop-portal-wlr # wayland xdg-desktop-portal
-          - xdg-desktop-portal-gtk # backup for xdg-desktop-portal-wlr TODO: check for replacing on kde
-          - mesa # for qutebrowser TODO: check if actually needed
-          - xcb-util-cursor # for qutebrowser TODO: check if actually needed
-          - brightnessctl # backlight/screen brightness manager
-          - flatpak
           - base-devel # for yay tool build
-          - ffmpeg # for video/audio processing
-          - emacs-nox
-          - vlc # media player TODO: search for cli tools
-          - pipewire # for audio handling
-          - wireplumber # pipewire helper
-          - pipewire-pulse # pipewire helper - pulseaudio replacement
-          - wl-clipboard # basic copy paste
-          - cliphist # wl-clipboard + clipboard history
+          - zsh
+          - openssh # ssh/scp/sftp
           - man-db # main man repo
           - man-pages # provides both the Linux and the POSIX.1 man pages
-          - openssh # ssh/scp/sftp
+          - bc # calculator
+          - htop
           - curl
           - hurl # curl automation
-          - bc # calculator
-          - nvm
-          - docker
-          - docker-compose
-          - lazydocker
-          - htop
           - tree
           - jq
           - yq
-          - k9s
-          - github-cli
-          - lazygit
-          - asciinema # terminal session recording
-          - pastel # color palets
-          - plantuml
-          - ncdu # disk usage display
-          - fastfetch # system info
-          - pass # password manager
+          - upower
           - tlp
           - tlp-pd
-          - upower
-          - croc # super convinient file node-to-node transfer tool
-          - grim # cli screenshots, screenshots gui backend
-          - flameshot # screenshots gui
-          - wf-recorder # screencast
-          - gimp # raster image editor
-          - inkscape # vector image editor
-          - blender # 3D modelling
-          - libreoffice-fresh # office suite
-          - torbrowser-launcher # the only way to run tor from pacman
-          - libnotify # send desktop notifications (notify-send)
-          - cava # audio visualization tool
-          - speedtest-cli # https://speed.cloudflare.com could be used in browser
-          - xdg-user-dirs # "well known" (.config/user-dirs.dirs) user directories manager
-          - qemu-full # qemu/kvm VMs
-          - libvirt # qemu/kvm VMs (cli)
-          - dnsmasq # qemu/kvm VMs (network, low chance to be optional)
-          - virt-install # qemu/kvm VMs
-          - virt-viewer # qemu/kvm VMs
-          - ly # display manager (semi-login manager)
-          - terraform
-          - ollama
-          - ollama-cuda # TODO: change to AMD hopefully
+          - ffmpeg # for video/audio processing
+          - pass # password manager
+          - ncdu # disk usage display
           - bluez # bluetooth
           - bluez-utils # bluez cli
           - bluetui # bluetooth tui
+          - ttf-ibm-plex # font, TODO: consider other options - ttf-jetbrains-mono, iosevka-nerd-font
+          - noto-fonts-emoji # emojis
+          - ly # display manager (semi-login manager)
+          - sway
+          - swaylock # lock screen for sway
+          - xdg-desktop-portal # file access, opening URIs, printing etc | https://github.com/swaywm/sway/wiki/XDG-Desktop-Portal-configuration
+          - xdg-desktop-portal-wlr # wayland xdg-desktop-portal
+          - xdg-desktop-portal-gtk # backup for xdg-desktop-portal-wlr TODO: check for replacing on kde
+          - xdg-user-dirs # "well known" (.config/user-dirs.dirs) user directories manager
+          - pipewire # for audio handling
+          - wireplumber # pipewire helper
+          - pipewire-pulse # pipewire helper - pulseaudio replacement
+          - brightnessctl # backlight/screen brightness manager
+          - wl-clipboard # basic copy paste
+          - cliphist # wl-clipboard + clipboard history
+          - grim # cli screenshots, screenshots gui backend
+          - flameshot # screenshots gui
+          - wf-recorder # screencast
+          - mako # notifycations
+          - libnotify # send desktop notifications (notify-send)
+          - wmenu # app launcher
+          - alacritty
+          - qutebrowser
+          - xcb-util-cursor # for qutebrowser TODO: check if actually needed
+          - mesa # for qutebrowser TODO: check if actually needed
+          - qt6-base # for qutebrowser TODO: check if actually needed
+          - qt6-webengine # for qutebrowser TODO: check if actually needed
+          - qt6-wayland # for qutebrowser TODO: check if actually needed
+          - emacs-nox
+          - libreoffice-fresh # office suite
+          - flatpak
+          - croc # super convinient file node-to-node transfer tool
           - tesseract
           - tesseract-data-eng
           - tesseract-data-ukr
+          - nvm
+          - docker
+          - docker-compose
+          - pastel # color palets
+          - plantuml
+          - asciinema # terminal session recording
+          - fastfetch # system info
+          - speedtest-cli # https://speed.cloudflare.com could be used in browser
+          - mc # file manager # TODO: check ranger
+          - vlc # media player TODO: search for cli tools
+          - lazydocker
+          - github-cli
+          - lazygit
+          - k9s
+          - gimp # raster image editor
+          - inkscape # vector image editor
+          - blender # 3D modelling
+          - cava # audio visualization tool
+          - torbrowser-launcher # the only way to run tor from pacman
+          - qemu-full # qemu/kvm VMs
+          - libvirt # qemu/kvm VMs (cli)
+          - virt-install # qemu/kvm VMs
+          - virt-viewer # qemu/kvm VMs
+          - dnsmasq # qemu/kvm VMs (network, low chance to be optional)
+          - ollama
+          - ollama-cuda # TODO: change to AMD hopefully
+          - terraform
         state: present
       become: true
 
@@ -141,12 +134,12 @@
         enabled: yes
         state: started
       with_items:
-        - docker
+        - ly@tty1
+        - bluetooth
         - tlp
         - tlp-pd
-        - ly@tty1
+        - docker
         - ollama
-        - bluetooth
       become: true
 
     - name: Enable on-demand systemd services
@@ -206,9 +199,8 @@
       community.general.flatpak:
         name:
           - io.github.ungoogled_software.ungoogled_chromium
-          - me.iepure.devtoolbox
           - io.dbeaver.DBeaverCommunity
-          # - org.qbittorrent.qBittorrent or qbittorrent-nox from pacman (search for alternatives like rtorrent)
+          - me.iepure.devtoolbox
 
     - name: Create the `aur_builder` user
       ansible.builtin.user:
@@ -244,10 +236,10 @@
         aur_packages:
           - chromium-widevine # for qutebrowser, allows streaming (DRM content)
           - opencode-bin
-          - claude-code
-          - pi-coding-agent
           - models-bin
           - llmfit
+          - pi-coding-agent
+          - claude-code
           # - argos-translate
       ansible.builtin.shell: |
         runuser -u aur_builder -- yay -S --noconfirm --noprogressbar --needed {{ aur_packages | join(' ') }}
