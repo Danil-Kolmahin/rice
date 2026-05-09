@@ -167,6 +167,13 @@
     #     mode: '0644'
     #   # notify: restart ollama # TODO: do we need restarts?
 
+    - name: Create XDG user directories
+      ansible.builtin.file:
+        path: "/home/{{ ansible_user }}/{{ item }}"
+        state: directory
+      with_items:
+        - downloads
+
     - name: Get battery ID
       ansible.builtin.command: bash -c "upower -b | awk '/native-path/ {print $2}'"
       register: battery_id
