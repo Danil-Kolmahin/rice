@@ -127,6 +127,15 @@
         state: present
       become: true
 
+    - name: Enable systemd services
+      ansible.builtin.systemd:
+        unit: '{{ item }}.service'
+        enabled: yes
+      with_items:
+        - ly@tty1
+        - libvirtd
+      become: true
+
     # TODO: make faster by parallelizing
     - name: Enable and start systemd services
       ansible.builtin.systemd:
@@ -134,20 +143,11 @@
         enabled: yes
         state: started
       with_items:
-        - ly@tty1
         - bluetooth
         - tlp
         - tlp-pd
         - docker
         - ollama
-      become: true
-
-    - name: Enable on-demand systemd services
-      ansible.builtin.systemd:
-        unit: '{{ item }}.service'
-        enabled: yes
-      with_items:
-        - libvirtd
       become: true
 
     - name: Ensure user is respective groups
