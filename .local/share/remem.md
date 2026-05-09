@@ -75,7 +75,10 @@ virt-install \
   --vcpus 1 \
   --graphics spice \
   --machine q35 \
-  --boot firmware=efi,firmware.feature0.enabled=no,firmware.feature0.name=secure-boot
+  --boot firmware=efi,firmware.feature0.enabled=no,firmware.feature0.name=secure-boot \
+  --noautoconsole
+
+nohup virt-viewer mirror &
 
 # qemu/kvm archlinux VM - BIOS
 virt-install \
@@ -85,7 +88,10 @@ virt-install \
   --disk size=50 \
   --memory 4096 \
   --vcpus 1 \
-  --graphics spice
+  --graphics spice \
+  --noautoconsole
+
+nohup virt-viewer mirror &
 
 # vm management
 virsh list --all
