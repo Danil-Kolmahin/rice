@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-sudo reflector --country Ukraine,Poland,Germany --age 24 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
+[[ -f /etc/pacman.d/mirrorlist ]] && (( $(date +%s) - $(stat -c %Y /etc/pacman.d/mirrorlist) < 1800 )) || sudo reflector --country Ukraine,Poland,Germany --age 24 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
 
 sudo pacman --sync --refresh --refresh archlinux-keyring --needed --noconfirm
 sudo pacman --sync --sysupgrade --downloadonly --needed --noconfirm
