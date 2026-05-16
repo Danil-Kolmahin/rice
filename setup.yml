@@ -111,6 +111,7 @@
           - github-cli
           - lazygit
           - k9s
+          # - obs
           - gimp # raster image editor
           - inkscape # vector image editor
           - blender # 3D modelling
