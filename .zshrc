@@ -63,32 +63,4 @@ spell-en() { _read_input "$@" | languagetool -m uk-UA -l en-US - 2>/dev/null }
 en2uk() { ~/.local/share/argos-env/bin/argos-translate -f en -t uk "$(_read_input "$@")" 2>/dev/null }
 uk2en() { ~/.local/share/argos-env/bin/argos-translate -f uk -t en "$(_read_input "$@")" 2>/dev/null }
 
-# Fast nvm lazy-load (avoids ~300ms init on every terminal open)
-# See: https://github.com/nvm-sh/nvm/issues/2724
-_load_nvm() {
-  unfunction nvm node npm npx yarn 2>/dev/null
-  [ -s /usr/share/nvm/init-nvm.sh ] && . /usr/share/nvm/init-nvm.sh
-
-  # Auto-switch version based on .nvmrc (runs once on first trigger)
-  local nvmrc_path
-  nvmrc_path="$(nvm_find_nvmrc)"
-
-  if [ -n "$nvmrc_path" ]; then
-    local nvmrc_node_version
-    nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
-
-    if [ "$nvmrc_node_version" = "N/A" ]; then
-      nvm install
-    elif [ "$nvmrc_node_version" != "$(nvm version)" ]; then
-      nvm use
-    fi
-  elif [ "$(nvm version)" != "$(nvm version default)" ]; then
-    nvm use default
-  fi
-}
-
-nvm()   { _load_nvm; nvm   "$@"; }
-node()  { _load_nvm; node  "$@"; }
-npm()   { _load_nvm; npm   "$@"; }
-npx()   { _load_nvm; npx   "$@"; }
-yarn()  { _load_nvm; yarn  "$@"; }
+eval "$(fnm env --use-on-cd --version-file-strategy=recursive --resolve-engines --shell zsh)"

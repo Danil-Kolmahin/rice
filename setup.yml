@@ -97,7 +97,7 @@
           - tesseract
           - tesseract-data-eng
           - tesseract-data-ukr
-          - nvm
+          - fnm
           - docker
           - docker-compose
           - pastel # color palets
