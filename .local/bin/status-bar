@@ -38,11 +38,70 @@ rec-active() {
     pgrep -x "wf-recorder|obs|gpu-screen-recorder|kooha" > /dev/null && echo "REC"
 }
 
+vpn-status() {
+    local iface
+    local routes
+    local vpn_re='(tun|tap|wg|wireguard|vpn|ovpn|openvpn|tailscale|nordlynx|zerotier|^zt|ipsec|xfrm|vti|ppp|warp|nebula|ham|anyconnect|cisco|forti|globalprotect|pulse|proton|mullvad|surfshark|expressvpn|ivpn|windscribe)'
+
+    while IFS= read -r iface; do
+        routes=$'\n'
+        routes+="$({ ip -4 route show table all dev "$iface"; ip -6 route show table all dev "$iface"; } 2>/dev/null || true)"
+        routes+=$'\n'
+
+        if [[ $routes == *$'\ndefault '* ]] \
+            || [[ $routes == *$'\n0.0.0.0/1 '* && $routes == *$'\n128.0.0.0/1 '* ]] \
+            || [[ $routes == *$'\n::/1 '* && $routes == *$'\n8000::/1 '* ]]; then
+            STATUS+="{\"full_text\":\"FVPN:$iface\",\"color\":\"#000000\",\"background\":\"#ffff00\",\"border\":\"#00000000\"},"
+        else
+            STATUS+="{\"full_text\":\"SVPN:$iface\",\"color\":\"#000000\",\"background\":\"#ffff00\",\"border\":\"#00000000\"},"
+        fi
+    done < <(ip -o link show up | awk -F': ' -v vpn_re="$vpn_re" '{
+        split($2, name, "@")
+        if (tolower(name[1]) ~ vpn_re) print name[1]
+    }')
+}
+
 net-status() {
     # TODO: check connection
-    interface="$(ip route show default | awk '{print $5}')"
-    in="$(awk -v i="$interface" '$1 ~ i":" {print $2}' /proc/net/dev)"
-    out="$(awk -v i="$interface" '$1 ~ i":" {print $10}' /proc/net/dev)"
+    local links
+    local new_net_rx
+    local new_net_tx
+    local net_rx_delta
+    local net_tx_delta
+    local vpn_re='(tun|tap|wg|wireguard|vpn|ovpn|openvpn|tailscale|nordlynx|zerotier|^zt|ipsec|xfrm|vti|ppp|warp|nebula|ham|anyconnect|cisco|forti|globalprotect|pulse|proton|mullvad|surfshark|expressvpn|ivpn|windscribe)'
+
+    links="$(ip -o link show up | awk -F': ' -v vpn_re="$vpn_re" '$0 ~ /<[^>]*LOWER_UP/ {
+        split($2, name, "@")
+        if (name[1] != "lo" && tolower(name[1]) !~ vpn_re) print name[1]
+    }')"
+
+    read -r new_net_rx new_net_tx < <(awk -v links="$links" '
+        BEGIN {
+            split(links, link, "\n")
+            for (i in link) if (link[i] != "") passthrough[link[i]] = 1
+        }
+        {
+            iface = $1
+            sub(/:$/, "", iface)
+            if (iface in passthrough) {
+                rx += $2
+                tx += $10
+            }
+        }
+        END { printf "%.0f %.0f\n", rx, tx }
+    ' /proc/net/dev)
+
+    if [ -z "${net_rx:-}" ] || [ -z "${net_tx:-}" ]; then
+        net_rx="$new_net_rx"
+        net_tx="$new_net_tx"
+    fi
+
+    net_rx_delta=$((new_net_rx >= net_rx ? new_net_rx - net_rx : 0))
+    net_tx_delta=$((new_net_tx >= net_tx ? new_net_tx - net_tx : 0))
+    net_rx="$new_net_rx"
+    net_tx="$new_net_tx"
+
+    STATUS+="{\"full_text\":\"NET:↓$(numfmt --to=iec --suffix=B "$net_rx_delta"),↑$(numfmt --to=iec --suffix=B "$net_tx_delta")\"},"
 }
 
 psi-io-status() {
@@ -143,10 +202,6 @@ datetime-status() {
 echo '{"version":1}'
 echo '['
 
-interface="$(ip route show default | awk '{print $5}')"
-in="$(awk -v i="$interface" '$1 ~ i":" {print $2}' /proc/net/dev)"
-out="$(awk -v i="$interface" '$1 ~ i":" {print $10}' /proc/net/dev)"
-
 while true; do
     STATUS=""
 
@@ -157,14 +212,8 @@ while true; do
     [ -n "$(cam-active)" ] && STATUS+="{\"full_text\":\"CAM\",\"color\":\"#000000\",\"background\":\"#ff0000\",\"border\":\"#00000000\"},"
     [ -n "$(rec-active)" ] && STATUS+="{\"full_text\":\"REC\",\"color\":\"#000000\",\"background\":\"#ff0000\",\"border\":\"#00000000\"},"
     
-    interface="$(ip route show default | awk '{print $5}')"
-    new_in="$(awk -v i="$interface" '$1 ~ i":" {print $2}' /proc/net/dev)"
-    new_out="$(awk -v i="$interface" '$1 ~ i":" {print $10}' /proc/net/dev)"
-
-    STATUS+="{\"full_text\":\"NET:↓$(echo "$new_in - $in" | bc | numfmt --to=iec)B,↑$(echo "$new_out - $out" | bc | numfmt --to=iec)B\"},"
-
-    in="$new_in"
-    out="$new_out"
+    vpn-status
+    net-status
 
     STATUS+="{\"full_text\":\"PSI:io$(psi-io-status),ram$(psi-ram-status),cpu$(psi-cpu-status)\"},"
 
