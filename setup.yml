@@ -80,6 +80,8 @@
           - grim # cli screenshots, screenshots gui backend
           - flameshot # screenshots gui
           - wf-recorder # screencast
+          - zbar # qr/bar codes reader (cli/webcam)
+          - qrencode
           - mako # notifycations
           - libnotify # send desktop notifications (notify-send)
           - wmenu # app launcher
@@ -125,6 +127,7 @@
           - ollama
           - ollama-cuda # TODO: change to AMD hopefully
           - terraform
+          - prismlauncher
         state: present
       become: true
 

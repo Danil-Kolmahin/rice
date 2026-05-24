@@ -79,19 +79,8 @@ virt-install \
   --noautoconsole
 
 nohup virt-viewer mirror &
-
-# qemu/kvm archlinux VM - BIOS
-virt-install \
-  --name mirror \
-  --osinfo archlinux \
-  --cdrom $HOME/downloads/archlinux-x86_64.iso \
-  --disk size=50 \
-  --memory 4096 \
-  --vcpus 1 \
-  --graphics spice \
-  --noautoconsole
-
-nohup virt-viewer mirror &
+# inside Windows 10
+https://github.com/virtio-win/kvm-guest-drivers-windows
 
 # vm management
 virsh list --all
@@ -100,6 +89,10 @@ virt-viewer mirror
 virsh console mirror
 virsh destroy mirror
 virsh undefine mirror --remove-all-storage --nvram
+
+# eject the media (removes the link to the ISO file (for Windows VM))
+virsh domblklist mirror
+virsh change-media mirror sdb --eject --live --config
 
 # vm attach shared directory
 ## on host (vm needs to be started after this, or restarted):
@@ -160,3 +153,29 @@ systemctl reboot --boot-loader-entry=auto-windows
 openssl rand -hex 16
 openssl rand -hex 12
 base64 /dev/random | head -c 2M > ~/file.txt
+
+# generate QR code
+qrencode --type ansiutf8 --level H "Text message"
+qrencode --type ansiutf8 --level H "https://example.com"
+qrencode --type ansiutf8 --level H "mailto:$(pass me/email | awk '/^email/{print $2}')?subject=Title&body=Text/HTML content."
+qrencode --type ansiutf8 --level H "tel:$(pass me/phone | head -n1)"
+qrencode --type ansiutf8 --level H "smsto:$(pass me/phone | head -n1),Content of SMS message."
+qrencode --type ansiutf8 --level H "geo:51.509865,-0.118092"
+qrencode --type ansiutf8 --level H "WIFI:T:$(pass me/wifi | awk '/^security/{print $2}');S:$(pass me/wifi | awk '/^name5/{print $2}');P:$(pass me/wifi | head -n1);;"
+qrencode --type ansiutf8 --level H "BEGIN:VCARD
+VERSION:2.1
+N:$(pass me | awk 'NR==1{print $1; exit}')
+FN:$(pass me | head -n1)
+TEL;TYPE=voice,cell,pref:$(pass me/phone | head -n1)
+TITLE:$(pass me | awk '/^title/{print $2}')
+ORG:$(pass me | awk '/^organization/{print $2}')
+EMAIL:$(pass me/email | awk '/^email/{print $2}')
+URL:$(pass me | awk '/^url/{print $2}')
+END:VCARD"
+qrencode --type ansiutf8 --level H "BEGIN:VEVENT
+SUMMARY:Title
+DESCRIPTION:Meeting objective, agenda, homework, DoD
+LOCATION:MiroTalk
+DTSTART:20250617T160000
+DTEND:20250617T174500
+END:VEVENT"
