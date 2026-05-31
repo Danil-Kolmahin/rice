@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+# copied from: https://github.com/Synthetica9/sway-floating/blob/master/floating
+# TODO: rewrite all
+# TODO: fix placement and position of window
+
+$@ &
+pid=$!
+
+swaymsg -t subscribe -m '[ "window" ]' \
+  | jq --unbuffered --argjson pid "$pid" '.container | select(.pid == $pid) | .id' \
+  | xargs -I '@' -- swaymsg '[ con_id=@ ] floating enable' &
+
+subscription=$!
+
+echo Going into wait state
+
+# Wait for our process to close
+tail --pid=$pid -f /dev/null
+
+echo Killing subscription
+kill $subscription
+
+# it could also be done like this in sway config
+# bindsym $mod+Shift+Return exec alacritty --class Alacritty_floating
+# for_window [app_id=".*_floating$"] floating enable
