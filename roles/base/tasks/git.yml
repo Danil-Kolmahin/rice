@@ -1,0 +1,5 @@
+    - name: Configure git init.defaultBranch
+      community.general.git_config:
+        name: init.defaultBranch
+        value: main
+        scope: global

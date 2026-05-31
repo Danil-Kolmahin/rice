@@ -37,8 +37,6 @@
         # system maintainability
           - pacman-contrib # paccache
         # base system standards
-          - xdg-user-dirs # "well known" (.config/user-dirs.dirs) user directories manager
-          - zsh
           - upower
           - tlp
           - tlp-pd
@@ -104,24 +102,14 @@
         append: yes
       become: true
 
-    - name: Create XDG user directories
-      ansible.builtin.file:
-        path: "/home/{{ ansible_user }}/{{ item }}"
-        state: directory
-      with_items:
-        - downloads
+    - name: Configure zsh
+      ansible.builtin.import_tasks: zsh.yml
 
-    - name: Set default shell to zsh
-      ansible.builtin.user:
-        name: "{{ ansible_user }}"
-        shell: /usr/bin/zsh
-      become: true
+    - name: Set XDG standard
+      ansible.builtin.import_tasks: xdg.yml
 
-    - name: Configure git init.defaultBranch
-      community.general.git_config:
-        name: init.defaultBranch
-        value: main
-        scope: global
+    - name: Configure git
+      ansible.builtin.import_tasks: git.yml
 
     - name: Install and configure ly display manager (semi-login manager)
       ansible.builtin.import_tasks: ly.yml

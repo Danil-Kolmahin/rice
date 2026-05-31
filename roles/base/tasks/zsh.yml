@@ -1,0 +1,11 @@
+    - name: Install zsh
+      ansible.builtin.pacman:
+        name: zsh
+        state: present
+      become: true
+
+    - name: Set default shell to zsh
+      ansible.builtin.user:
+        name: "{{ ansible_user }}"
+        shell: /usr/bin/zsh
+      become: true

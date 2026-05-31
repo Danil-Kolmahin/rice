@@ -1,0 +1,12 @@
+    - name: Install xdg-user-dirs
+      ansible.builtin.pacman:
+        name: xdg-user-dirs # "well known" (.config/user-dirs.dirs) user directories manager
+        state: present
+      become: true
+
+    - name: Create XDG user directories
+      ansible.builtin.file:
+        path: "/home/{{ ansible_user }}/{{ item }}"
+        state: directory
+      with_items:
+        - downloads
