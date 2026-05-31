@@ -7,6 +7,7 @@
     - name: Get chassis via hostnamectl
       command: hostnamectl --json=short
       register: hostnamectl_out
+      changed_when: false
 
     - name: Parse chassis
       set_fact:
@@ -25,53 +26,25 @@
         - .config
         - .local
 
+    - name: Base configuration
+      ansible.builtin.include_role:
+        name: base
+
     - name: Install packages
       ansible.builtin.pacman:
         name:
-          - pacman-contrib # paccache
-          - base-devel # for yay tool build
-          - zsh
-          - openssh # ssh/scp/sftp
-          - man-db # main man repo
-          - man-pages # provides both the Linux and the POSIX.1 man pages
-          - bc # calculator
-          - htop
-          - curl
-          - hurl # curl automation
-          - tree
-          - jq
-          - yq
-          - upower
-          - tlp
-          - tlp-pd
-          - ffmpeg # for video/audio processing
-          - pass # password manager
-          - ncdu # disk usage display
-          - bluez # bluetooth
-          - bluez-utils # bluez cli
-          - bluetui # bluetooth tui
-          # - openvpn # maybe needed - TODO - test
-          - networkmanager-openvpn # NetworkManager restart needed
           - ttf-ibm-plex # font, TODO: consider other options - ttf-jetbrains-mono, iosevka-nerd-font
           - noto-fonts-emoji # emojis
-          - ly # display manager (semi-login manager)
           - sway
           - swaylock # lock screen for sway
           - xdg-desktop-portal # file access, opening URIs, printing etc | https://github.com/swaywm/sway/wiki/XDG-Desktop-Portal-configuration
           - xdg-desktop-portal-wlr # wayland xdg-desktop-portal
           - xdg-desktop-portal-gtk # backup for xdg-desktop-portal-wlr TODO: check for replacing on kde
-          - xdg-user-dirs # "well known" (.config/user-dirs.dirs) user directories manager
-          - pipewire # for audio handling
-          - wireplumber # pipewire helper
-          - pipewire-pulse # pipewire helper - pulseaudio replacement
-          - brightnessctl # backlight/screen brightness manager
           - wl-clipboard # basic copy paste
           - cliphist # wl-clipboard + clipboard history
           - grim # cli screenshots, screenshots gui backend
           - flameshot # screenshots gui
           - wf-recorder # screencast
-          - zbar # qr/bar codes reader (cli/webcam)
-          - qrencode
           - mako # notifycations
           - libnotify # send desktop notifications (notify-send)
           - wmenu # app launcher
@@ -82,22 +55,11 @@
           - qt6-base # for qutebrowser TODO: check if actually needed
           - qt6-webengine # for qutebrowser TODO: check if actually needed
           - qt6-wayland # for qutebrowser TODO: check if actually needed
-          - emacs-nox
           - libreoffice-fresh # office suite
           - flatpak
-          - croc # super convinient file node-to-node transfer tool
           - tesseract
           - tesseract-data-eng
           - tesseract-data-ukr
-          - fnm
-          - docker
-          - docker-compose
-          - pastel # color palets
-          - plantuml
-          - asciinema # terminal session recording
-          - fastfetch # system info
-          - speedtest-cli # https://speed.cloudflare.com could be used in browser
-          - mc # file manager # TODO: check ranger
           - vlc # media player TODO: search for cli tools
           - lazydocker
           - github-cli
@@ -126,7 +88,6 @@
         unit: '{{ item }}.service'
         enabled: yes
       with_items:
-        - ly@tty1
         - libvirtd
       become: true
 
@@ -137,17 +98,13 @@
         enabled: yes
         state: started
       with_items:
-        - bluetooth
-        - tlp
-        - tlp-pd
-        - docker
         - ollama
       become: true
 
     - name: Ensure user is respective groups
       ansible.builtin.user:
         name: "{{ ansible_user }}"
-        groups: docker,libvirt
+        groups: libvirt
         append: yes
       become: true
 
@@ -161,75 +118,12 @@
     #     mode: '0644'
     #   # notify: restart ollama # TODO: do we need restarts?
 
-    - name: Create XDG user directories
-      ansible.builtin.file:
-        path: "/home/{{ ansible_user }}/{{ item }}"
-        state: directory
-      with_items:
-        - downloads
-
-    - name: Get battery ID
-      ansible.builtin.command: bash -c "upower -b | awk '/native-path/ {print $2}'"
-      register: battery_id
-      changed_when: false
-
-    - name: Copy ly/config.ini # TODO: came out with the way to copy all system files | TODO: look into "file written before package install" potential problem
-      ansible.builtin.template:
-        src: ly/config.ini.j2
-        dest: /etc/ly/config.ini
-        owner: root
-        group: root
-        mode: "644"
-      become: true
-
-    # relogin !!!
-
-    - name: Set default shell to zsh
-      ansible.builtin.user:
-        name: "{{ ansible_user }}"
-        shell: /usr/bin/zsh
-      become: true
-
-    - name: Configure git init.defaultBranch
-      community.general.git_config:
-        name: init.defaultBranch
-        value: main
-        scope: global
-
     - name: Install flatpak packages
       community.general.flatpak:
         name:
           - io.github.ungoogled_software.ungoogled_chromium
           - io.dbeaver.DBeaverCommunity
           - me.iepure.devtoolbox
-
-    - name: Create the `aur_builder` user
-      ansible.builtin.user:
-        name: aur_builder
-        create_home: yes
-        group: wheel # "groups: wheel,docker" maybe needed
-      become: yes
-
-    - name: Allow the `aur_builder` user to run `sudo pacman` without a password
-      ansible.builtin.lineinfile:
-        path: /etc/sudoers.d/11-install-aur_builder
-        line: "aur_builder ALL=(ALL) NOPASSWD: /usr/bin/pacman"
-        create: yes
-        mode: 0644
-        validate: "visudo -cf %s"
-      become: yes
-
-    - name: Install yay from AUR manually
-      ansible.builtin.shell: |
-        runuser -u aur_builder -- bash -c '
-        git clone https://aur.archlinux.org/yay.git /home/aur_builder/yay || echo "already cloned"
-        cd /home/aur_builder/yay
-        makepkg -si --noconfirm
-        '
-      args:
-        executable: /bin/bash
-        creates: /usr/bin/yay
-      become: true
 
     # TODO: stop upgrading!
     - name: Install AUR packages manually
@@ -276,34 +170,6 @@
         WAYLAND_DISPLAY={{ lookup('env', 'WAYLAND_DISPLAY') }}
         XDG_CURRENT_DESKTOP={{ lookup('env', 'XDG_CURRENT_DESKTOP') | default('sway:wlroots') }}
       when: "'WAYLAND_DISPLAY' not in systemctl_user_env.stdout"
-
-    - name: Create swapfile
-      ansible.builtin.command:
-        cmd: mkswap -U clear --size 16G --file /swapfile
-        creates: /swapfile
-      become: true
-
-    - name: Enable swapfile
-      ansible.builtin.command: swapon /swapfile
-      register: swapon_result
-      changed_when: swapon_result.rc == 0
-      failed_when: false
-      become: true
-
-    - name: Add swapfile to /etc/fstab
-      ansible.builtin.lineinfile:
-        path: /etc/fstab
-        line: "/swapfile none swap defaults 0 0"
-        state: present
-      become: true
-
-    - name: Configure swappiness
-      ansible.posix.sysctl:
-        sysctl_file: /etc/sysctl.d/99-swappiness.conf
-        name: vm.swappiness
-        value: '1'
-        state: present
-      become: true
 
     - name: VivoBook specific fixes/features
       ansible.builtin.include_role:
