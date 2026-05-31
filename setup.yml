@@ -4,25 +4,13 @@
     - name: Set ansible_user variable # TODO: fix https://github.com/ansible/ansible/issues/23530
       set_fact: ansible_user="{{ lookup('pipe', 'whoami') }}"
 
-    - name: Enable sudo for wheel group
-      ansible.builtin.lineinfile:
-        path: /etc/sudoers
-        regexp: '^# %wheel ALL=\(ALL:ALL\) ALL'
-        line: "%wheel ALL=(ALL:ALL) ALL"
-        state: present
-        validate: "visudo -cf %s"
-      become: true
+    - name: Get chassis via hostnamectl
+      command: hostnamectl --json=short
+      register: hostnamectl_out
 
-    - name: Restricting root login
-      ansible.builtin.user:
-        name: root
-        password: "!"
-      become: true
-
-    - name: Set timezone
-      community.general.timezone:
-        name: Europe/Kyiv
-      become: true
+    - name: Parse chassis
+      set_fact:
+        chassis: "{{ (hostnamectl_out.stdout | from_json).Chassis }}"
 
     # TODO: make faster by using ansible.posix.synchronize (bad, requires rsync) or by parallelizing
     - name: Copy dotfiles
