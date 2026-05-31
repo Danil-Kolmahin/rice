@@ -1,0 +1,34 @@
+    - name: Configure SOF DSP driver
+      ansible.builtin.copy:
+        dest: /etc/modprobe.d/alsa-base.conf
+        content: "options snd-intel-dspcfg dsp_driver=3\n"
+        owner: root
+        group: root
+        mode: "644"
+      become: true
+
+    - name: Install SOF and Intel firmware and  ALSA and ALSA utils
+      ansible.builtin.pacman:
+        name:
+          - sof-firmware
+          # - linux-firmware-intel
+          # - pipewire-alsa
+          # - alsa-utils
+        state: present
+      become: true
+
+    # TODO: test wether needed and delete with handlers
+    # - name: Enable and start PipeWire user services
+    #   ansible.builtin.systemd:
+    #     unit: '{{ item }}'
+    #     enabled: yes
+    #     state: started
+    #     scope: user
+    #   with_items:
+    #     - pipewire.service
+    #     - wireplumber.service
+    #     - pipewire-pulse.service
+    #   notify:
+    #     - Restart PipeWire user services
+    #     - Run alsamixer
+    #   become: true

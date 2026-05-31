@@ -1,0 +1,14 @@
+    - name: Restart PipeWire user services
+      ansible.builtin.systemd:
+        unit: '{{ item }}'
+        state: restarted
+        scope: user
+      with_items:
+        - pipewire.service
+        - wireplumber.service
+        - pipewire-pulse.service
+      become: true
+
+    - name: Run alsamixer
+      ansible.builtin.command: alsamixer
+      become: true
