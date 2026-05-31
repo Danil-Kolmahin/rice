@@ -1,0 +1,33 @@
+    - name: Install base-devel
+      ansible.builtin.pacman:
+        name: base-devel
+        state: present
+      become: true
+    
+    - name: Create the `aur_builder` user
+      ansible.builtin.user:
+        name: aur_builder
+        create_home: yes
+        group: wheel # "groups: wheel,docker" maybe needed
+      become: true
+
+    - name: Allow the `aur_builder` user to run `sudo pacman` without a password
+      ansible.builtin.lineinfile:
+        path: /etc/sudoers.d/11-install-aur_builder
+        line: "aur_builder ALL=(ALL) NOPASSWD: /usr/bin/pacman"
+        create: yes
+        mode: 0644
+        validate: "visudo -cf %s"
+      become: true
+
+    - name: Install yay from AUR manually
+      ansible.builtin.shell: |
+        runuser -u aur_builder -- bash -c '
+        git clone https://aur.archlinux.org/yay.git /home/aur_builder/yay || echo "already cloned"
+        cd /home/aur_builder/yay
+        makepkg -si --noconfirm
+        '
+      args:
+        executable: /bin/bash
+        creates: /usr/bin/yay
+      become: true

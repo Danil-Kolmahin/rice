@@ -27,7 +27,7 @@
         - .local
 
     - name: Base configuration
-      ansible.builtin.include_role:
+      ansible.builtin.import_role:
         name: base
 
     - name: Install packages
@@ -172,6 +172,6 @@
       when: "'WAYLAND_DISPLAY' not in systemctl_user_env.stdout"
 
     - name: VivoBook specific fixes/features
-      ansible.builtin.include_role:
+      ansible.builtin.import_role:
         name: vivobook-laptop
       when: "'vivobook1' in ansible_product_name | lower"

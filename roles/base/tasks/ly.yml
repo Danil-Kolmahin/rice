@@ -1,0 +1,25 @@
+    - name: Install ly display manager (semi-login manager)
+      ansible.builtin.pacman:
+        name: ly
+        state: present
+      become: true
+    
+    - name: Enable ly systemd services
+      ansible.builtin.systemd:
+        unit: ly@tty1
+        enabled: yes
+      become: true
+
+    - name: Get battery ID
+      ansible.builtin.command: bash -c "upower -b | awk '/native-path/ {print $2}'"
+      register: battery_id
+      changed_when: false
+
+    - name: Copy ly/config.ini # TODO: came out with the way to copy all system files | TODO: look into "file written before package install" potential problem
+      ansible.builtin.template:
+        src: ly/config.ini.j2
+        dest: /etc/ly/config.ini
+        owner: root
+        group: root
+        mode: "644"
+      become: true
