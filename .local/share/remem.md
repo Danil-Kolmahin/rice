@@ -179,3 +179,11 @@ LOCATION:MiroTalk
 DTSTART:20250617T160000
 DTEND:20250617T174500
 END:VEVENT"
+
+# OpenVPN
+sudo curl -s -m 600 -o "/etc/openvpn/client/$VPN_CONNECTION_NAME.ovpn" "$VPN_CONFIG_URL"
+sudo nmcli connection import type openvpn file "/etc/openvpn/client/$VPN_CONNECTION_NAME.ovpn"
+nmcli connection modify "$VPN_CONNECTION_NAME" +vpn.data "username=$VPN_USERNAME"
+nmcli connection modify "$VPN_CONNECTION_NAME" +vpn.data "password-flags=0"
+nmcli connection modify "$VPN_CONNECTION_NAME" +vpn.secrets "password=$VPN_PASSWORD"
+sudo nmcli connection reload

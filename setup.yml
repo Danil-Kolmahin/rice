@@ -62,6 +62,8 @@
           - bluez # bluetooth
           - bluez-utils # bluez cli
           - bluetui # bluetooth tui
+          # - openvpn # maybe needed - TODO - test
+          - networkmanager-openvpn # NetworkManager restart needed
           - ttf-ibm-plex # font, TODO: consider other options - ttf-jetbrains-mono, iosevka-nerd-font
           - noto-fonts-emoji # emojis
           - ly # display manager (semi-login manager)
