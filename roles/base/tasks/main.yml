@@ -27,7 +27,6 @@
       with_items:
         - .zshrc
         - .zshenv
-        - .zprofile
         - .config
         - .local
 

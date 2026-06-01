@@ -20,9 +20,6 @@
         dest: "/home/{{ ansible_user }}/"
         mode: preserve
       with_items:
-        - .zshrc
-        - .zshenv
-        - .zprofile
         - .config
         - .local
 
@@ -174,4 +171,4 @@
     - name: VivoBook specific fixes/features
       ansible.builtin.import_role:
         name: vivobook-laptop
-      when: "'vivobook1' in ansible_product_name | lower"
+      when: "'vivobook' in ansible_product_name | lower"
