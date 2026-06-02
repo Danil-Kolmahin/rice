@@ -172,3 +172,7 @@
       ansible.builtin.import_role:
         name: vivobook-laptop
       when: "'vivobook' in ansible_product_name | lower"
+
+    - name: Apply local non-public configuration
+      ansible.builtin.import_role:
+        name: ../private-rice/roles/private
