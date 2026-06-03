@@ -27,12 +27,6 @@
           - libnotify # send desktop notifications (notify-send)
           - wmenu # app launcher
           - alacritty
-          - qutebrowser
-          - xcb-util-cursor # for qutebrowser TODO: check if actually needed
-          - mesa # for qutebrowser TODO: check if actually needed
-          - qt6-base # for qutebrowser TODO: check if actually needed
-          - qt6-webengine # for qutebrowser TODO: check if actually needed
-          - qt6-wayland # for qutebrowser TODO: check if actually needed
           - libreoffice-fresh # office suite
           - flatpak
           - tesseract
@@ -55,6 +49,9 @@
           - prismlauncher
         state: present
       become: true
+
+    - name: Configure GUI browser
+      ansible.builtin.import_tasks: browser.yml
 
     # TODO: make faster by parallelizing
     - name: Enable and start systemd services
@@ -79,37 +76,8 @@
     - name: Install flatpak packages
       community.general.flatpak:
         name:
-          - io.github.ungoogled_software.ungoogled_chromium
           - io.dbeaver.DBeaverCommunity
           - me.iepure.devtoolbox
-
-    # TODO: stop upgrading!
-    - name: Install AUR packages manually
-      vars:
-        aur_packages:
-          - chromium-widevine # for qutebrowser, allows streaming (DRM content)
-      ansible.builtin.shell: |
-        runuser -u aur_builder -- yay -S --noconfirm --noprogressbar --needed {{ aur_packages | join(' ') }}
-      args:
-        executable: /bin/bash
-      register: aur_install_result
-      changed_when: "'Downloading' in aur_install_result.stdout"
-      become: true
-
-    - name: Check if qutebrowser is already the default browser
-      ansible.builtin.shell: xdg-mime query default x-scheme-handler/http
-      register: current_default_browser
-      changed_when: false
-
-    - name: Set qutebrowser as default web browser
-      ansible.builtin.shell: xdg-settings set default-web-browser org.qutebrowser.qutebrowser.desktop
-      when: "'org.qutebrowser.qutebrowser.desktop' not in current_default_browser.stdout"
-      changed_when: true
-
-    - name: Set qutebrowser as default for http and https
-      ansible.builtin.shell: xdg-mime default org.qutebrowser.qutebrowser.desktop x-scheme-handler/http x-scheme-handler/https
-      when: "'org.qutebrowser.qutebrowser.desktop' not in current_default_browser.stdout"
-      changed_when: true
 
     - name: Check if WAYLAND_DISPLAY is in systemd user env
       ansible.builtin.command: systemctl --user show-environment
