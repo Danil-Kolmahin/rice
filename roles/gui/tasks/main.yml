@@ -49,24 +49,11 @@
           - blender # 3D modelling
           - cava # audio visualization tool
           - torbrowser-launcher # the only way to run tor from pacman
-          - qemu-full # qemu/kvm VMs
-          - libvirt # qemu/kvm VMs (cli)
-          - virt-install # qemu/kvm VMs
-          - virt-viewer # qemu/kvm VMs
-          - dnsmasq # qemu/kvm VMs (network, low chance to be optional)
           - ollama
           - ollama-cuda # TODO: change to AMD hopefully
           - terraform
           - prismlauncher
         state: present
-      become: true
-
-    - name: Enable systemd services
-      ansible.builtin.systemd:
-        unit: '{{ item }}.service'
-        enabled: yes
-      with_items:
-        - libvirtd
       become: true
 
     # TODO: make faster by parallelizing
@@ -77,13 +64,6 @@
         state: started
       with_items:
         - ollama
-      become: true
-
-    - name: Ensure user is respective groups
-      ansible.builtin.user:
-        name: "{{ ansible_user }}"
-        groups: libvirt
-        append: yes
       become: true
 
     # # TODO: test and refactor
@@ -142,3 +122,6 @@
         WAYLAND_DISPLAY={{ lookup('env', 'WAYLAND_DISPLAY') }}
         XDG_CURRENT_DESKTOP={{ lookup('env', 'XDG_CURRENT_DESKTOP') | default('sway:wlroots') }}
       when: "'WAYLAND_DISPLAY' not in systemctl_user_env.stdout"
+
+    - name: Add VM emulator
+      ansible.builtin.import_tasks: vm.yml

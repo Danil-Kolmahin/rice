@@ -1,0 +1,25 @@
+    - name: Install packages
+      ansible.builtin.pacman:
+        name:
+          - qemu-full # qemu/kvm VMs
+          - libvirt # qemu/kvm VMs (cli)
+          - virt-install # qemu/kvm VMs
+          - virt-viewer # qemu/kvm VMs
+          - dnsmasq # qemu/kvm VMs (network, low chance to be optional)
+        state: present
+      become: true
+
+    - name: Enable systemd services
+      ansible.builtin.systemd:
+        unit: '{{ item }}.service'
+        enabled: yes
+      with_items:
+        - libvirtd
+      become: true
+
+    - name: Ensure user is respective groups
+      ansible.builtin.user:
+        name: "{{ ansible_user }}"
+        groups: libvirt
+        append: yes
+      become: true
