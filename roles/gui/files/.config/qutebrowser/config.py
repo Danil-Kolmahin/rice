@@ -10,7 +10,10 @@
 ##   qute://help/configuring.html
 ##   qute://help/settings.html
 
+import os
 import subprocess
+
+HOME = os.path.expanduser('~')
 
 xdg_download = subprocess.check_output(
     ['xdg-user-dir', 'DOWNLOAD'], text=True
@@ -2305,7 +2308,7 @@ c.window.title_format = 'Browser{title_sep}{perc}{current_title}'
 # config.bind('J', 'tab-next')
 # config.bind('K', 'tab-prev')
 # config.bind('L', 'forward')
-config.bind('M', 'open -t -- file:///home/se/projects/web-marks/index.html')
+config.bind('M', f'open -t -- file://{HOME}/projects/web-marks/index.html')
 # config.bind('N', 'search-prev')
 # config.bind('O', 'cmd-set-text -s :open -t')
 # config.bind('PP', 'open -t -- {primary}')
@@ -2354,7 +2357,7 @@ config.bind('M', 'open -t -- file:///home/se/projects/web-marks/index.html')
 # config.bind('j', 'scroll down')
 # config.bind('k', 'scroll up')
 # config.bind('l', 'scroll right')
-config.bind('m', 'open -- file:///home/se/projects/web-marks/index.html')
+config.bind('m', f'open -- file://{HOME}/projects/web-marks/index.html')
 # config.bind('n', 'search-next')
 # config.bind('o', 'cmd-set-text -s :open')
 # config.bind('pP', 'open -- {primary}')
