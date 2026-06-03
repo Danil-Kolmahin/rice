@@ -116,3 +116,20 @@
 
     - name: Configure swap
       ansible.builtin.import_tasks: swap.yml
+
+    # TODO: stop upgrading!
+    - name: Install AUR packages manually
+      vars:
+        aur_packages:
+          - opencode-bin
+          - models-bin
+          - llmfit
+          - pi-coding-agent
+          # - argos-translate
+      ansible.builtin.shell: |
+        runuser -u aur_builder -- yay -S --noconfirm --noprogressbar --needed {{ aur_packages | join(' ') }}
+      args:
+        executable: /bin/bash
+      register: aur_install_result
+      changed_when: "'Downloading' in aur_install_result.stdout"
+      become: true

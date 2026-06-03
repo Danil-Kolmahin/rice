@@ -1,0 +1,144 @@
+    # TODO: make faster by using ansible.posix.synchronize (bad, requires rsync) or by parallelizing
+    - name: Copy dotfiles
+      ansible.builtin.copy:
+        src: "{{ item }}"
+        dest: "/home/{{ ansible_user }}/"
+        mode: preserve
+      with_items:
+        - .config
+        - .local
+
+    - name: Install packages
+      ansible.builtin.pacman:
+        name:
+          - ttf-ibm-plex # font, TODO: consider other options - ttf-jetbrains-mono, iosevka-nerd-font
+          - noto-fonts-emoji # emojis
+          - sway
+          - swaylock # lock screen for sway
+          - xdg-desktop-portal # file access, opening URIs, printing etc | https://github.com/swaywm/sway/wiki/XDG-Desktop-Portal-configuration
+          - xdg-desktop-portal-wlr # wayland xdg-desktop-portal
+          - xdg-desktop-portal-gtk # backup for xdg-desktop-portal-wlr TODO: check for replacing on kde
+          - wl-clipboard # basic copy paste
+          - cliphist # wl-clipboard + clipboard history
+          - grim # cli screenshots, screenshots gui backend
+          - flameshot # screenshots gui
+          - wf-recorder # screencast
+          - mako # notifycations
+          - libnotify # send desktop notifications (notify-send)
+          - wmenu # app launcher
+          - alacritty
+          - qutebrowser
+          - xcb-util-cursor # for qutebrowser TODO: check if actually needed
+          - mesa # for qutebrowser TODO: check if actually needed
+          - qt6-base # for qutebrowser TODO: check if actually needed
+          - qt6-webengine # for qutebrowser TODO: check if actually needed
+          - qt6-wayland # for qutebrowser TODO: check if actually needed
+          - libreoffice-fresh # office suite
+          - flatpak
+          - tesseract
+          - tesseract-data-eng
+          - tesseract-data-ukr
+          - vlc # media player TODO: search for cli tools
+          - lazydocker
+          - github-cli
+          - lazygit
+          - k9s
+          # - obs-studio
+          - gimp # raster image editor
+          - inkscape # vector image editor
+          - blender # 3D modelling
+          - cava # audio visualization tool
+          - torbrowser-launcher # the only way to run tor from pacman
+          - qemu-full # qemu/kvm VMs
+          - libvirt # qemu/kvm VMs (cli)
+          - virt-install # qemu/kvm VMs
+          - virt-viewer # qemu/kvm VMs
+          - dnsmasq # qemu/kvm VMs (network, low chance to be optional)
+          - ollama
+          - ollama-cuda # TODO: change to AMD hopefully
+          - terraform
+          - prismlauncher
+        state: present
+      become: true
+
+    - name: Enable systemd services
+      ansible.builtin.systemd:
+        unit: '{{ item }}.service'
+        enabled: yes
+      with_items:
+        - libvirtd
+      become: true
+
+    # TODO: make faster by parallelizing
+    - name: Enable and start systemd services
+      ansible.builtin.systemd:
+        unit: '{{ item }}.service'
+        enabled: yes
+        state: started
+      with_items:
+        - ollama
+      become: true
+
+    - name: Ensure user is respective groups
+      ansible.builtin.user:
+        name: "{{ ansible_user }}"
+        groups: libvirt
+        append: yes
+      become: true
+
+    # # TODO: test and refactor
+    # - name: Configure Ollama environment variables
+    #   ansible.builtin.copy:
+    #     dest: /etc/systemd/system/ollama.service.d/override.conf
+    #     content: |
+    #       [Service]
+    #       Environment="OLLAMA_CONTEXT_LENGTH=64000"
+    #     mode: '0644'
+    #   # notify: restart ollama # TODO: do we need restarts?
+
+    - name: Install flatpak packages
+      community.general.flatpak:
+        name:
+          - io.github.ungoogled_software.ungoogled_chromium
+          - io.dbeaver.DBeaverCommunity
+          - me.iepure.devtoolbox
+
+    # TODO: stop upgrading!
+    - name: Install AUR packages manually
+      vars:
+        aur_packages:
+          - chromium-widevine # for qutebrowser, allows streaming (DRM content)
+      ansible.builtin.shell: |
+        runuser -u aur_builder -- yay -S --noconfirm --noprogressbar --needed {{ aur_packages | join(' ') }}
+      args:
+        executable: /bin/bash
+      register: aur_install_result
+      changed_when: "'Downloading' in aur_install_result.stdout"
+      become: true
+
+    - name: Check if qutebrowser is already the default browser
+      ansible.builtin.shell: xdg-mime query default x-scheme-handler/http
+      register: current_default_browser
+      changed_when: false
+
+    - name: Set qutebrowser as default web browser
+      ansible.builtin.shell: xdg-settings set default-web-browser org.qutebrowser.qutebrowser.desktop
+      when: "'org.qutebrowser.qutebrowser.desktop' not in current_default_browser.stdout"
+      changed_when: true
+
+    - name: Set qutebrowser as default for http and https
+      ansible.builtin.shell: xdg-mime default org.qutebrowser.qutebrowser.desktop x-scheme-handler/http x-scheme-handler/https
+      when: "'org.qutebrowser.qutebrowser.desktop' not in current_default_browser.stdout"
+      changed_when: true
+
+    - name: Check if WAYLAND_DISPLAY is in systemd user env
+      ansible.builtin.command: systemctl --user show-environment
+      register: systemctl_user_env
+      changed_when: false
+
+    - name: Export Wayland vars if missing
+      ansible.builtin.command: >
+        systemctl --user set-environment
+        WAYLAND_DISPLAY={{ lookup('env', 'WAYLAND_DISPLAY') }}
+        XDG_CURRENT_DESKTOP={{ lookup('env', 'XDG_CURRENT_DESKTOP') | default('sway:wlroots') }}
+      when: "'WAYLAND_DISPLAY' not in systemctl_user_env.stdout"
