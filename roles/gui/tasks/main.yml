@@ -1,3 +1,19 @@
+    - name: Check for NVIDIA GPU
+      ansible.builtin.shell: lspci | grep -qi nvidia
+      register: nvidia_check
+      failed_when: false
+      changed_when: false
+
+    - name: Install nvidia packages
+      ansible.builtin.pacman:
+        name:
+          - nvidia-open
+          - nvidia-utils
+        state: present
+      become: true
+      when: nvidia_check.rc == 0
+      # notify: Run mkinitcpio -P # almost certainly not needed
+
     # TODO: make faster by using ansible.posix.synchronize (bad, requires rsync) or by parallelizing
     - name: Copy dotfiles
       ansible.builtin.copy:
