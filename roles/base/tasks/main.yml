@@ -81,7 +81,7 @@
 
     # TODO: make faster by parallelizing
     - name: Enable and start systemd services
-      ansible.builtin.systemd:
+      ansible.builtin.systemd_service:
         unit: '{{ item }}.service'
         enabled: yes
         state: started
@@ -123,7 +123,6 @@
         aur_packages:
           - opencode-bin
           - models-bin
-          - llmfit
           - pi-coding-agent
           # - argos-translate
       ansible.builtin.shell: |

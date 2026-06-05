@@ -1,5 +1,5 @@
     - name: Restart PipeWire user services
-      ansible.builtin.systemd:
+      ansible.builtin.systemd_service:
         unit: '{{ item }}'
         state: restarted
         scope: user

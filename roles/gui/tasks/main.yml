@@ -59,34 +59,12 @@
           # - blender # 3D modelling
           - cava # audio visualization tool
           - torbrowser-launcher # the only way to run tor from pacman
-          - ollama
-          - ollama-cuda # TODO: change to AMD hopefully
           - terraform
         state: present
       become: true
 
     - name: Configure GUI browser
       ansible.builtin.import_tasks: browser.yml
-
-    # TODO: make faster by parallelizing
-    - name: Enable and start systemd services
-      ansible.builtin.systemd:
-        unit: '{{ item }}.service'
-        enabled: yes
-        state: started
-      with_items:
-        - ollama
-      become: true
-
-    # # TODO: test and refactor
-    # - name: Configure Ollama environment variables
-    #   ansible.builtin.copy:
-    #     dest: /etc/systemd/system/ollama.service.d/override.conf
-    #     content: |
-    #       [Service]
-    #       Environment="OLLAMA_CONTEXT_LENGTH=64000"
-    #     mode: '0644'
-    #   # notify: restart ollama # TODO: do we need restarts?
 
     - name: Install flatpak packages
       community.general.flatpak:
@@ -111,3 +89,6 @@
 
     - name: Install games
       ansible.builtin.import_tasks: games.yml
+
+    - name: Prepare local LLm infrastructure
+      ansible.builtin.import_tasks: local-llm.yml

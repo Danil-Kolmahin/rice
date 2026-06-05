@@ -10,7 +10,7 @@
       become: true
 
     - name: Enable systemd services
-      ansible.builtin.systemd:
+      ansible.builtin.systemd_service:
         unit: '{{ item }}.service'
         enabled: yes
       with_items:

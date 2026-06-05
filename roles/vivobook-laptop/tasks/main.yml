@@ -19,7 +19,7 @@
 
     # TODO: test wether needed and delete with handlers
     # - name: Enable and start PipeWire user services
-    #   ansible.builtin.systemd:
+    #   ansible.builtin.systemd_service:
     #     unit: '{{ item }}'
     #     enabled: yes
     #     state: started
