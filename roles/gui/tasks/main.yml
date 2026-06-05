@@ -56,13 +56,12 @@
           # - obs-studio
           - gimp # raster image editor
           - inkscape # vector image editor
-          - blender # 3D modelling
+          # - blender # 3D modelling
           - cava # audio visualization tool
           - torbrowser-launcher # the only way to run tor from pacman
           - ollama
           - ollama-cuda # TODO: change to AMD hopefully
           - terraform
-          - prismlauncher
         state: present
       become: true
 
@@ -109,3 +108,6 @@
 
     - name: Add VM emulator
       ansible.builtin.import_tasks: vm.yml
+
+    - name: Install games
+      ansible.builtin.import_tasks: games.yml

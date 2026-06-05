@@ -1,0 +1,7 @@
+    - name: Install packages
+      ansible.builtin.pacman:
+        name:
+          - dwarffortress
+          - prismlauncher
+        state: present
+      become: true
