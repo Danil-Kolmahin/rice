@@ -83,12 +83,3 @@
         WAYLAND_DISPLAY={{ lookup('env', 'WAYLAND_DISPLAY') }}
         XDG_CURRENT_DESKTOP={{ lookup('env', 'XDG_CURRENT_DESKTOP') | default('sway:wlroots') }}
       when: "'WAYLAND_DISPLAY' not in systemctl_user_env.stdout"
-
-    - name: Add VM emulator
-      ansible.builtin.import_tasks: vm.yml
-
-    - name: Install games
-      ansible.builtin.import_tasks: games.yml
-
-    - name: Prepare local LLm infrastructure
-      ansible.builtin.import_tasks: local-llm.yml

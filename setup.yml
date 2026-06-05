@@ -3,29 +3,59 @@
   tasks:
     - name: Set ansible_user variable # TODO: fix https://github.com/ansible/ansible/issues/23530
       set_fact: ansible_user="{{ lookup('pipe', 'whoami') }}"
+      tags: base
 
     - name: Get chassis via hostnamectl
       command: hostnamectl --json=short
       register: hostnamectl_out
       changed_when: false
+      tags: base
 
     - name: Parse chassis
       set_fact:
         chassis: "{{ (hostnamectl_out.stdout | from_json).Chassis }}"
+      tags: base
 
     - name: Base configuration
       ansible.builtin.import_role:
         name: base
+      tags: base
 
     - name: Configure GUI for system
       ansible.builtin.import_role:
         name: gui
+      tags:
+        - gui
+        - never
 
     - name: VivoBook specific fixes/features
       ansible.builtin.import_role:
         name: vivobook-laptop
       when: "'vivobook' in ansible_product_name | lower"
+      tags: machine-specific
 
     - name: Apply local non-public configuration
       ansible.builtin.import_role:
         name: ../private-rice/roles/private
+      tags: private
+
+    - name: Add VM emulator
+      ansible.builtin.import_role:
+        name: vm
+      tags:
+        - vm-emulation
+        - never
+
+    - name: Install games
+      ansible.builtin.import_role:
+        name: games
+      tags:
+        - games
+        - never
+
+    - name: Prepare local LLm infrastructure
+      ansible.builtin.import_role:
+        name: local-llm
+      tags:
+        - local-llm
+        - never
