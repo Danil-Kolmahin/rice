@@ -107,13 +107,13 @@ EOF
 arch-chroot /mnt git clone https://github.com/Danil-Kolmahin/rice.git /home/"$USERNAME"/projects/rice
 arch-chroot /mnt chown -R "$USERNAME:$USERNAME" /home/"$USERNAME"/projects
 
-arch-chroot /mnt (cd ~/projects/rice && uv sync && uv run ansible-galaxy collection install --requirements-file requirements.yml)
-arch-chroot /mnt (cd ~/projects/rice && uv run ansible-playbook \
+arch-chroot /mnt "cd /home/$USERNAME/projects/rice && uv sync && uv run ansible-galaxy collection install --requirements-file requirements.yml"
+arch-chroot /mnt "cd /home/$USERNAME/projects/rice && uv run ansible-playbook \
   --ask-become-pass \
   --inventory localhost, \
   --extra-vars 'target_hosts=localhost' \
   --connection local \
-  --tags "all,$ENABLED_TAGS" playbook.yml)
+  --tags "all,$ENABLED_TAGS" playbook.yml"
 
 # if $BACKUP_DISK bash restore-from-backup.sh (need to create it and backup.sh first)
 # if $BACKUP_DISK - uv run ansible-playbook ... --tags "private" playbook.yml
