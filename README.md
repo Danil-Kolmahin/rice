@@ -21,7 +21,7 @@ sudo cp ~/downloads/archlinux.iso /dev/sdX && sync
 ### 3. Boot and establish internet connection
 
 Boot into the official Arch Linux live environment. If a wired connection is unavailable, connect to Wi-Fi using the following commands:
-
+<!-- TODO: find preinstalled tui for this -->
 ```bash
 iwctl device list # 3.1. List your wireless device name (usually wlan0)
 iwctl station $DEVICE scan # 3.2. Scan for available networks
