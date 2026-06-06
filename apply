@@ -27,7 +27,6 @@ EFI_PART="${DISK}1"
 ROOT_PART="${DISK}2"
 LUKS_NAME="main"
 LUKS_PASS=$(whiptail --passwordbox "Disk encryption passphrase:" 8 40 3>&1 1>&2 2>&3)
-whiptail --yesno "WARNING: This will destroy all data on $DISK. Continue?" 8 50 || exit 1
 ENABLED_TAGS=$(whiptail --title "Additional configs selection" --checklist \
 "Which additional features needs to be provisioned?" 13 55 4 \
 "gui" "Sway + basic GUI program suit" ON \
@@ -37,6 +36,8 @@ ENABLED_TAGS=$(whiptail --title "Additional configs selection" --checklist \
 3>&1 1>&2 2>&3 | tr -d '"' | tr ' ' ',')
 # TODO: retrieve potential disk name instead of hardcoded "/dev/sda"
 BACKUP_DISK=$(whiptail --inputbox "Backup disk (leave empty if none):" 8 40 "/dev/sda" 3>&1 1>&2 2>&3)
+
+whiptail --yesno "WARNING: This will destroy all data on $DISK. Continue?" 8 50 || exit 1
 
 # TODO: mount $BACKUP_DISK if provided, throw if no such disk
 
