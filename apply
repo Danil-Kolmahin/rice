@@ -1,17 +1,44 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# run playbook and exit if not running in the Arch Linux live installation environment
+if [ ! -d /run/archiso ]; then
+  # TODO: move out to function (code duplication below)
+  # TODO: write out ENABLED_TAGS to system on init and read during subsequent runs
+  # TODO: run `uv sync && uv run ansible-galaxy collection ...` after some TTL
+  (cd ~/projects/rice && uv run ansible-playbook \
+  --ask-become-pass \
+  --inventory localhost, \
+  --extra-vars 'target_hosts=localhost' \
+  --connection local \
+  playbook.yml)
+
+  exit 0
+fi
+
 USERNAME=$(whiptail --inputbox "Username:" 8 40 3>&1 1>&2 2>&3)
 HOSTNAME=$(whiptail --inputbox "Hostname:" 8 40 3>&1 1>&2 2>&3)
 # TODO: find a way to not display password length
 ROOT_PASS=$(whiptail --passwordbox "Root password:" 8 40 3>&1 1>&2 2>&3)
 USER_PASS=$(whiptail --passwordbox "Password for $USERNAME:" 8 40 3>&1 1>&2 2>&3)
+# TODO: retrieve potential disk name instead of hardcoded "/dev/vda"
 DISK=$(whiptail --inputbox "Target disk:" 8 40 "/dev/vda" 3>&1 1>&2 2>&3)
 EFI_PART="${DISK}1"
 ROOT_PART="${DISK}2"
 LUKS_NAME="main"
 LUKS_PASS=$(whiptail --passwordbox "Disk encryption passphrase:" 8 40 3>&1 1>&2 2>&3)
 whiptail --yesno "WARNING: This will destroy all data on $DISK. Continue?" 8 50 || exit 1
+ENABLED_TAGS=$(whiptail --title "Additional configs selection" --checklist \
+"Which additional features needs to be provisioned?" 13 55 4 \
+"gui" "Sway + basic GUI program suit" ON \
+"vm-emulation" "QEMU/KVM virtualization suit" OFF \
+"games" "Steam and other games/utilities" OFF \
+"local-llm" "Ollama and subsequent tools" OFF \
+3>&1 1>&2 2>&3 | tr -d '"' | tr ' ' ',')
+# TODO: retrieve potential disk name instead of hardcoded "/dev/sda"
+BACKUP_DISK=$(whiptail --inputbox "Backup disk (leave empty if none):" 8 40 "/dev/sda" 3>&1 1>&2 2>&3)
+
+# TODO: mount $BACKUP_DISK if provided, throw if no such disk
 
 echo "Partitioning..."
 sfdisk "$DISK" <<EOF
@@ -79,7 +106,20 @@ EOF
 arch-chroot /mnt git clone https://github.com/Danil-Kolmahin/rice.git /home/"$USERNAME"/projects/rice
 arch-chroot /mnt chown -R "$USERNAME:$USERNAME" /home/"$USERNAME"/projects
 
+arch-chroot /mnt (cd ~/projects/rice && uv sync && uv run ansible-galaxy collection install --requirements-file requirements.yml)
+arch-chroot /mnt (cd ~/projects/rice && uv run ansible-playbook \
+  --ask-become-pass \
+  --inventory localhost, \
+  --extra-vars 'target_hosts=localhost' \
+  --connection local \
+  --tags "all,$ENABLED_TAGS" playbook.yml)
+
+# if $BACKUP_DISK bash restore-from-backup.sh (need to create it and backup.sh first)
+# if $BACKUP_DISK - uv run ansible-playbook ... --tags "private" playbook.yml
+
 umount -R /mnt
 
 read -rp "Done. You can safely remove install medium. Reboot now? (Y/n): " reboot_ans
 [[ "${reboot_ans:-Y}" =~ ^[Yy]$ ]] && reboot
+
+# TODO: log everything to some file as well (for example https://stackoverflow.com/questions/3173131/redirect-copy-of-stdout-to-log-file-from-within-bash-script-itself)

@@ -6,14 +6,14 @@
       tags: base
 
     - name: Get chassis via hostnamectl
-      command: hostnamectl --json=short
+      command: hostnamectl chassis
       register: hostnamectl_out
       changed_when: false
       tags: base
 
     - name: Parse chassis
       set_fact:
-        chassis: "{{ (hostnamectl_out.stdout | from_json).Chassis }}"
+        chassis: "{{ hostnamectl_out.stdout }}"
       tags: base
 
     - name: Base configuration
