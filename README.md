@@ -16,13 +16,16 @@ Identify your target flash drive using `lsblk` then write the ISO:
 # Ensure target partition is unmounted before writing
 sudo cp ~/downloads/archlinux.iso /dev/sdX && sync
 ```
-
 *(Windows users can utilize [Rufus](https://rufus.ie) configured for UEFI/GPT/FAT32 in DD Image mode).*
 
-### 3. Boot and execute
-Boot into the official Arch Linux live environment, and run:
-<!-- TODO: add "Ensure you have an active internet connection" line for not-from-backup provision -->
+### 3. Boot and establish internet connection
+
+Boot into the official Arch Linux live environment. If a wired connection is unavailable, connect to Wi-Fi via the NetworkManager text user interface: `nmtui`.
+
+### 4. Execute installation
+
+Run the automated setup script:
 
 ```bash
-curl -sL https://raw.githubusercontent.com/Danil-Kolmahin/rice/main/apply | bash
+curl -s https://raw.githubusercontent.com/danil-kolmahin/rice/main/apply | bash
 ```
