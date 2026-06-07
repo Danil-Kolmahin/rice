@@ -124,6 +124,8 @@ arch-chroot /mnt bash -c "cd /home/$USERNAME/projects/rice && uv run ansible-pla
 
 arch-chroot /mnt rm -f "$BECOME_PASS_FILE"
 
+swapoff /mnt/swapfile # disable swap to be able to umount
+
 umount -R /mnt
 
 read -rp "Done. You can safely remove install medium. Reboot now? (Y/n): " reboot_ans
