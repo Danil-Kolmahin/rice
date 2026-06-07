@@ -111,7 +111,7 @@ arch-chroot /mnt bash -c "cd /home/$USERNAME/projects/rice && uv sync && uv run 
 BECOME_PASS_FILE="/home/$USERNAME/.ansible-become"
 echo "${USER_PASS}" > /mnt${BECOME_PASS_FILE}
 trap 'arch-chroot /mnt rm -f "$BECOME_PASS_FILE"' EXIT
-arch-chroot /mnt bash -c "echo '${USER_PASS}' > /mnt$BECOME_PASS_FILE"
+arch-chroot /mnt bash -c "echo '${USER_PASS}' > $BECOME_PASS_FILE"
 arch-chroot /mnt bash -c "cd /home/$USERNAME/projects/rice && uv run ansible-playbook \
   --become-password-file '$BECOME_PASS_FILE' \
   --inventory localhost, \
