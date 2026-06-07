@@ -8,11 +8,11 @@ export XDG_STATE_HOME=$HOME/.local/state
 path=(~/.local/bin $path)
 export PATH
 
+# export PAGER=more
+# export MANPAGER=???
 export EDITOR=emacs
 export VISUAL=emacs
-# export PAGER=more
-# export BROWSER=qutebrowser
-# export TERMINAL=alacritty # @TERM
-# export MANPAGER=???
+export TERMINAL=$TERM
+[ -n "$DISPLAY" ] && export BROWSER=qutebrowser || export BROWSER=todo # TODO: find non-gui browser
 
 export ELECTRON_OZONE_PLATFORM_HINT=auto # instead of --ozone-platform=wayland for apps like vscode
