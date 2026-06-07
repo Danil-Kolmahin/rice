@@ -108,9 +108,9 @@ arch-chroot /mnt git clone https://github.com/Danil-Kolmahin/rice.git /home/"$US
 arch-chroot /mnt chown -R "$USERNAME:$USERNAME" /home/"$USERNAME"/projects
 
 arch-chroot /mnt bash -c "cd /home/$USERNAME/projects/rice && uv sync && uv run ansible-galaxy collection install --requirements-file requirements.yml"
-BECOME_PASS_FILE=$(mktemp /mnt/tmp/ansible-become-XXXXX)
+BECOME_PASS_FILE="ansible-become" # TODO: generate with mktemp
+arch-chroot /mnt bash -c "echo '${USER_PASS}' > /tmp/$BECOME_PASS_FILE"
 trap 'rm -f "$BECOME_PASS_FILE"' EXIT
-echo "$USER_PASS" > "$BECOME_PASS_FILE"
 arch-chroot /mnt bash -c "cd /home/$USERNAME/projects/rice && uv run ansible-playbook \
   --become-password-file '${BECOME_PASS_FILE#/mnt}' \
   --inventory localhost, \
