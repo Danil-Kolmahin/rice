@@ -1,5 +1,5 @@
 # Lines configured by zsh-newuser-install
-HISTFILE=~/.histfile
+HISTFILE="$XDG_STATE_HOME"/zsh/.histfile
 HISTSIZE=999999999
 SAVEHIST=999999999
 # End of lines configured by zsh-newuser-install

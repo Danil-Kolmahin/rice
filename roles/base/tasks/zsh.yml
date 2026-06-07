@@ -4,10 +4,20 @@
         state: present
       become: true
 
+    - name: Set ZDOTDIR in /etc/zsh/zshenv
+      ansible.builtin.lineinfile:
+        path: /etc/zsh/zshenv
+        line: 'export ZDOTDIR="$HOME/.config/zsh"'
+        create: true
+        owner: root
+        group: root
+        mode: '0644'
+      become: true
+
     - name: Copy .zshrc
       ansible.builtin.copy:
         src: "{{ item }}"
-        dest: "/home/{{ ansible_user }}/"
+        dest: "/home/{{ ansible_user }}/.config/zsh/"
         mode: preserve
       with_items:
         - .zshrc
@@ -15,14 +25,32 @@
     - name: Copy .zshenv
       ansible.builtin.blockinfile:
         block: "{{ lookup('ansible.builtin.file', '.zshenv') }}"
-        path: "/home/{{ ansible_user }}/.zshenv"
+        path: "/home/{{ ansible_user }}/.config/zsh/.zshenv"
         marker: "# {mark} ANSIBLE MANAGED BLOCK (base role)"
         create: true
         append_newline: true
         prepend_newline: true
+
+    - name: Create XDG user directories
+      ansible.builtin.file:
+        path: "/home/{{ ansible_user }}/{{ item }}"
+        state: directory
+      with_items:
+        - .local/state/zsh # TODO: use env
 
     - name: Set default shell to zsh
       ansible.builtin.user:
         name: "{{ ansible_user }}"
         shell: /usr/bin/zsh
       become: true
+
+    - name: Remove unused shell leftover files
+      ansible.builtin.file:
+        path: "/home/{{ ansible_user }}/{{ item }}"
+        state: absent
+      with_items:
+        - .bash_profile
+        - .bash_logout
+        - .bashrc
+        # - .bash_history
+        # - .bash_login
