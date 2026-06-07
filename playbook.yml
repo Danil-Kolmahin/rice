@@ -23,9 +23,16 @@
       when: "'vivobook' in ansible_product_name | lower"
       tags: machine-specific
 
+    - name: Check if non-public configs exists
+      ansible.builtin.stat:
+        path: ../private-rice
+      register: private_rice_dir
+      tags: private
+
     - name: Apply local non-public configuration
-      ansible.builtin.import_role:
+      ansible.builtin.include_role: # TODO: fix include_role instead of import_role as a workaround for not being able tp properly use when
         name: ../private-rice/roles/private
+      when: private_rice_dir.stat.exists
       tags: private
 
     - name: Add VM emulator
