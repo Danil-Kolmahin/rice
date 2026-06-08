@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-(cd ~/projects/rice && bash main.sh)
+(cd ~/projects/rice && uv run ansible-playbook -K -i localhost, -e 'target_hosts=localhost' -c local playbook.yml "$@")
