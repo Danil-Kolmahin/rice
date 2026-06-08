@@ -1,4 +1,4 @@
-    - name: Configure git init.defaultBranch
+    - name: Configure git init.defaultBranch # TODO: fix non-xdg path
       community.general.git_config:
         name: init.defaultBranch
         value: main

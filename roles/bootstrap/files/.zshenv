@@ -31,7 +31,7 @@ export CUDA_CACHE_PATH="$XDG_CACHE_HOME"/nv
 export CARGO_HOME="$XDG_DATA_HOME"/cargo
 export AWS_SHARED_CREDENTIALS_FILE="$XDG_CONFIG_HOME"/aws/credentials
 export AWS_CONFIG_FILE="$XDG_CONFIG_HOME"/aws/config
-export ANSIBLE_HOME="$XDG_DATA_HOME"/ansible
+export ANSIBLE_HOME="$XDG_DATA_HOME"/ansible # TODO: fix, does not have effect
 export CLAUDE_CONFIG_DIR="$XDG_CONFIG_HOME"/claude
 
 export ELECTRON_OZONE_PLATFORM_HINT=auto # instead of --ozone-platform=wayland for apps like vscode
