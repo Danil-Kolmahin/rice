@@ -132,3 +132,10 @@
       register: aur_install_result
       changed_when: "'Downloading' in aur_install_result.stdout"
       become: true
+
+    # - name: Set pinentry-curses for gnupg
+    #   ansible.builtin.lineinfile:
+    #     path: "/home/{{ ansible_user }}/.local/share/gnupg/gpg-agent.conf"
+    #     line: 'pinentry-program /usr/bin/pinentry-curses # TODO: hide password length'
+    #     create: true
+    #     mode: '0600'
