@@ -3,9 +3,16 @@
   tasks:
     - name: Set ansible_user variable # TODO: fix https://github.com/ansible/ansible/issues/23530
       set_fact: ansible_user="{{ lookup('pipe', 'whoami') }}"
-      tags: base
+      tags:
+        - bootstrap
+        - base
 
-    - name: Base configuration
+    - name: Chroot-level configuration
+      ansible.builtin.import_role:
+        name: bootstrap
+      tags: bootstrap
+
+    - name: Post-install configuration
       ansible.builtin.import_role:
         name: base
       tags: base

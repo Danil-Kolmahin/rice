@@ -64,3 +64,5 @@ en2uk() { ~/.local/share/argos-env/bin/argos-translate -f en -t uk "$(_read_inpu
 uk2en() { ~/.local/share/argos-env/bin/argos-translate -f uk -t en "$(_read_input "$@")" 2>/dev/null }
 
 eval "$(fnm env --use-on-cd --version-file-strategy=recursive --resolve-engines --shell zsh)"
+
+# TODO: if first time launch after chroot propose `rice --tags "all"`

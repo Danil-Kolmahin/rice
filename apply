@@ -27,13 +27,6 @@ EFI_PART="${DISK}1"
 ROOT_PART="${DISK}2"
 LUKS_NAME="main"
 LUKS_PASS=$(whiptail --passwordbox "Disk encryption passphrase:" 8 40 3>&1 1>&2 2>&3)
-ENABLED_TAGS=$(whiptail --title "Additional configs selection" --checklist \
-"Which additional features needs to be provisioned?" 13 55 4 \
-"gui" "Sway + basic GUI program suit" ON \
-"vm-emulation" "QEMU/KVM virtualization suit" OFF \
-"games" "Steam and other games/utilities" OFF \
-"local-llm" "Ollama and subsequent tools" OFF \
-3>&1 1>&2 2>&3 | tr -d '"' | tr ' ' ',')
 # TODO: retrieve potential disk name instead of hardcoded "/dev/sda"
 BACKUP_DISK=$(whiptail --inputbox "Backup disk (leave empty if none):" 8 40 "/dev/sda" 3>&1 1>&2 2>&3)
 
@@ -117,14 +110,12 @@ arch-chroot /mnt bash -c "cd /home/$USERNAME/projects/rice && uv run ansible-pla
   --inventory localhost, \
   --extra-vars 'target_hosts=localhost' \
   --connection local \
-  --tags "all,$ENABLED_TAGS" playbook.yml"
+  --tags "bootstrap" playbook.yml"
 
 # if $BACKUP_DISK bash restore-from-backup.sh (need to create it and backup.sh first)
 # if $BACKUP_DISK - uv run ansible-playbook ... --tags "private" playbook.yml
 
 arch-chroot /mnt rm -f "$BECOME_PASS_FILE"
-
-swapoff /mnt/swapfile # disable swap to be able to umount
 
 umount -R /mnt
 
