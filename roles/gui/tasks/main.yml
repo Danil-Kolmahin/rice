@@ -34,6 +34,7 @@
           - xdg-desktop-portal # file access, opening URIs, printing etc | https://github.com/swaywm/sway/wiki/XDG-Desktop-Portal-configuration
           - xdg-desktop-portal-wlr # wayland xdg-desktop-portal
           - xdg-desktop-portal-gtk # backup for xdg-desktop-portal-wlr TODO: check for replacing on kde
+          - xorg-xwayland # non-wayland apps support (i.e. eliminates 'export DISPLAY=:0 steam -enable-wayland-display')
           - wl-clipboard # basic copy paste
           - cliphist # wl-clipboard + clipboard history
           - grim # cli screenshots, screenshots gui backend

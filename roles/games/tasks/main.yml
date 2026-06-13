@@ -1,6 +1,16 @@
+    - name: Enable multilib repository
+      ansible.builtin.replace:
+        path: /etc/pacman.conf
+        regexp: '^#\[multilib\]\n#Include = /etc/pacman.d/mirrorlist'
+        replace: "[multilib]\nInclude = /etc/pacman.d/mirrorlist"
+      become: true
+
     - name: Install packages
       ansible.builtin.pacman:
         name:
+          - lib32-nvidia-utils # drivers for stream # TODO: add check for actual GPUs vendors
+          - lib32-vulkan-intel # drivers for stream # TODO: add check for actual GPUs vendors
+          - steam
           - dwarffortress
           - prismlauncher
         state: present
