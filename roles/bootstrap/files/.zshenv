@@ -13,7 +13,7 @@ export PATH
 export EDITOR=emacs
 export VISUAL=emacs
 export TERMINAL=alacritty
-[ -n "$DISPLAY" ] && export BROWSER=qutebrowser || export BROWSER=todo # TODO: find non-gui browser
+# [ -n "$DISPLAY" ] && export BROWSER=qutebrowser || export BROWSER=todo # TODO: find non-gui browser # TODO: fix conflict found in vm with `xdg-settings set default-web-browser`
 
 # XDG
 export PYTHON_HISTORY="$XDG_STATE_HOME"/python_history
