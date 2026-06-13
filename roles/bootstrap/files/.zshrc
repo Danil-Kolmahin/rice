@@ -62,6 +62,10 @@ spell-en() { _read_input "$@" | languagetool -m uk-UA -l en-US - 2>/dev/null }
 
 en2uk() { ~/.local/share/argos-env/bin/argos-translate -f en -t uk "$(_read_input "$@")" 2>/dev/null }
 uk2en() { ~/.local/share/argos-env/bin/argos-translate -f uk -t en "$(_read_input "$@")" 2>/dev/null }
+# TODO: automate argos-translate installation (AUR is broken)
+# uv venv ~/.local/share/argos-env --python 3.12 # maybe `sudo uv pip install --system pip` needed
+# uv pip install --python ~/.local/share/argos-env argostranslate
+# ~/.local/share/argos-env/bin/argospm install translate-en_uk
 
 eval "$(fnm env --use-on-cd --version-file-strategy=recursive --resolve-engines --shell zsh)"
 
