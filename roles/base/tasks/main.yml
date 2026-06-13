@@ -94,7 +94,7 @@
           - pi-coding-agent
           # - argos-translate
       ansible.builtin.shell: |
-        runuser -u aur_builder -- yay -S --noconfirm --noprogressbar --needed {{ aur_packages | join(' ') }}
+        runuser -u aur_builder -- yay -S --aur --noconfirm --noprogressbar --needed {{ aur_packages | join(' ') }}
       args:
         executable: /bin/bash
       register: aur_install_result
