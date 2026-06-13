@@ -60,7 +60,6 @@
           # - blender # 3D modelling
           - cava # audio visualization tool
           - torbrowser-launcher # the only way to run tor from pacman
-          - terraform
         state: present
       become: true
 

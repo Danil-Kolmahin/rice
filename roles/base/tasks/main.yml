@@ -12,7 +12,7 @@
       ansible.builtin.pacman:
         name:
         # system maintainability
-          - pacman-contrib # paccache
+          - pacman-contrib # paccache, pacdiff
         # base system standards
           - upower
           - tlp
@@ -46,6 +46,7 @@
           - croc # super convinient file node-to-node transfer tool
           - zbar # qr/bar codes reader (cli/webcam)
           - qrencode
+          # - unzip # .zip files unarchive
         # base development tools
           - plantuml
           - hurl # curl automation
@@ -54,8 +55,14 @@
           - docker-compose
           - pastel # color palets
           - speedtest-cli # https://speed.cloudflare.com could be used in browser
+          # - bind # network diagnostics (dig)
+          # - traceroute # network diagnostics
           - fastfetch # system info
           - asciinema # terminal session recording
+          # - mariadb-clients # open-sourced MySQL client
+          # - valkey # open-sourced Redis
+          # - aws-cli-v2
+          # - terraform
         state: present
       become: true
 
