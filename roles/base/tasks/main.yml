@@ -1,3 +1,10 @@
+    - name: Enable and start time synchronization (NTP)
+      ansible.builtin.systemd_service:
+        unit: systemd-timesyncd
+        enabled: true
+        state: started
+      become: true
+    
     # TODO: make faster by using ansible.posix.synchronize (bad, requires rsync) or by parallelizing
     - name: Copy dotfiles
       ansible.builtin.copy:

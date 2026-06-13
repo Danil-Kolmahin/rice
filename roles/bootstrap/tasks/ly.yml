@@ -5,7 +5,7 @@
       become: true
     
     - name: Enable ly systemd services
-      ansible.builtin.systemd_service:
+      ansible.builtin.systemd_service: # TODO: check if works in chroot mode and no warnings
         unit: ly@tty1
         enabled: yes
       become: true
