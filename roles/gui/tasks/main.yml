@@ -10,8 +10,8 @@
           - nvidia-open
           - nvidia-utils
         state: present
-      become: true
       when: nvidia_check.rc == 0
+      become: true
       # notify: Run mkinitcpio -P # almost certainly not needed
 
     # TODO: make faster by using ansible.posix.synchronize (bad, requires rsync) or by parallelizing
@@ -83,3 +83,11 @@
         WAYLAND_DISPLAY={{ lookup('env', 'WAYLAND_DISPLAY') }}
         XDG_CURRENT_DESKTOP={{ lookup('env', 'XDG_CURRENT_DESKTOP') | default('sway:wlroots') }}
       when: "'WAYLAND_DISPLAY' not in systemctl_user_env.stdout"
+
+    - name: Configure Sway for unsupported GPUs
+      ansible.builtin.replace:
+        path: /usr/share/wayland-sessions/sway.desktop
+        regexp: '^Exec=sway$'
+        replace: 'Exec=sway --unsupported-gpu'
+      when: nvidia_check.rc == 0
+      become: true
