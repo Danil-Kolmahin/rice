@@ -54,6 +54,8 @@
           - zbar # qr/bar codes reader (cli/webcam)
           - qrencode
           # - unzip # .zip files unarchive
+          - mat2 # TODO: consider alternatives
+          - imagemagick
         # base development tools
           - plantuml
           - hurl # curl automation

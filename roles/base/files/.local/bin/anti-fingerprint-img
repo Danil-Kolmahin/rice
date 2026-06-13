@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# TODO: rewrite all
+
+if [ $# -eq 0 ]; then
+    echo "Error: No image file provided." >&2
+    echo "Usage: $0 <path/to/image>" >&2
+    exit 1
+fi
+
+TARGET_FILE="$1"
+
+if [ ! -f "$TARGET_FILE" ]; then
+    echo "Error: File '$TARGET_FILE' does not exist or is not a valid file." >&2
+    exit 1
+fi
+
+mat2 --inplace "$TARGET_FILE"
+
+magick "$TARGET_FILE" -quality 99 -modulate 100,100,100.1 -flop -resize 99% -shave 2x2 "$TARGET_FILE"
