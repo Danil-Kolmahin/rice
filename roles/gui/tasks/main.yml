@@ -92,3 +92,24 @@
         replace: 'Exec=sway --unsupported-gpu'
       when: nvidia_check.rc == 0
       become: true
+
+    - name: Check which AUR packages are already installed
+      vars:
+        aur_packages:
+          - ditto
+      ansible.builtin.command:
+        cmd: "pacman -Qi {{ item }}"
+      loop: "{{ aur_packages }}"
+      register: aur_check
+      failed_when: false
+      changed_when: false
+
+    - name: Install missing AUR packages manually
+      vars:
+        missing_packages: "{{ aur_check.results | rejectattr('rc', 'eq', 0) | map(attribute='item') | list }}"
+      ansible.builtin.shell: |
+        runuser -u aur_builder -- yay -S --aur --noconfirm --noprogressbar --needed {{ missing_packages | join(' ') }}
+      args:
+        executable: /bin/bash
+      when: missing_packages | length > 0
+      become: true
