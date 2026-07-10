@@ -44,6 +44,8 @@ CF_WHITE_BR   = "#FFFFFF"
 #   ERROR = C1_RED
 # }
 
+c.qt.args = ['disable-gpu'] # TODO: fix crash on launch (probably NVIDIA GPU) 
+
 ## This is here so configs done via the GUI are still loaded.
 ## Remove it to not load settings done via the GUI.
 config.load_autoconfig(True)
