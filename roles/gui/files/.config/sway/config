@@ -330,6 +330,8 @@ bindsym $mod+p exec switch-power-profile
 
 bindsym $mod+z exec swaylock
 
+exec wl-clip-persist --clipboard regular
+
 # clipboard history
 exec wl-paste --watch cliphist store
 
