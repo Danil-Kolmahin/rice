@@ -50,7 +50,6 @@
           - tesseract-data-eng
           - tesseract-data-ukr
           - languagetool # spell check
-          - vlc # media player TODO: search for cli tools
           - lazydocker
           - github-cli
           - lazygit

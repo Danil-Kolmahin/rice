@@ -45,7 +45,7 @@
           - curl
           - htop
           - ncdu # disk usage display
-          - mpv # TODO: merge with vlc
+          - mpv # TODO: good enough, but search more for things like swayimg
           - ffmpeg # for video/audio processing
           - tree
           - jq
