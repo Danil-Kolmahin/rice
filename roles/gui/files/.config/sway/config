@@ -26,7 +26,7 @@ set $menu wmenu-run \
 
 set $browser qutebrowser
 
-set $file_manager mc
+set $file_manager ranger
 
 set $system_monitor htop
 

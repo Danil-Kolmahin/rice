@@ -40,7 +40,7 @@
           - man-pages # provides both the Linux and the POSIX.1 man pages
           - pass # password manager
           - emacs-nox
-          - mc # file manager # TODO: check ranger
+          - ranger # file manager
           - bc # calculator
           - curl
           - htop
