@@ -39,7 +39,7 @@
           - man-db # main man repo
           - man-pages # provides both the Linux and the POSIX.1 man pages
           - pass # password manager
-          - emacs-nox
+          - nvim
           - ranger # file manager
           - bc # calculator
           - curl

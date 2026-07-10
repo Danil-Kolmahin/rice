@@ -10,8 +10,8 @@ export PATH
 
 # export PAGER=more
 # export MANPAGER=???
-export EDITOR=emacs
-export VISUAL=emacs
+export EDITOR=nvim
+export VISUAL=nvim
 export TERMINAL=alacritty
 # [ -n "$DISPLAY" ] && export BROWSER=qutebrowser || export BROWSER=todo # TODO: find non-gui browser # TODO: fix conflict found in vm with `xdg-settings set default-web-browser`
 
