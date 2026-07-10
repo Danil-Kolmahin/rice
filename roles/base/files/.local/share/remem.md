@@ -79,8 +79,20 @@ virt-install \
   --noautoconsole
 
 nohup virt-viewer mirror &
-# inside Windows 10
-https://github.com/virtio-win/kvm-guest-drivers-windows
+
+# qemu/kvm windows 10 VM - UEFI (secure boot off)
+virt-install \
+  --name win10 \
+  --osinfo win10 \
+  --cdrom $HOME/downloads/Win10_22H2_English_x64v1.iso \
+  --disk size=80 \
+  --memory 16384 \
+  --vcpus 8,sockets=1,cores=4,threads=2 \
+  --graphics spice \
+  --machine q35 \
+  --boot firmware=efi,firmware.feature0.enabled=no,firmware.feature0.name=secure-boot
+
+https://github.com/virtio-win/kvm-guest-drivers-windows # install inside vm
 
 # vm management
 virsh list --all
