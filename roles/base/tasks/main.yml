@@ -40,6 +40,7 @@
           - man-pages # provides both the Linux and the POSIX.1 man pages
           - pass # password manager
           - nvim
+          - lua-language-server
           - ranger # file manager
           - bc # calculator
           - curl
