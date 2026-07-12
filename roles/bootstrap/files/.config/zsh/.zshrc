@@ -31,8 +31,8 @@ PROMPT='%F{%(?.green.red)}%? %F{yellow}${PROMPT_TIME}${PROMPT_ELAPSED:+ "%F{blue
 >'
 
 alias l='ls -lah --color=auto'
-alias e='$EDITOR'
-alias f=ranger
+alias f='$EDITOR'
+alias m=ranger
 alias remem='$EDITOR "$HOME/.local/share/remem.md"'
 
 h() {
