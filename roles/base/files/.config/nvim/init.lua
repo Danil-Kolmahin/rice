@@ -47,4 +47,11 @@ vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
   end,
 })
 
-require("nvim-tree").setup()
+require("nvim-tree").setup{
+  renderer = { icons = { show = {
+    git = false,
+    folder = false,
+    file = false,
+    folder_arrow = false,
+  } } }
+}
