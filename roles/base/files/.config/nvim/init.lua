@@ -18,7 +18,12 @@ vim.pack.add{
   { src = 'https://github.com/nvim-tree/nvim-tree.lua' }, -- TODO: remove and switch to ranger integration if possible
 }
 
+vim.lsp.config.bashls = {
+  cmd = { 'bash-language-server', 'start' },
+  filetypes = { 'bash', 'sh' }
+}
 vim.lsp.enable('lua_ls')
+vim.lsp.enable('bashls')
 vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(ev)
     local client = assert(vim.lsp.get_client_by_id(ev.data.client_id))

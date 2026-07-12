@@ -41,6 +41,9 @@
           - pass # password manager
           - nvim
           - lua-language-server
+          - bash-language-server
+          - shellcheck # bash-language-server linter
+          - shfmt # bash-language-server prettier
           - ranger # file manager
           - bc # calculator
           - curl
