@@ -1,10 +1,11 @@
+---
     - name: Enable and start time synchronization (NTP)
       ansible.builtin.systemd_service:
         unit: systemd-timesyncd
         enabled: true
         state: started
       become: true
-    
+
     # TODO: make faster by using ansible.posix.synchronize (bad, requires rsync) or by parallelizing
     - name: Copy dotfiles
       ansible.builtin.copy:
@@ -44,6 +45,7 @@
           - bash-language-server
           - shellcheck # bash-language-server linter
           - shfmt # bash-language-server prettier
+          - ansible-lint # ansible-language-server linter
           - ranger # file manager
           - bc # calculator
           - curl
@@ -83,7 +85,7 @@
     - name: Enable and start systemd services
       ansible.builtin.systemd_service:
         unit: '{{ item }}.service'
-        enabled: yes
+        enabled: true
         state: started
       with_items:
         - bluetooth
@@ -96,9 +98,9 @@
       ansible.builtin.user:
         name: "{{ ansible_user }}"
         groups: docker
-        append: yes
+        append: true
       become: true
-    
+
     - name: Install AUR user repositories package manager
       ansible.builtin.import_tasks: aur.yml
 
@@ -111,6 +113,7 @@
           - opencode-bin
           - models-bin
           - pi-coding-agent
+          - ansible-language-server
       ansible.builtin.command:
         cmd: "pacman -Qi {{ item }}"
       loop: "{{ aur_packages }}"

@@ -24,6 +24,7 @@ vim.lsp.config.bashls = {
 }
 vim.lsp.enable('lua_ls')
 vim.lsp.enable('bashls')
+vim.lsp.enable('ansiblels')
 vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(ev)
     local client = assert(vim.lsp.get_client_by_id(ev.data.client_id))
@@ -35,6 +36,14 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
       vim.lsp.completion.enable(true, client.id, ev.buf, {autotrigger = true})
     end
+  end,
+})
+
+-- TODO: rewrite
+vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
+  pattern = { '*/playbooks/*.yml', '*/roles/*/tasks/*.yml', '*/roles/*/handlers/*.yml', 'playbook.yml' },
+  callback = function()
+    vim.bo.filetype = 'yaml.ansible'
   end,
 })
 
