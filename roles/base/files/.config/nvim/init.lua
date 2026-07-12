@@ -15,9 +15,10 @@ vim.keymap.set('n', 'gl', vim.diagnostic.open_float)
 
 vim.pack.add{
   { src = 'https://github.com/neovim/nvim-lspconfig' },
+  { src = 'https://github.com/nvim-tree/nvim-tree.lua' }, -- TODO: remove and switch to ranger integration if possible
 }
-vim.lsp.enable('lua_ls')
 
+vim.lsp.enable('lua_ls')
 vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(ev)
     local client = assert(vim.lsp.get_client_by_id(ev.data.client_id))
@@ -31,3 +32,5 @@ vim.api.nvim_create_autocmd('LspAttach', {
     end
   end,
 })
+
+require("nvim-tree").setup()
