@@ -15,14 +15,6 @@ set $up k
 set $right l
 # Your preferred terminal emulator
 set $term alacritty
-# Your preferred application launcher
-set $menu wmenu-run \
-         -N 000000 -n ffffff \
-         -M 000000 -m ffffff \
-         -S ffffff -s 000000 \
-         -i \
-         -p "run:" \
-         -f "IBM Plex Mono 13" # TODO: $FONT
 
 set $browser qutebrowser
 
@@ -246,10 +238,6 @@ bindsym $mod+r mode "resize"
     bindsym Print exec sh -c "flameshot gui --region $(swaymsg -t get_tree | jq -r '.rect | "\(.width)x\(.height)+\(.x)+\(.y)"')"
     bindsym Print+Ctrl exec sh -c "flameshot gui"
     bindsym Print+Shift exec sh -c "flameshot gui --region $(swaymsg -t get_tree | jq -r '.. | select(.focused?) | .rect | "\(.width)x\(.height)+\(.x)+\(.y)"')"
-    bindsym $mod+Shift+p exec sh -c "slurp -p -b 00000000 | xargs -I {} grim -g "{}" - | magick - -format '#%[hex:u.p{0,0}]' info:- | tr '[:upper:]' '[:lower:]' | wl-copy"
-    bindsym $mod+Shift+a exec sh -c "slurp -b 00000000 -c ffffffff -w 1 | xargs -I {} grim -g "{}" - | tesseract stdin stdout -l ukr+eng 2>/dev/null | wl-copy"
-    bindsym $mod+Shift+t exec zsh -c -i "slurp -b 00000000 -c ffffffff -w 1 | xargs -I {} grim -g "{}" - | tesseract stdin stdout -l eng 2>/dev/null | en2uk | xargs -0 -I {} notify-send "Translation" "{}""
-    bindsym $mod+Shift+r exec sh -c "slurp -b 00000000 -c ffffffff -w 1 | xargs -I {} grim -g "{}" - | zbarimg --quiet --raw --nodbus - | xargs -0 -I {} notify-send "Code" "{}""
 
 # fixes a lot of "No X11 DISPLAY variable was set"
 xwayland force
@@ -275,15 +263,6 @@ bindsym $mod+Ctrl+n exec makoctl dismiss
 bindsym $mod+Shift+n exec makoctl list -j | jq -r ".[0].body" | wl-copy
 # Show notification history in terminal
 bindsym $mod+Alt+n exec alacritty msg create-window -T "Notification history" -e sh -c "makoctl history | less"
-# Show clipboard menu
-bindsym $mod+c exec cliphist list | wmenu \
-         -N 000000 -n ffffff \
-         -M 000000 -m ffffff \
-         -S ffffff -s 000000 \
-         -i \
-         -p "copy:" \
-         -f "IBM Plex Mono 13" | cliphist decode | wl-copy
-# TODO: $FONT
 # Show emoji picking menu
 bindsym $mod+u exec pick-emoji
 # Open temp browser

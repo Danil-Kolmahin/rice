@@ -1,4 +1,28 @@
+# Your preferred application launcher
+set $menu wmenu-run \
+         -N {{ colors.C0_BLACK | regex_replace('^#', '') }} -n {{ colors.CF_WHITE_BR | regex_replace('^#', '') }} \
+         -M {{ colors.C0_BLACK | regex_replace('^#', '') }} -m {{ colors.CF_WHITE_BR | regex_replace('^#', '') }} \
+         -S {{ colors.CF_WHITE_BR | regex_replace('^#', '') }} -s {{ colors.C0_BLACK | regex_replace('^#', '') }} \
+         -i \
+         -p "run:" \
+         -f "IBM Plex Mono 13" # TODO: $FONT
+
+    bindsym $mod+Shift+p exec sh -c "slurp -p -b 00000000 | xargs -I {} grim -g "{}" - | magick - -format '#%[hex:u.p{0,0}]' info:- | tr '[:upper:]' '[:lower:]' | wl-copy"
+    bindsym $mod+Shift+a exec sh -c "slurp -b 00000000 -c {{ colors.CF_WHITE_BR | regex_replace('^#', '') }}ff -w 1 | xargs -I {} grim -g "{}" - | tesseract stdin stdout -l ukr+eng 2>/dev/null | wl-copy"
+    bindsym $mod+Shift+t exec zsh -c -i "slurp -b 00000000 -c {{ colors.CF_WHITE_BR | regex_replace('^#', '') }}ff -w 1 | xargs -I {} grim -g "{}" - | tesseract stdin stdout -l eng 2>/dev/null | en2uk | xargs -0 -I {} notify-send "Translation" "{}""
+    bindsym $mod+Shift+r exec sh -c "slurp -b 00000000 -c {{ colors.CF_WHITE_BR | regex_replace('^#', '') }}ff -w 1 | xargs -I {} grim -g "{}" - | zbarimg --quiet --raw --nodbus - | xargs -0 -I {} notify-send "Code" "{}""
+
 output * background {{ colors.C0_BLACK }} solid_color
+
+# Show clipboard menu
+bindsym $mod+c exec cliphist list | wmenu \
+         -N {{ colors.C0_BLACK | regex_replace('^#', '') }} -n {{ colors.CF_WHITE_BR | regex_replace('^#', '') }} \
+         -M {{ colors.C0_BLACK | regex_replace('^#', '') }} -m {{ colors.CF_WHITE_BR | regex_replace('^#', '') }} \
+         -S {{ colors.CF_WHITE_BR | regex_replace('^#', '') }} -s {{ colors.C0_BLACK | regex_replace('^#', '') }} \
+         -i \
+         -p "copy:" \
+         -f "IBM Plex Mono 13" | cliphist decode | wl-copy
+# TODO: $FONT
 
 #
 # Status Bar:
