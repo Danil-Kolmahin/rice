@@ -1,3 +1,6 @@
+[general]
+import = [ "colors.toml" ]
+
 [window]
 title = "Terminal"
 
@@ -8,30 +11,6 @@ multiplier = 1
 [font] # TODO: $FONT
 normal = { family = "IBM Plex Mono" }
 size = 13
-
-[colors.primary]
-background = "0x000000"
-foreground = "0xffffff"
-
-[colors.normal]
-black   = "0x000000"
-red     = "0xb40000"
-green   = "0x00ba00"
-yellow  = "0xcdcd00"
-blue    = "0x164acd"
-magenta = "0xcd00cd"
-cyan    = "0x00cdcd"
-white   = "0xa0a0a0"
-
-[colors.bright]
-black   = "0x404040"
-red     = "0xff0000"
-green   = "0x5aff5a"
-yellow  = "0xffff00"
-blue    = "0x164aff"
-magenta = "0xff00ff"
-cyan    = "0x00ffff"
-white   = "0xffffff"
 
 [cursor]
 style = { shape = "Underline", blinking = "On" }

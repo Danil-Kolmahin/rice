@@ -23,6 +23,11 @@
       with_items:
         - .config
         - .local
+      
+    - name: Template alacritty/colors.toml
+      ansible.builtin.template:
+        src: .config/alacritty/colors.toml.j2
+        dest: "/home/{{ ansible_user }}/.config/alacritty/colors.toml"
 
     - name: Install packages
       ansible.builtin.pacman:
