@@ -1,24 +1,24 @@
 # Your preferred application launcher
 set $menu wmenu-run \
-         -N {{ colors.C0_BLACK | regex_replace('^#', '') }} -n {{ colors.CF_WHITE_BR | regex_replace('^#', '') }} \
-         -M {{ colors.C0_BLACK | regex_replace('^#', '') }} -m {{ colors.CF_WHITE_BR | regex_replace('^#', '') }} \
-         -S {{ colors.CF_WHITE_BR | regex_replace('^#', '') }} -s {{ colors.C0_BLACK | regex_replace('^#', '') }} \
+         -N {{themes[theme].C0_BLACK }} -n {{themes[theme].CF_WHITE_BR }} \
+         -M {{themes[theme].C0_BLACK }} -m {{themes[theme].CF_WHITE_BR }} \
+         -S {{themes[theme].CF_WHITE_BR }} -s {{themes[theme].C0_BLACK }} \
          -i \
          -p "run:" \
          -f "IBM Plex Mono 13" # TODO: $FONT
 
     bindsym $mod+Shift+p exec sh -c "slurp -p -b 00000000 | xargs -I {} grim -g "{}" - | magick - -format '#%[hex:u.p{0,0}]' info:- | tr '[:upper:]' '[:lower:]' | wl-copy"
-    bindsym $mod+Shift+a exec sh -c "slurp -b 00000000 -c {{ colors.CF_WHITE_BR | regex_replace('^#', '') }}ff -w 1 | xargs -I {} grim -g "{}" - | tesseract stdin stdout -l ukr+eng 2>/dev/null | wl-copy"
-    bindsym $mod+Shift+t exec zsh -c -i "slurp -b 00000000 -c {{ colors.CF_WHITE_BR | regex_replace('^#', '') }}ff -w 1 | xargs -I {} grim -g "{}" - | tesseract stdin stdout -l eng 2>/dev/null | en2uk | xargs -0 -I {} notify-send "Translation" "{}""
-    bindsym $mod+Shift+r exec sh -c "slurp -b 00000000 -c {{ colors.CF_WHITE_BR | regex_replace('^#', '') }}ff -w 1 | xargs -I {} grim -g "{}" - | zbarimg --quiet --raw --nodbus - | xargs -0 -I {} notify-send "Code" "{}""
+    bindsym $mod+Shift+a exec sh -c "slurp -b 00000000 -c {{themes[theme].CF_WHITE_BR }}ff -w 1 | xargs -I {} grim -g "{}" - | tesseract stdin stdout -l ukr+eng 2>/dev/null | wl-copy"
+    bindsym $mod+Shift+t exec zsh -c -i "slurp -b 00000000 -c {{themes[theme].CF_WHITE_BR }}ff -w 1 | xargs -I {} grim -g "{}" - | tesseract stdin stdout -l eng 2>/dev/null | en2uk | xargs -0 -I {} notify-send "Translation" "{}""
+    bindsym $mod+Shift+r exec sh -c "slurp -b 00000000 -c {{themes[theme].CF_WHITE_BR }}ff -w 1 | xargs -I {} grim -g "{}" - | zbarimg --quiet --raw --nodbus - | xargs -0 -I {} notify-send "Code" "{}""
 
-output * background {{ colors.C0_BLACK }} solid_color
+output * background #{{themes[theme].C0_BLACK }} solid_color
 
 # Show clipboard menu
 bindsym $mod+c exec cliphist list | wmenu \
-         -N {{ colors.C0_BLACK | regex_replace('^#', '') }} -n {{ colors.CF_WHITE_BR | regex_replace('^#', '') }} \
-         -M {{ colors.C0_BLACK | regex_replace('^#', '') }} -m {{ colors.CF_WHITE_BR | regex_replace('^#', '') }} \
-         -S {{ colors.CF_WHITE_BR | regex_replace('^#', '') }} -s {{ colors.C0_BLACK | regex_replace('^#', '') }} \
+         -N {{themes[theme].C0_BLACK }} -n {{themes[theme].CF_WHITE_BR }} \
+         -M {{themes[theme].C0_BLACK }} -m {{themes[theme].CF_WHITE_BR }} \
+         -S {{themes[theme].CF_WHITE_BR }} -s {{themes[theme].C0_BLACK }} \
          -i \
          -p "copy:" \
          -f "IBM Plex Mono 13" | cliphist decode | wl-copy
@@ -45,18 +45,18 @@ bar {
     status_padding 0
 
     colors {
-        background {{ colors.C0_BLACK }}
-        statusline {{ colors.CF_WHITE_BR }}
-        separator {{ colors.CF_WHITE_BR }}
-        focused_workspace {{ colors.C0_BLACK }} {{ colors.CF_WHITE_BR }} {{ colors.C0_BLACK }}
-        inactive_workspace {{ colors.C0_BLACK }} {{ colors.C0_BLACK }} {{ colors.CF_WHITE_BR }}
-        urgent_workspace {{ colors.C0_BLACK }} {{ colors.C0_BLACK }} {{ colors.C9_RED_BR }}
-        binding_mode {{ colors.C0_BLACK }} {{ colors.CD_MAGENTA_BR }} {{ colors.C0_BLACK }}
+        background #{{themes[theme].C0_BLACK }}
+        statusline #{{themes[theme].CF_WHITE_BR }}
+        separator #{{themes[theme].CF_WHITE_BR }}
+        focused_workspace #{{themes[theme].C0_BLACK }} #{{themes[theme].CF_WHITE_BR }} #{{themes[theme].C0_BLACK }}
+        inactive_workspace #{{themes[theme].C0_BLACK }} #{{themes[theme].C0_BLACK }} #{{themes[theme].CF_WHITE_BR }}
+        urgent_workspace #{{themes[theme].C0_BLACK }} #{{themes[theme].C0_BLACK }} #{{themes[theme].C9_RED_BR }}
+        binding_mode #{{themes[theme].C0_BLACK }} #{{themes[theme].CD_MAGENTA_BR }} #{{themes[theme].C0_BLACK }}
     }
 }
 
-client.focused           {{ colors.CF_WHITE_BR }} {{ colors.CF_WHITE_BR }} {{ colors.C0_BLACK }} {{ colors.CF_WHITE_BR }} {{ colors.CF_WHITE_BR }}
-client.focused_inactive  {{ colors.CF_WHITE_BR }} {{ colors.C0_BLACK }} {{ colors.CF_WHITE_BR }} {{ colors.CF_WHITE_BR }} {{ colors.CF_WHITE_BR }}
-client.focused_tab_title {{ colors.CF_WHITE_BR }} {{ colors.C0_BLACK }} {{ colors.CF_WHITE_BR }}
-client.unfocused         {{ colors.CF_WHITE_BR }} {{ colors.C0_BLACK }} {{ colors.CF_WHITE_BR }} {{ colors.CF_WHITE_BR }} {{ colors.CF_WHITE_BR }}
-client.urgent            {{ colors.C9_RED_BR }} {{ colors.C0_BLACK }} {{ colors.C9_RED_BR }} {{ colors.C9_RED_BR }} {{ colors.C9_RED_BR }}
+client.focused           #{{themes[theme].CF_WHITE_BR }} #{{themes[theme].CF_WHITE_BR }} #{{themes[theme].C0_BLACK }} #{{themes[theme].CF_WHITE_BR }} #{{themes[theme].CF_WHITE_BR }}
+client.focused_inactive  #{{themes[theme].CF_WHITE_BR }} #{{themes[theme].C0_BLACK }} #{{themes[theme].CF_WHITE_BR }} #{{themes[theme].CF_WHITE_BR }} #{{themes[theme].CF_WHITE_BR }}
+client.focused_tab_title #{{themes[theme].CF_WHITE_BR }} #{{themes[theme].C0_BLACK }} #{{themes[theme].CF_WHITE_BR }}
+client.unfocused         #{{themes[theme].CF_WHITE_BR }} #{{themes[theme].C0_BLACK }} #{{themes[theme].CF_WHITE_BR }} #{{themes[theme].CF_WHITE_BR }} #{{themes[theme].CF_WHITE_BR }}
+client.urgent            #{{themes[theme].C9_RED_BR }} #{{themes[theme].C0_BLACK }} #{{themes[theme].C9_RED_BR }} #{{themes[theme].C9_RED_BR }} #{{themes[theme].C9_RED_BR }}
