@@ -251,47 +251,10 @@ bindsym $mod+r mode "resize"
     bindsym $mod+Shift+t exec zsh -c -i "slurp -b 00000000 -c ffffffff -w 1 | xargs -I {} grim -g "{}" - | tesseract stdin stdout -l eng 2>/dev/null | en2uk | xargs -0 -I {} notify-send "Translation" "{}""
     bindsym $mod+Shift+r exec sh -c "slurp -b 00000000 -c ffffffff -w 1 | xargs -I {} grim -g "{}" - | zbarimg --quiet --raw --nodbus - | xargs -0 -I {} notify-send "Code" "{}""
 
-#
-# Status Bar:
-#
-# Read `man 5 sway-bar` for more information about this section.
-bar {
-    position top
-
-    # When the status_command prints a new line to stdout, swaybar updates.
-    # The default just shows the current date and time.
-    status_command status-bar
-
-    height 26
-    # font*2=13*2=26 # TODO: fixes strange vertical padding
-    # font*scale=13*1.5=20 # TODO: fixes strange vertical padding
-
-    separator_symbol " "
-
-    status_edge_padding 0
-    status_padding 0
-
-    colors {
-        background #000000
-        statusline #ffffff
-        separator #ffffff
-        focused_workspace #000000 #ffffff #000000
-        inactive_workspace #000000 #000000 #ffffff
-        urgent_workspace #000000 #000000 #ff0000
-        binding_mode #000000 #ff00ff #000000
-    }
-}
-
 # fixes a lot of "No X11 DISPLAY variable was set"
 xwayland force
 
 include /etc/sway/config.d/*
-
-client.focused           #ffffff #ffffff #000000 #ffffff #ffffff
-client.focused_inactive  #ffffff #000000 #ffffff #ffffff #ffffff
-client.focused_tab_title #ffffff #000000 #ffffff
-client.unfocused         #ffffff #000000 #ffffff #ffffff #ffffff
-client.urgent            #ff0000 #000000 #ff0000 #ff0000 #ff0000
 
 titlebar_border_thickness 1
 titlebar_padding 6 1
@@ -336,3 +299,5 @@ exec wl-clip-persist --clipboard regular
 exec wl-paste --watch cliphist store
 
 for_window [class="zbar"] title_format "Scanning code"
+
+include colors

@@ -29,6 +29,11 @@
         src: .config/alacritty/colors.toml.j2
         dest: "/home/{{ ansible_user }}/.config/alacritty/colors.toml"
 
+    - name: Template sway/colors
+      ansible.builtin.template:
+        src: .config/sway/colors.j2
+        dest: "/home/{{ ansible_user }}/.config/sway/colors"
+
     - name: Install packages
       ansible.builtin.pacman:
         name:

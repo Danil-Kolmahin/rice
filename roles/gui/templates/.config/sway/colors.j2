@@ -1,0 +1,36 @@
+#
+# Status Bar:
+#
+# Read `man 5 sway-bar` for more information about this section.
+bar {
+    position top
+
+    # When the status_command prints a new line to stdout, swaybar updates.
+    # The default just shows the current date and time.
+    status_command status-bar
+
+    height 26
+    # font*2=13*2=26 # TODO: fixes strange vertical padding
+    # font*scale=13*1.5=20 # TODO: fixes strange vertical padding
+
+    separator_symbol " "
+
+    status_edge_padding 0
+    status_padding 0
+
+    colors {
+        background {{ colors.C0_BLACK }}
+        statusline {{ colors.CF_WHITE_BR }}
+        separator {{ colors.CF_WHITE_BR }}
+        focused_workspace {{ colors.C0_BLACK }} {{ colors.CF_WHITE_BR }} {{ colors.C0_BLACK }}
+        inactive_workspace {{ colors.C0_BLACK }} {{ colors.C0_BLACK }} {{ colors.CF_WHITE_BR }}
+        urgent_workspace {{ colors.C0_BLACK }} {{ colors.C0_BLACK }} {{ colors.C9_RED_BR }}
+        binding_mode {{ colors.C0_BLACK }} {{ colors.CD_MAGENTA_BR }} {{ colors.C0_BLACK }}
+    }
+}
+
+client.focused           {{ colors.CF_WHITE_BR }} {{ colors.CF_WHITE_BR }} {{ colors.C0_BLACK }} {{ colors.CF_WHITE_BR }} {{ colors.CF_WHITE_BR }}
+client.focused_inactive  {{ colors.CF_WHITE_BR }} {{ colors.C0_BLACK }} {{ colors.CF_WHITE_BR }} {{ colors.CF_WHITE_BR }} {{ colors.CF_WHITE_BR }}
+client.focused_tab_title {{ colors.CF_WHITE_BR }} {{ colors.C0_BLACK }} {{ colors.CF_WHITE_BR }}
+client.unfocused         {{ colors.CF_WHITE_BR }} {{ colors.C0_BLACK }} {{ colors.CF_WHITE_BR }} {{ colors.CF_WHITE_BR }} {{ colors.CF_WHITE_BR }}
+client.urgent            {{ colors.C9_RED_BR }} {{ colors.C0_BLACK }} {{ colors.C9_RED_BR }} {{ colors.C9_RED_BR }} {{ colors.C9_RED_BR }}
