@@ -46,6 +46,7 @@
           - ttf-ibm-plex # font, TODO: consider other options - ttf-jetbrains-mono, iosevka-nerd-font
           - noto-fonts-emoji # emojis
           - sway
+          - swaybg
           - swaylock # lock screen for sway
           - xdg-desktop-portal # file access, opening URIs, printing etc | https://github.com/swaywm/sway/wiki/XDG-Desktop-Portal-configuration
           - xdg-desktop-portal-wlr # wayland xdg-desktop-portal
