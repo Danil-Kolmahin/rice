@@ -19,23 +19,7 @@ xdg_download = subprocess.check_output(
     ['xdg-user-dir', 'DOWNLOAD'], text=True
 ).strip()
 
-# TODO: move out to general config
-C0_BLACK      = "#000000"
-C1_RED        = "#B40000"
-C2_GREEN      = "#00BA00"
-C3_YELLOW     = "#CDCD00"
-C4_BLUE       = "#164ACD"
-C5_MAGENTA    = "#CD00CD"
-C6_CYAN       = "#00CDCD"
-C7_WHITE      = "#A0A0A0"
-C8_BLACK_BR   = "#404040"
-C9_RED_BR     = "#FF0000"
-CA_GREEN_BR   = "#5AFF5A"
-CB_YELLOW_BR  = "#FFFF00"
-CC_BLUE_BR    = "#164AFF"
-CD_MAGENTA_BR = "#FF00FF"
-CE_CYAN_BR    = "#00FFFF"
-CF_WHITE_BR   = "#FFFFFF"
+from colors import *
 
 # TODO: make adapter colors config like:
 # colors = {
