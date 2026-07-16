@@ -35,10 +35,25 @@
         src: .config/sway/colors.j2
         dest: "/home/{{ ansible_user }}/.config/sway/colors"
 
+    - name: Template swaylock/config
+      ansible.builtin.template:
+        src: .config/swaylock/config.j2
+        dest: "/home/{{ ansible_user }}/.config/swaylock/config"
+
     - name: Template qutebrowser/colors.py
       ansible.builtin.template:
         src: .config/qutebrowser/colors.py.j2
         dest: "/home/{{ ansible_user }}/.config/qutebrowser/colors.py"
+
+    - name: Template mako/config
+      ansible.builtin.template:
+        src: .config/mako/config.j2
+        dest: "/home/{{ ansible_user }}/.config/mako/config"
+
+    - name: Template flameshot/flameshot.ini
+      ansible.builtin.template:
+        src: .config/flameshot/flameshot.ini.j2
+        dest: "/home/{{ ansible_user }}/.config/flameshot/flameshot.ini"
 
     - name: Install packages
       ansible.builtin.pacman:
