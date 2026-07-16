@@ -238,6 +238,10 @@ bindsym $mod+r mode "resize"
     bindsym Print exec sh -c "flameshot gui --region $(swaymsg -t get_tree | jq -r '.rect | "\(.width)x\(.height)+\(.x)+\(.y)"')"
     bindsym Print+Ctrl exec sh -c "flameshot gui"
     bindsym Print+Shift exec sh -c "flameshot gui --region $(swaymsg -t get_tree | jq -r '.. | select(.focused?) | .rect | "\(.width)x\(.height)+\(.x)+\(.y)"')"
+    bindsym $mod+Shift+p exec pick-color
+    bindsym $mod+Shift+a exec crop-text2clip
+    bindsym $mod+Shift+t exec zsh -c -i "crop-en2uk"
+    bindsym $mod+Shift+r exec scan-qr
 
 # fixes a lot of "No X11 DISPLAY variable was set"
 xwayland force
@@ -263,6 +267,8 @@ bindsym $mod+Ctrl+n exec makoctl dismiss
 bindsym $mod+Shift+n exec makoctl list -j | jq -r ".[0].body" | wl-copy
 # Show notification history in terminal
 bindsym $mod+Alt+n exec alacritty msg create-window -T "Notification history" -e sh -c "makoctl history | less"
+# Show clipboard menu
+bindsym $mod+c exec clipboard-menu
 # Show emoji picking menu
 bindsym $mod+u exec pick-emoji
 # Open temp browser

@@ -3,13 +3,14 @@ set -euo pipefail
 
 UNICODE_EMOJI_LIST="$HOME/.local/share/unicode-emoji-data-cut.txt"
 
-color=$(_system_color CF_WHITE_BR)
+foreground_color=$(_system_color CF_WHITE_BR)
+background_color=$(_system_color C0_BLACK)
 
 choice=$(cat ${UNICODE_EMOJI_LIST} | \
         wmenu \
-        -N 000000 -n $color \
-        -M 000000 -m $color \
-        -S $color -s 000000 \
+        -N $background_color -n $foreground_color \
+        -M $background_color -m $foreground_color \
+        -S $foreground_color -s $background_color \
         -i \
         -p "unicode:" \
         -f "IBM Plex Mono 13") # TODO: use $FONT

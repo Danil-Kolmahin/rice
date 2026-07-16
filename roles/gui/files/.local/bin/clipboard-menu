@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+foreground_color=$(_system_color CF_WHITE_BR)
+background_color=$(_system_color C0_BLACK)
+
+cliphist list | wmenu \
+    -N $background_color -n $foreground_color \
+    -M $background_color -m $foreground_color \
+    -S $foreground_color -s $background_color \
+    -i \
+    -p "copy:" \
+    -f "IBM Plex Mono 13" | cliphist decode | wl-copy # TODO: $FONT

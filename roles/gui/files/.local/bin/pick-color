@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+slurp -p -b 00000000 | xargs -I {} grim -g "{}" - | magick - -format '#%[hex:u.p{0,0}]' info:- | tr '[:upper:]' '[:lower:]' | wl-copy

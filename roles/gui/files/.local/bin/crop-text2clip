@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+border_color=$(_system_color CF_WHITE_BR)
+
+slurp -b 00000000 -c "$border_color"ff -w 1 | xargs -I {} grim -g "{}" - | tesseract stdin stdout -l ukr+eng 2>/dev/null | wl-copy
