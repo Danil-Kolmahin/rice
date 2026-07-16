@@ -3,6 +3,11 @@ set -euo pipefail
 
 # TODO: rewrite
 
+background_color=$(_system_color C0_BLACK)
+foreground_color=$(_system_color CF_WHITE_BR)
+warning_color=$(_system_color CB_YELLOW_BR)
+error_color=$(_system_color C9_RED_BR)
+
 reboot-needed-status() {
     vercmp $(pacman -Q linux | cut -d " " -f 2) $(uname -r)
 }
@@ -51,9 +56,9 @@ vpn-status() {
         if [[ $routes == *$'\ndefault '* ]] \
             || [[ $routes == *$'\n0.0.0.0/1 '* && $routes == *$'\n128.0.0.0/1 '* ]] \
             || [[ $routes == *$'\n::/1 '* && $routes == *$'\n8000::/1 '* ]]; then
-            STATUS+="{\"full_text\":\"FVPN:$iface\",\"color\":\"#000000\",\"background\":\"#ffff00\",\"border\":\"#00000000\"},"
+            STATUS+="{\"full_text\":\"FVPN:$iface\",\"color\":\"#$background_color\",\"background\":\"$warning_color\",\"border\":\"#00000000\"},"
         else
-            STATUS+="{\"full_text\":\"SVPN:$iface\",\"color\":\"#000000\",\"background\":\"#ffff00\",\"border\":\"#00000000\"},"
+            STATUS+="{\"full_text\":\"SVPN:$iface\",\"color\":\"#$background_color\",\"background\":\"$warning_color\",\"border\":\"#00000000\"},"
         fi
     done < <(ip -o link show up | awk -F': ' -v vpn_re="$vpn_re" '{
         split($2, name, "@")
@@ -205,12 +210,12 @@ echo '['
 while true; do
     STATUS=""
 
-    [[ $(reboot-needed-status) -gt 0 ]] && STATUS+="{\"full_text\":\"REBOOT REQUIRED\",\"color\":\"#000000\",\"background\":\"#ff0000\",\"border\":\"#00000000\"},"
+    [[ $(reboot-needed-status) -gt 0 ]] && STATUS+="{\"full_text\":\"REBOOT REQUIRED\",\"color\":\"$background_color\",\"background\":\"$error_color\",\"border\":\"#00000000\"},"
     # STATUS+="{\"full_text\":\"BT:on(1)\"},"
 
-    [ -n "$(mic-active)" ] && STATUS+="{\"full_text\":\"MIC\",\"color\":\"#000000\",\"background\":\"#ff0000\",\"border\":\"#00000000\"},"
-    [ -n "$(cam-active)" ] && STATUS+="{\"full_text\":\"CAM\",\"color\":\"#000000\",\"background\":\"#ff0000\",\"border\":\"#00000000\"},"
-    [ -n "$(rec-active)" ] && STATUS+="{\"full_text\":\"REC\",\"color\":\"#000000\",\"background\":\"#ff0000\",\"border\":\"#00000000\"},"
+    [ -n "$(mic-active)" ] && STATUS+="{\"full_text\":\"MIC\",\"color\":\"$background_color\",\"background\":\"$error_color\",\"border\":\"#00000000\"},"
+    [ -n "$(cam-active)" ] && STATUS+="{\"full_text\":\"CAM\",\"color\":\"$background_color\",\"background\":\"$error_color\",\"border\":\"#00000000\"},"
+    [ -n "$(rec-active)" ] && STATUS+="{\"full_text\":\"REC\",\"color\":\"$background_color\",\"background\":\"$error_color\",\"border\":\"#00000000\"},"
     
     vpn-status
     net-status
@@ -219,9 +224,9 @@ while true; do
 
     disk_pct=$(df / | awk 'NR == 2 {gsub(/%/,"",$5); print $5}') # TODO: unify
     if [ "$disk_pct" -ge 90 ]; then
-        STATUS+="{\"full_text\":\"DISK:$(disk-status)\",\"color\":\"#000000\",\"background\":\"#ff0000\",\"border\":\"#00000000\"},"
+        STATUS+="{\"full_text\":\"DISK:$(disk-status)\",\"color\":\"$background_color\",\"background\":\"$error_color\",\"border\":\"#00000000\"},"
     elif [ "$disk_pct" -ge 75 ]; then
-        STATUS+="{\"full_text\":\"DISK:$(disk-status)\",\"color\":\"#000000\",\"background\":\"#ffff00\",\"border\":\"#00000000\"},"
+        STATUS+="{\"full_text\":\"DISK:$(disk-status)\",\"color\":\"$background_color\",\"background\":\"$warning_color\",\"border\":\"#00000000\"},"
     else
         STATUS+="{\"full_text\":\"DISK:$(disk-status)\"},"
     fi
@@ -229,7 +234,7 @@ while true; do
     STATUS+="{\"full_text\":\"RAM:$(ram-status)\"},"
     STATUS+="{\"full_text\":\"CPU:$(cpu-status)%\"}," # TODO: add ,73°C
     if [ $(upower -b | awk '/state/ {print $2}') = "discharging" ]; then
-        STATUS+="{\"full_text\":\"$(power-profile):$(power-status)\",\"color\":\"#000000\",\"background\":\"#ff0000\",\"border\":\"#00000000\"},"
+        STATUS+="{\"full_text\":\"$(power-profile):$(power-status)\",\"color\":\"$background_color\",\"background\":\"$error_color\",\"border\":\"#00000000\"},"
     else
         STATUS+="{\"full_text\":\"$(power-profile):$(power-status)\"},"
     fi
