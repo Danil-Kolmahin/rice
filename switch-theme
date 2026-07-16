@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# TODO: rewrite and integrate into usual script
+
+LOCAL="$HOME/projects/rice/group_vars/all/99-local.yml"
+DEFAULTS="$HOME/projects/rice/group_vars/all/10-defaults.yml"
+
+if ! command -v whiptail >/dev/null 2>&1; then
+    sudo pacman -S --needed libnewt
+fi
+
+mapfile -t THEMES < <(yq --raw-output '.themes // {} | keys | .[]' "$DEFAULTS")
+if [ "${#THEMES[@]}" -eq 0 ]; then
+    echo "Error: no themes found under .themes in $DEFAULTS" >&2
+    exit 1
+fi
+
+current_theme=""
+if [ -f "$LOCAL" ]; then
+    current_theme=$(yq --raw-output '.theme // ""' "$LOCAL")
+fi
+if [ -z "$current_theme" ] || [ "$current_theme" = "null" ]; then
+    current_theme=$(yq --raw-output '.theme // ""' "$DEFAULTS")
+fi
+
+menu_args=()
+for t in "${THEMES[@]}"; do
+    tag="$t"
+    [ "$t" = "$current_theme" ] && tag="$t (current)"
+    menu_args+=("$t" "$tag")
+done
+selected_theme=$(whiptail --title "Select theme" \
+    --default-item "$current_theme" \
+    --menu "Choose a theme to switch to:" 20 60 "${#THEMES[@]}" \
+    "${menu_args[@]}" \
+    3>&1 1>&2 2>&3)
+
+if [ ! -s "$LOCAL" ]; then
+    echo "{}" > "$LOCAL"
+fi
+yq --in-place --yml-output ".theme = \"${selected_theme}\"" "$LOCAL"
+
+(cd ~/projects/rice && uv run ansible-playbook -K -i localhost, -e 'target_hosts=localhost' -c local themes-test.yml)
