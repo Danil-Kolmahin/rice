@@ -1,0 +1,50 @@
+---
+- hosts: "{{ target_hosts }}"
+  tasks:
+    - name: Set ansible_user variable # TODO: fix https://github.com/ansible/ansible/issues/23530
+      set_fact: ansible_user="{{ lookup('pipe', 'whoami') }}"
+
+    - name: Template alacritty/colors.toml
+      ansible.builtin.template:
+        src: roles/gui/templates/.config/alacritty/colors.toml.j2
+        dest: "/home/{{ ansible_user }}/.config/alacritty/colors.toml"
+
+    - name: Template sway/colors
+      ansible.builtin.template:
+        src: roles/gui/templates/.config/sway/colors.j2
+        dest: "/home/{{ ansible_user }}/.config/sway/colors"
+      notify: Reload sway
+
+    - name: Template swaylock/config
+      ansible.builtin.template:
+        src: roles/gui/templates/.config/swaylock/config.j2
+        dest: "/home/{{ ansible_user }}/.config/swaylock/config"
+
+    - name: Template qutebrowser/colors.py
+      ansible.builtin.template:
+        src: roles/gui/templates/.config/qutebrowser/colors.py.j2
+        dest: "/home/{{ ansible_user }}/.config/qutebrowser/colors.py"
+      notify: Reload qutebrowser
+
+    - name: Template mako/config
+      ansible.builtin.template:
+        src: roles/gui/templates/.config/mako/config.j2
+        dest: "/home/{{ ansible_user }}/.config/mako/config"
+      notify: Reload mako
+
+    - name: Template flameshot/flameshot.ini
+      ansible.builtin.template:
+        src: roles/gui/templates/.config/flameshot/flameshot.ini.j2
+        dest: "/home/{{ ansible_user }}/.config/flameshot/flameshot.ini"
+
+    # TODO: add ly here
+
+  handlers:
+    - name: Reload sway
+      ansible.builtin.command: swaymsg reload
+
+    - name: Reload mako
+      ansible.builtin.command: makoctl reload
+
+    - name: Reload qutebrowser
+      ansible.builtin.command: qutebrowser ":config-source" # TODO: fix "opened link" behaviour # TODO: reload all instances

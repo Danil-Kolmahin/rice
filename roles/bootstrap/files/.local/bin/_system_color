@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-set -euo pipefail
-
-# TODO: throw if no "$1"
-
-cat ~/projects/rice/group_vars/all.yml | yq --raw-output .themes.$(cat ~/projects/rice/group_vars/all.yml | yq .theme).$1

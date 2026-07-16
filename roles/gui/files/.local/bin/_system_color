@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# TODO: throw if no "$1"
+
+LOCAL=~/projects/rice/group_vars/all/99-local.yml
+DEFAULTS=~/projects/rice/group_vars/all/10-defaults.yml
+
+theme=""
+if [ -f "$LOCAL" ]; then
+  theme=$(yq --raw-output '.theme // ""' "$LOCAL")
+fi
+
+if [ -z "$theme" ] || [ "$theme" = "null" ]; then
+  theme=$(yq --raw-output '.theme' "$DEFAULTS")
+fi
+
+yq --raw-output ".themes[\"$theme\"].$1" "$DEFAULTS"
