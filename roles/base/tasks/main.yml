@@ -34,7 +34,6 @@
           - bluez # bluetooth
           - bluez-utils # bluez cli
           - bluetui # bluetooth tui
-          # - openvpn # maybe needed - TODO - test
           - networkmanager-openvpn # NetworkManager restart needed
         # base utils
           - man-db # main man repo
@@ -59,7 +58,7 @@
           - croc # super convinient file node-to-node transfer tool
           - zbar # qr/bar codes reader (cli/webcam)
           - qrencode
-          # - unzip # .zip files unarchive
+          - unzip # .zip files unarchive
           - mat2 # TODO: consider alternatives
           - imagemagick
         # base development tools
