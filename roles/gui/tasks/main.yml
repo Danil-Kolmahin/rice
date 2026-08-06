@@ -25,6 +25,15 @@
         - .local
 
     # TODO: merge all templates below to single task
+    - name: Create .config directories
+      ansible.builtin.file:
+        path: "/home/{{ ansible_user }}/.config/{{ item }}"
+        state: directory
+      with_items:
+        - swaylock
+        - mako
+        - flameshot
+
     - name: Template alacritty/colors.toml
       ansible.builtin.template:
         src: .config/alacritty/colors.toml.j2
