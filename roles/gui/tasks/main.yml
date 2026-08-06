@@ -138,6 +138,7 @@
       vars:
         aur_packages:
           - ditto
+          - piper-tts-bin
       ansible.builtin.command:
         cmd: "pacman -Qi {{ item }}"
       loop: "{{ aur_packages }}"
