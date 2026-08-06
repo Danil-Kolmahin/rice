@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# TODO: rewrite all
+
+# File name of your CSV
+CSV_FILE="$HOME/downloads/words.csv"
+
+# Check if file exists
+if [ ! -f "$CSV_FILE" ]; then
+    echo "Error: '$CSV_FILE' not found. Please create it first!"
+    exit 1
+fi
+
+echo "============================"
+echo "    Word Learning Quiz"
+echo "============================"
+echo "Select Mode:"
+echo "1) Normal  (Word  → Definition)"
+echo "2) Reverse (Definition → Word)"
+read -r -p "Enter choice [1 or 2]: " MODE_CHOICE
+
+echo ""
+echo "Press [ENTER] to reveal answer, or type 'q' and press [ENTER] to quit."
+echo "------------------------------------------------------------------"
+
+while true; do
+    # Pick a random line (ignoring empty lines)
+    random_line=$(grep -v '^[[:space:]]*$' "$CSV_FILE" | shuf -n 1)
+
+    # Extract word (Column 1) and definition (Column 2)
+    word=$(echo "$random_line" | cut -d',' -f1)
+    definition=$(echo "$random_line" | cut -d',' -f2-)
+
+    # Set prompt and answer based on selected mode
+    if [[ "$MODE_CHOICE" == "2" ]]; then
+        prompt_label="Definition"
+        prompt_val="$definition"
+        answer_label="Word"
+        answer_val="$word"
+    else
+        prompt_label="Word"
+        prompt_val="$word"
+        answer_label="Definition"
+        answer_val="$definition"
+    fi
+
+    echo ""
+    echo -e "  \033[1;34m${prompt_label}:\033[0m $prompt_val"
+    read -r -p "  Show answer? " user_input
+
+    # Check if user wants to quit
+    if [[ "$user_input" == "q" || "$user_input" == "Q" ]]; then
+        echo "Great study session! Goodbye."
+        break
+    fi
+
+    echo -e "  \033[1;32m${answer_label}:\033[0m $answer_val"
+    echo "------------------------------------------------"
+done
