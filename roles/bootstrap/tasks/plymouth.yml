@@ -10,6 +10,10 @@
       ansible.builtin.file:
         path: /usr/share/plymouth/themes/custom
         state: directory
+        owner: root
+        group: root
+        mode: "755"
+      become: true
 
     - name: Copy plymouth/custom.plymouth # TODO: came out with the way to copy all system files
       ansible.builtin.template:
