@@ -26,7 +26,7 @@ Boot into the official Arch Linux live environment. If a wired connection is una
 iwctl device list # 3.1. List your wireless device name (usually wlan0)
 iwctl station $DEVICE scan # 3.2. Scan for available networks
 iwctl station $DEVICE get-networks # 3.3. List the discovered networks
-iwctl --passphrase=$PASSPHRASE station $DEVICE connect $SSID # 3.4. Connect to your network
+iwctl station $DEVICE connect $SSID # 3.4. Connect to your network
 ```
 
 ### 4. Execute installation
