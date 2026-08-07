@@ -1,0 +1,25 @@
+    - name: Install plymouth
+      ansible.builtin.pacman:
+        name: plymouth
+        state: present
+      become: true
+    
+    # TODO: change /boot/loader/entries/arch.conf, /etc/mkinitcpio.conf, sudo mkinitcpio -P, /etc/plymouth/plymouth.conf
+
+    - name: Copy plymouth/custom.plymouth # TODO: came out with the way to copy all system files
+      ansible.builtin.template:
+        src: plymouth/custom.plymouth.j2
+        dest: /usr/share/plymouth/themes/custom/custom.plymouth
+        owner: root
+        group: root
+        mode: "644"
+      become: true
+
+    - name: Copy plymouth/custom.script # TODO: came out with the way to copy all system files
+      ansible.builtin.template:
+        src: plymouth/custom.script.j2
+        dest: /usr/share/plymouth/themes/custom/custom.script
+        owner: root
+        group: root
+        mode: "644"
+      become: true

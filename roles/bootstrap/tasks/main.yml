@@ -39,3 +39,6 @@
 
     - name: Install and configure ly display manager (semi-login manager)
       ansible.builtin.import_tasks: ly.yml
+
+    - name: Configure plymouth
+      ansible.builtin.import_tasks: plymouth.yml
