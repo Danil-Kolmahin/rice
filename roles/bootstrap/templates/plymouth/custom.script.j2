@@ -6,14 +6,17 @@ font = "IBM Plex Mono 14";
 margin_x = 0;
 margin_y = 0;
 
-// Set your typical/target boot time here in seconds
-target_duration = 8.0;
-
 prompt_sprite = Sprite();
 loading_sprite = Sprite();
 
+current_duration = 0.0;
+current_progress = 0.0;
+dots = ["...", "..", ".", ""];
+frame_count = 0;
+
 // --- LUKS Passphrase Prompt ---
 fun password_callback(prompt, bullets) {
+  // Hide loading text when asking for password
   loading_sprite.SetImage(Image(0, 0));
 
   prompt_img = Image.Text("Disk encryption passphrase:", 1, 1, 1, 1, font);
@@ -23,32 +26,42 @@ fun password_callback(prompt, bullets) {
 }
 Plymouth.SetDisplayPasswordFunction(password_callback);
 
-// --- Duration Tracking ---
-current_duration = 0.0;
-current_progress = 0.0;
-dots = ["...", "..", ".", ""];
-frame_count = 0;
-
-// Plymouth passes elapsed seconds directly to this callback
+// --- Capture Duration & Progress ---
 fun progress_callback(duration, progress) {
   current_duration = duration;
   current_progress = progress;
 }
 Plymouth.SetBootProgressFunction(progress_callback);
 
+// Helper to format floating point seconds into "X.Ys"
+fun format_time(seconds) {
+  sec_int = Math.Int(seconds);
+  tenths = Math.Int((seconds - sec_int) * 10);
+  if (tenths < 0) tenths = 0;
+  return sec_int + "." + tenths + "s";
+}
+
 // --- Screen Refresh ---
 fun refresh_callback() {
+  // FIX: Force-clear passphrase prompt sprite on every refresh to prevent text overlap
+  prompt_sprite.SetImage(Image(0, 0));
+
   frame_count++;
   if (frame_count % 10 == 0) {
     idx = (frame_count / 10) % 4;
 
-    // Format current duration to 1 decimal place
-    seconds_int = Math.Int(current_duration);
-    tenths = Math.Int((current_duration - seconds_int) * 10);
-    time_str = seconds_int + "." + tenths + "s";
+    // DYNAMIC ESTIMATE: Expected Total Time = Elapsed Time / Progress Ratio
+    if (current_progress > 0.05) {
+      expected_total = current_duration / current_progress;
+    } else {
+      expected_total = 8.0; // Default placeholder until systemd reports > 5% progress
+    }
 
-    // Build line: "Loading...          [3.4s / 8.0s]"
-    full_text = "Loading" + dots[idx] + "  [" + time_str + " / " + current_progress + "s]";
+    time_curr_str = format_time(current_duration);
+    time_exp_str  = format_time(expected_total);
+
+    // Output format: "Loading...  [2.3s / 7.8s]"
+    full_text = "Loading" + dots[idx] + "  [" + time_curr_str + " / " + time_exp_str + "]";
 
     loading_img = Image.Text(full_text, 1, 1, 1, 1, font);
     loading_sprite.SetImage(loading_img);
@@ -58,6 +71,7 @@ fun refresh_callback() {
 }
 
 fun normal_callback() {
+  // Clear passphrase text immediately upon entering normal boot phase
   prompt_sprite.SetImage(Image(0, 0));
   Plymouth.SetRefreshFunction(refresh_callback);
 }

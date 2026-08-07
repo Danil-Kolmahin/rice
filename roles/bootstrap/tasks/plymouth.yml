@@ -4,7 +4,11 @@
         state: present
       become: true
     
-    # TODO: change /boot/loader/entries/arch.conf, /etc/mkinitcpio.conf, sudo mkinitcpio -P, /etc/plymouth/plymouth.conf
+    # TODO:
+    # /boot/loader/entries/arch.conf: add "splash quiet plymouth.boot-log=/dev/null"
+    # /etc/mkinitcpio.conf: add "plymouth" after "systemd" and before "autodetect"
+    # sudo mkinitcpio -P
+    # /etc/plymouth/plymouth.conf: "Theme=custom"
 
     - name: Create plymouth/custom directory
       ansible.builtin.file:
