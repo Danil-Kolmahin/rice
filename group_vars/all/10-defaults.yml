@@ -120,5 +120,23 @@ themes:
     CD_MAGENTA_BR : "FF3EC4"
     CE_CYAN_BR    : "2EE6C8"
     CF_WHITE_BR   : "FFD400"
+  AKA-FUJI:
+    wallpaper: ~/.local/share/wallpapers/image-from-rawpixel-id-7642633-jpeg.jpg
+    C0_BLACK      : "1A4B4C"
+    C1_RED        : "C83E2B"
+    C2_GREEN      : "226F54"
+    C3_YELLOW     : "C8963E"
+    C4_BLUE       : "1C4176"
+    C5_MAGENTA    : "9A4032"
+    C6_CYAN       : "2E8B8B"
+    C7_WHITE      : "B8C8D4"
+    C8_BLACK_BR   : "2A6365"
+    C9_RED_BR     : "E0523D"
+    CA_GREEN_BR   : "2E9472"
+    CB_YELLOW_BR  : "DDAA4B"
+    CC_BLUE_BR    : "295BA3"
+    CD_MAGENTA_BR : "B85343"
+    CE_CYAN_BR    : "42A8A8"
+    CF_WHITE_BR   : "C83E2B"
 # INDUSTRIAL (like yellow-black lines or maybe a lot of orange)
 # TOXIC
