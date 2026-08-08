@@ -52,6 +52,7 @@ themes:
     CE_CYAN_BR    : "5CA8A8"
     CF_WHITE_BR   : "4A2E14"
   CYBERPUNK:
+    wallpaper: ~/.local/share/wallpapers/Every_pixel_has_a_random_color.png
     C0_BLACK      : "D400D4"
     C1_RED        : "FF073A"
     C2_GREEN      : "00FF9C"
