@@ -56,9 +56,9 @@ vpn-status() {
         if [[ $routes == *$'\ndefault '* ]] \
             || [[ $routes == *$'\n0.0.0.0/1 '* && $routes == *$'\n128.0.0.0/1 '* ]] \
             || [[ $routes == *$'\n::/1 '* && $routes == *$'\n8000::/1 '* ]]; then
-            STATUS+="{\"full_text\":\"FVPN:$iface\",\"color\":\"#$background_color\",\"background\":\"$warning_color\",\"border\":\"#00000000\"},"
+            STATUS+="{\"full_text\":\"FVPN:$iface\",\"color\":\"#$background_color\",\"background\":\"$warning_color\",\"border\":\"$background_color\"},"
         else
-            STATUS+="{\"full_text\":\"SVPN:$iface\",\"color\":\"#$background_color\",\"background\":\"$warning_color\",\"border\":\"#00000000\"},"
+            STATUS+="{\"full_text\":\"SVPN:$iface\",\"color\":\"#$background_color\",\"background\":\"$warning_color\",\"border\":\"$background_color\"},"
         fi
     done < <(ip -o link show up | awk -F': ' -v vpn_re="$vpn_re" '{
         split($2, name, "@")
@@ -210,12 +210,12 @@ echo '['
 while true; do
     STATUS=""
 
-    [[ $(reboot-needed-status) -gt 0 ]] && STATUS+="{\"full_text\":\"REBOOT REQUIRED\",\"color\":\"$background_color\",\"background\":\"$error_color\",\"border\":\"#00000000\"},"
+    [[ $(reboot-needed-status) -gt 0 ]] && STATUS+="{\"full_text\":\"REBOOT REQUIRED\",\"color\":\"$background_color\",\"background\":\"$error_color\",\"border\":\"$background_color\"},"
     # STATUS+="{\"full_text\":\"BT:on(1)\"},"
 
-    [ -n "$(mic-active)" ] && STATUS+="{\"full_text\":\"MIC\",\"color\":\"$background_color\",\"background\":\"$error_color\",\"border\":\"#00000000\"},"
-    [ -n "$(cam-active)" ] && STATUS+="{\"full_text\":\"CAM\",\"color\":\"$background_color\",\"background\":\"$error_color\",\"border\":\"#00000000\"},"
-    [ -n "$(rec-active)" ] && STATUS+="{\"full_text\":\"REC\",\"color\":\"$background_color\",\"background\":\"$error_color\",\"border\":\"#00000000\"},"
+    [ -n "$(mic-active)" ] && STATUS+="{\"full_text\":\"MIC\",\"color\":\"$background_color\",\"background\":\"$error_color\",\"border\":\"$background_color\"},"
+    [ -n "$(cam-active)" ] && STATUS+="{\"full_text\":\"CAM\",\"color\":\"$background_color\",\"background\":\"$error_color\",\"border\":\"$background_color\"},"
+    [ -n "$(rec-active)" ] && STATUS+="{\"full_text\":\"REC\",\"color\":\"$background_color\",\"background\":\"$error_color\",\"border\":\"$background_color\"},"
     
     vpn-status
     net-status
@@ -224,9 +224,9 @@ while true; do
 
     disk_pct=$(df / | awk 'NR == 2 {gsub(/%/,"",$5); print $5}') # TODO: unify
     if [ "$disk_pct" -ge 90 ]; then
-        STATUS+="{\"full_text\":\"DISK:$(disk-status)\",\"color\":\"$background_color\",\"background\":\"$error_color\",\"border\":\"#00000000\"},"
+        STATUS+="{\"full_text\":\"DISK:$(disk-status)\",\"color\":\"$background_color\",\"background\":\"$error_color\",\"border\":\"$background_color\"},"
     elif [ "$disk_pct" -ge 75 ]; then
-        STATUS+="{\"full_text\":\"DISK:$(disk-status)\",\"color\":\"$background_color\",\"background\":\"$warning_color\",\"border\":\"#00000000\"},"
+        STATUS+="{\"full_text\":\"DISK:$(disk-status)\",\"color\":\"$background_color\",\"background\":\"$warning_color\",\"border\":\"$background_color\"},"
     else
         STATUS+="{\"full_text\":\"DISK:$(disk-status)\"},"
     fi
@@ -234,7 +234,7 @@ while true; do
     STATUS+="{\"full_text\":\"RAM:$(ram-status)\"},"
     STATUS+="{\"full_text\":\"CPU:$(cpu-status)%\"}," # TODO: add ,73°C
     if [ $(upower -b | awk '/state/ {print $2}') = "discharging" ]; then
-        STATUS+="{\"full_text\":\"$(power-profile):$(power-status)\",\"color\":\"$background_color\",\"background\":\"$error_color\",\"border\":\"#00000000\"},"
+        STATUS+="{\"full_text\":\"$(power-profile):$(power-status)\",\"color\":\"$background_color\",\"background\":\"$error_color\",\"border\":\"$background_color\"},"
     else
         STATUS+="{\"full_text\":\"$(power-profile):$(power-status)\"},"
     fi
