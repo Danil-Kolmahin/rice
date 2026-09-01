@@ -13,5 +13,6 @@
           - steam
           - dwarffortress
           - prismlauncher
+          - scanmem # locate and modify variables in an executing process
         state: present
       become: true
