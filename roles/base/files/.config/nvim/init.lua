@@ -16,6 +16,7 @@ vim.keymap.set('n', 'gl', vim.diagnostic.open_float)
 vim.pack.add{
   { src = 'https://github.com/neovim/nvim-lspconfig' },
   { src = 'https://github.com/nvim-tree/nvim-tree.lua' }, -- TODO: remove and switch to ranger integration if possible
+  { src = 'https://github.com/mhinz/vim-startify' },
 }
 
 vim.lsp.config.bashls = {
@@ -55,3 +56,19 @@ require("nvim-tree").setup{
     folder_arrow = false,
   } } }
 }
+
+vim.g.startify_lists = { -- Only show Sessions and Recent files
+  { type = 'sessions',  header = { 'Sessions' } },
+  { type = 'files',     header = { 'Recent files' } },
+}
+vim.g.startify_custom_header = {} -- Remove header text
+vim.g.startify_session_number = 5 -- Limit recent sessions count globally
+vim.g.startify_files_number = 5 -- Limit recent files count globally
+vim.g.startify_enable_special = 0 -- Disable the standard [q] quit entry at the bottom
+vim.g.startify_session_before_save = { 'NvimTreeClose' } -- Exclude nvim-tree buffers from session files
+vim.api.nvim_create_autocmd('User', {
+  pattern = 'StartifyBufferOpened',
+  callback = function()
+    require('nvim-tree.api').tree.open()
+  end,
+})
