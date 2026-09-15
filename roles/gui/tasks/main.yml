@@ -102,6 +102,7 @@
           # - blender # 3D modelling
           - cava # audio visualization tool
           - torbrowser-launcher # the only way to run tor from pacman
+          - pandoc-cli # common markdown file formats converter
         state: present
       become: true
 

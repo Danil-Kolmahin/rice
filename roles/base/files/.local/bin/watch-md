@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# TODO: rewrite all
+
+file="$1"
+pdf="${file%.*}.pdf"
+
+pandoc "$file" -o "$pdf"
+
+zathura "$pdf" >/dev/null 2>&1 < /dev/null &
+zathura_pid=$!
+
+trap 'kill "$zathura_pid" 2>/dev/null || true' EXIT
+
+echo "$file" | entr -n -r pandoc "$file" -o "$pdf" >/dev/null 2>&1

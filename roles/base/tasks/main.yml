@@ -52,6 +52,7 @@
           - ncdu # disk usage display
           - mpv # TODO: good enough, but search more for things like swayimg
           - ffmpeg # for video/audio processing
+          - entr # run on file change
           - tree
           - jq
           - yq
