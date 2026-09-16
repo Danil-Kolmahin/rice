@@ -1,0 +1,25 @@
+use_default_settings: true
+server:
+  base_url: "http://127.0.0.1:8888"
+  port: 8888
+  bind_address: "127.0.0.1"
+  secret_key: "{{ searxng_secret_key }}"
+  limiter: false
+  public_instance: false
+  default_http_headers:
+    X-Content-Type-Options : nosniff
+    X-Download-Options : noopen
+    X-Robots-Tag : noindex, nofollow
+    Referrer-Policy : no-referrer
+general:
+  instance_name: "Web search"
+ui:
+  query_in_title: true
+  center_alignment: true
+  default_theme: simple
+  theme_args:
+    simple_style: black
+  hotkeys: vim
+  url_formatting: full
+  infinite_scroll: true # TODO: does not work at the moment
+
