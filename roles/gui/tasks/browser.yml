@@ -29,6 +29,7 @@
       vars:
         aur_packages:
           - chromium-widevine
+          - searxng-git
       ansible.builtin.command:
         cmd: "pacman -Qi {{ item }}"
       loop: "{{ aur_packages }}"
@@ -44,6 +45,68 @@
       args:
         executable: /bin/bash
       when: missing_packages | length > 0
+      become: true
+
+    # TODO: make run from non-root
+    - name: Template SearXNG settings.yml
+      ansible.builtin.template:
+        src: searxng/settings.yml.j2
+        dest: /etc/searxng/settings.yml
+        # group: searxng
+      vars:
+        searxng_secret_key: "{{ ansible_facts['machine_id'] | hash('sha256') }}" # TODO: proper password generation
+      become: true
+
+    # - name: Create the `searxng` user
+    #   ansible.builtin.user:
+    #     name: searxng
+    #     shell: /bin/bash
+    #     system: true
+    #     home: "/usr/local/searxng"
+    #   become: true
+
+    # - name: Ensure correct permissions on SearXNG data & config dirs
+    #   ansible.builtin.file:
+    #     path: "{{ item }}"
+    #     owner: searxng
+    #     group: searxng
+    #     recurse: yes
+    #   loop:
+    #     - /var/lib/searxng
+    #     - /etc/searxng
+    #   become: true
+
+    - name: Deploy SearXNG systemd service
+      ansible.builtin.copy:
+        dest: /etc/systemd/system/searxng.service
+        owner: root
+        group: root
+        mode: '0644'
+        content: |
+          [Unit]
+          Description=SearXNG Metasearch Engine
+          After=network.target
+
+          [Service]
+          # User=searxng
+          # Group=searxng
+          ExecStart=/usr/bin/searxng-run
+          Restart=on-failure
+          # TODO: consider following hardening
+          # ProtectSystem=strict
+          # ProtectHome=yes
+          # ReadWritePaths=/var/lib/searxng /etc/searxng /tmp
+
+          [Install]
+          WantedBy=multi-user.target
+      become: true
+
+    - name: Enable and start SearXNG service
+      ansible.builtin.systemd_service:
+        name: searxng.service
+        enabled: yes
+        state: started
+        daemon_reload: yes
       become: true
 
     - name: Add backup browser
