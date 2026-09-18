@@ -17,6 +17,7 @@ vim.pack.add{
   { src = 'https://github.com/neovim/nvim-lspconfig' },
   { src = 'https://github.com/lambdalisue/vim-fern' },  -- TODO: remove and switch to ranger integration if possible
   { src = 'https://github.com/mhinz/vim-startify' },
+  { src = 'https://github.com/lambdalisue/fern-git-status.vim' },
 }
 
 vim.lsp.config.bashls = {
@@ -56,3 +57,5 @@ vim.g.startify_custom_header = {} -- Remove header text
 vim.g.startify_session_number = 5 -- Limit recent sessions count globally
 vim.g.startify_files_number = 5 -- Limit recent files count globally
 vim.g.startify_enable_special = 0 -- Disable the standard [q] quit entry at the bottom
+
+vim.g['fern#default_hidden'] = 1 -- Show hidden files by default
